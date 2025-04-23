@@ -76,7 +76,7 @@
   </section>
 
   <script>
-    fetch('C:\data\projects.json')
+    fetch('data/projects.json') // Adjusted the file path to use a relative path
       .then((res) => {
         if (!res.ok) {
           throw new Error(`HTTP error! status: ${res.status}`);
@@ -84,6 +84,7 @@
         return res.json();
       })
       .then((projects) => {
+        const projectSection = document.getElementById('projects'); // Added missing variable declaration
         if (!Array.isArray(projects) || projects.length === 0) {
           console.warn("No projects found in the JSON file.");
           projectSection.innerHTML = "<p>No projects available.</p>";
@@ -94,6 +95,7 @@
       })
       .catch((err) => {
         console.error("Failed to load projects:", err);
+        const projectSection = document.getElementById('projects'); // Added missing variable declaration
         projectSection.innerHTML = "<p>Failed to load projects. Please try again later.</p>";
       });
   </script>

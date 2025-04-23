@@ -20,14 +20,16 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Render the project list
   function displayProjects(projects) {
-    projectSection.innerHTML = "";
+    const projectSection = document.getElementById("projects");
+    projectSection.innerHTML = ""; // Clear existing content
+  
     projects.forEach((project) => {
       const div = document.createElement("div");
       div.className = "project";
       div.innerHTML = `
         <h2>${project.title}</h2>
         <p>${project.description}</p>
-        <a href="${project.link}" target="_blank">View Project</a>
+        <a href="project-template.html?title=${encodeURIComponent(project.title)}" target="_blank">View Project</a>
       `;
       projectSection.appendChild(div);
     });

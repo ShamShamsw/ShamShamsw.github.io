@@ -3,50 +3,30 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Project Details</title>
-    <link rel="stylesheet" href="styles.css">
+    <title>Portfolio Website</title>
+    <link rel="stylesheet" href="css/project.css" />
 </head>
 <body>
-    <header>
-        <h1 id="project-title">Loading...</h1>
+    <header class="hero">
+        <div class="hero-content">
+            <h1 id="project-title">Project Name</h1>
+            <p id="project-tagline">A showcase of creativity and technical expertise.</p>
+        </div>
     </header>
-    <main>
-        <p id="project-description">Loading...</p>
-        <a id="project-link" href="#" target="_blank">Visit Project</a>
+    <main class="content">
+        <section class="project-details">
+            <h2>Description</h2>
+            <p id="project-description">
+                My portfolio showcases a variety of projects that demonstrate my skills and expertise in web development, programming, and design.
+            </p>
+            <div class="links">
+                <a href="index.html" class="btn">Back to Home</a>
+                <a href="#" id="github-link" class="btn" target="_blank">GitHub Repository</a>
+            </div>
+        </section>
     </main>
-    <script src="js/project-template.js"></script>
-    <script>
-        document.addEventListener("DOMContentLoaded", () => {
-            const urlParams = new URLSearchParams(window.location.search);
-            const projectTitle = urlParams.get("title");
-
-            if (!projectTitle) {
-                document.body.innerHTML = "<p>Project not found. Please provide a valid title in the URL.</p>";
-                return;
-            }
-
-            fetch("data/projects.json")
-                .then((res) => res.json())
-                .then((projects) => {
-                    const project = projects.find((p) => p.title === projectTitle);
-
-                    if (!project) {
-                        document.body.innerHTML = "<p>Project not found in the database.</p>";
-                        return;
-                    }
-
-                    // Populate the template with project details
-                    document.getElementById("project-title").textContent = project.title;
-                    document.getElementById("project-description").textContent = project.description;
-                    const projectLink = document.getElementById("project-link");
-                    projectLink.href = project.link;
-                    projectLink.textContent = "Visit Project";
-                })
-                .catch((err) => {
-                    console.error("Failed to load project data:", err);
-                    document.body.innerHTML = "<p>Failed to load project details. Please try again later.</p>";
-                });
-        });
-    </script>
+    <footer>
+        <p>&copy; 2025 Your Name. All rights reserved.</p>
+    </footer>
 </body>
 </html>

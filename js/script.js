@@ -1,6 +1,12 @@
 document.addEventListener("DOMContentLoaded", () => {
   const projectSection = document.getElementById("projects");
   const searchInput = document.getElementById("searchInput");
+
+  if (!projectSection || !searchInput) {
+    console.error("Required DOM elements are missing.");
+    return;
+  }
+
   let allProjects = [];
 
   // Load and display projects from JSON

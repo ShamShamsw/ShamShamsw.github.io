@@ -67,12 +67,7 @@
 
   <!-- Repeatable Project Sections -->
   <section class="projects" id="projects">
-    <div class="project">
-      <h2>Place the title of your project here</h2>
-      <p>Add here any awards or things you want to highlight. Could also be a brief summary about the project you worked on.</p>
-      <a href="#">Link</a>
-    </div>
-    <!-- Repeat this .project block -->
+    <!-- Projects will be dynamically loaded here -->
   </section>
 
   <script>
@@ -84,18 +79,40 @@
         return res.json();
       })
       .then((projects) => {
-        const projectSection = document.getElementById('projects'); // Added missing variable declaration
+        const projectSection = document.getElementById('projects');
         if (!Array.isArray(projects) || projects.length === 0) {
           console.warn("No projects found in the JSON file.");
           projectSection.innerHTML = "<p>No projects available.</p>";
           return;
         }
-        allProjects = projects;
-        displayProjects(allProjects);
+
+        // Dynamically create project elements
+        projects.forEach((project) => {
+          const projectDiv = document.createElement('div');
+          projectDiv.classList.add('project');
+
+          const title = document.createElement('h2');
+          title.textContent = project.title || "Untitled Project";
+          projectDiv.appendChild(title);
+
+          const description = document.createElement('p');
+          description.textContent = project.description || "No description available.";
+          projectDiv.appendChild(description);
+
+          if (project.link) {
+            const link = document.createElement('a');
+            link.href = project.link;
+            link.textContent = "View Project";
+            link.target = "_blank";
+            projectDiv.appendChild(link);
+          }
+
+          projectSection.appendChild(projectDiv);
+        });
       })
       .catch((err) => {
         console.error("Failed to load projects:", err);
-        const projectSection = document.getElementById('projects'); // Added missing variable declaration
+        const projectSection = document.getElementById('projects');
         projectSection.innerHTML = "<p>Failed to load projects. Please try again later.</p>";
       });
   </script>

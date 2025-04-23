@@ -1,2 +1,203 @@
-font-family: 'Roboto', sans-serif;
-/* Other accessible fonts: Arial, Open Sans, Lato */
+/* Base Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  body {
+    font-family: 'Roboto', sans-serif;
+    color: white;
+    line-height: 1.6;
+    background: linear-gradient(to bottom, #1a1a1a 100vh, #000 100vh);
+    overflow-x: hidden;
+  }
+  
+  .container {
+    min-height: 125vh;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding: 4rem 8%;
+    gap: 4rem;
+  }
+  
+  .hero {
+    background: transparent;
+    padding-bottom: 2rem;
+  }
+  
+  /* Left column */
+  .left {
+    flex: 1;
+    max-width: 45%;
+    text-align: center;
+  }
+  
+  .profile-img {
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-bottom: 1rem;
+    border: 3px solid #fff;
+  }
+  
+  .left h1 {
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
+  }
+  
+  .left h2 {
+    font-size: 1.2rem;
+    color: #aaa;
+    margin-bottom: 1.5rem;
+  }
+  
+  .connect-label {
+    font-weight: bold;
+    letter-spacing: 1px;
+    margin-bottom: 0.5rem;
+  }
+  
+  .social-icons a {
+    margin: 0 0.5rem;
+    display: inline-block;
+    transition: transform 0.3s;
+  }
+  
+  .social-icons a:hover {
+    transform: scale(1.2);
+  }
+  
+  /* Right column */
+  .right {
+    flex: 2;
+    max-width: 55%;
+  }
+  
+  .right h4 {
+    color: #ccc;
+    font-size: 0.9rem;
+    letter-spacing: 1px;
+    margin-bottom: 0.25rem;
+  }
+  
+  .right h1 {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+    color: #fff;
+  }
+  
+  .right p {
+    margin-bottom: 1rem;
+    color: #ddd;
+  }
+  
+  .right strong {
+    display: block;
+    font-size: 1.1rem;
+    margin-top: 1rem;
+    margin-bottom: 0.5rem;
+    color: #fff;
+  }
+  
+  .row {
+    display: flex;
+    gap: 2rem;
+    margin-bottom: 1rem;
+  }
+  
+  .row .left {
+    width: 80px;
+    color: #aaa;
+    font-weight: bold;
+  }
+  
+  .row .right {
+    flex: 1;
+    color: #ccc;
+  }
+  
+  .resume-btn {
+    display: inline-block;
+    margin-top: 1rem;
+    padding: 0.75rem 1.5rem;
+    background-color: #fff;
+    color: #000;
+    text-decoration: none;
+    border-radius: 4px;
+    transition: background-color 0.3s;
+  }
+  
+  .resume-btn:hover {
+    background-color: #ddd;
+  }
+  
+  /* About Section */
+  .about {
+    background: #fff;
+    color: #000;
+    padding: 4rem 8%;
+    text-align: center;
+  }
+  
+  .about hr {
+    margin: 2rem 0;
+    border: none;
+    border-top: 1px solid #ccc;
+  }
+  
+  .center-text {
+    font-size: 1.2rem;
+    margin-bottom: 2rem;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  
+  .search-bar {
+    margin: 2rem auto;
+    max-width: 400px;
+  }
+  
+  #searchInput {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 1rem;
+  }
+  
+  /* Project Section */
+  .projects {
+    background-color: #f9f9f9;
+    color: #000;
+    padding: 4rem 8%;
+  }
+  
+  .project {
+    margin-bottom: 3rem;
+    padding-bottom: 2rem;
+    border-bottom: 1px solid #ccc;
+  }
+  
+  .project h2 {
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+  }
+  
+  .project p {
+    font-size: 1rem;
+    margin-bottom: 0.5rem;
+  }
+  
+  .project a {
+    color: #007bff;
+    text-decoration: none;
+  }
+  
+  .project a:hover {
+    text-decoration: underline;
+  }
+  

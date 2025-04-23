@@ -2,7 +2,53 @@
   {
     "title": "Portfolio Website",
     "description": "A sleek, modern portfolio to showcase my skills and projects.",
-    "link": "#"
+    "link": "https://shamshamsw.github.io/portfolio-website.html"
+  },
+  {
+    "title": "Inventory AWS system",
+    "description": "A Github repository that utilizes cloud fundementals of AWS.",
+    "link": "https://shamshamsw.github.io/inventory-aws-system.html"
+  },
+  {
+    "title": "Elastic Beanstalk JavaScript Example",
+    "description": "Web app to generate invoices for purchased items using AWS Cognito for authentication.",
+    "link": "https://shamshamsw.github.io/elastic-beanstalk-javascript-example.html"
+  },
+  {
+    "title": "Machine Learning Skills Lab",
+    "description": "A Python program and Excel integration to optimize resource use for maximum coin gain in a simulation game.",
+    "link": "https://shamshamsw.github.io/machine-learning-skills-lab.html"
+  },
+  {
+    "title": "AWS S3 Lambda Pipeline",
+    "description": "A Python program and Excel integration to optimize resource use for maximum coin gain in a simulation game.",
+    "link": "https://shamshamsw.github.io/aws-s3-lambda-pipeline.html"
+  },
+  {
+    "title": "Azure Skills Lab",
+    "description": "A Python program and Excel integration to optimize resource use for maximum coin gain in a simulation game.",
+    "link": "https://shamshamsw.github.io/azure-skills-lab.html"
+  },
+  {
+    "title": "SQL and Python Certification Notes",
+    "description": "A Python program and Excel integration to optimize resource use for maximum coin gain in a simulation game.",
+    "link": "https://shamshamsw.github.io/sql-python-certification-notes.html"
+  },
+  {
+    "title": "Sentiment Analysis Business Review Utilizing Yelp",
+    "description": "A Python program and Excel integration to optimize resource use for maximum coin gain in a simulation game.",
+    "link": "https://shamshamsw.github.io/sentiment-analysis-yelp.html"
+  },
+  {
+    "title": "Machine Learning Model Groups",
+    "description": "A Python program and Excel integration to optimize resource use for maximum coin gain in a simulation game.",
+    "link": "https://shamshamsw.github.io/machine-learning-model-groups.html"
+  },
+  {
+    "title": "Price Per Unit Optimization in Python",
+    "description": "A Python program and Excel integration to optimize resource use for maximum coin gain in a simulation game.",
+    "link": "https://shamshamsw.github.io/price-per-unit-optimization.html"
+  }
   },
   {
     "title": "Inventory AWS system",

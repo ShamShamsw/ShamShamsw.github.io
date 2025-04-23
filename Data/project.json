@@ -1,0 +1,21 @@
+[
+    {
+      "title": "Food Price ML Analysis",
+      "description": "Used machine learning to predict global food prices using regression models.",
+      "tags": ["machine learning", "regression", "data analysis"],
+      "link": "https://github.com/yourusername/food-price-ml"
+    },
+    {
+      "title": "Invoice Upload Site",
+      "description": "A website to upload and manage invoices with AWS Cognito for authentication.",
+      "tags": ["AWS", "web development", "authentication"],
+      "link": "https://github.com/yourusername/invoice-site"
+    },
+    {
+      "title": "Farm Simulation Optimizer",
+      "description": "Optimizes farm resources for profit based on item sale rate per minute.",
+      "tags": ["optimization", "simulation", "python"],
+      "link": "https://github.com/yourusername/farm-sim"
+    }
+  ]
+  

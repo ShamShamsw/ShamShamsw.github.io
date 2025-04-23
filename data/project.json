@@ -2,21 +2,241 @@
   {
     "title": "Portfolio Website",
     "description": "A sleek, modern portfolio to showcase my skills and projects.",
-    "link": "https://github.com/jacobhaseman/portfolio"
+    "link": "https://shamshamsw.github.io/portfolio-website"
   },
   {
-    "title": "ML Salary Predictor",
-    "description": "A machine learning model that predicts salaries based on job title and location.",
-    "link": "https://github.com/jacobhaseman/salary-predictor"
+    "title": "Inventory AWS system",
+    "description": "A Github repository that utilizes cloud fundementals of AWS.",
+    "link": "https://shamshamsw.github.io/aws-system-inventory"
   },
   {
-    "title": "Invoice Generator",
+    "title": "Elastic Beanstalk JavaScript Example",
     "description": "Web app to generate invoices for purchased items using AWS Cognito for authentication.",
-    "link": "https://github.com/jacobhaseman/invoice-generator"
+    "link": "https://shamshamsw.github.io/aws-elastic-beanstalk-js"
   },
   {
-    "title": "Farm Resource Optimizer",
+    "title": "Machine Learning Skills Lab",
     "description": "A Python program and Excel integration to optimize resource use for maximum coin gain in a simulation game.",
-    "link": "https://github.com/jacobhaseman/farm-optimizer"
+    "link": "https://shamshamsw.github.io/machine-learning-skills-lab"
+  },
+  {
+    "title": "AWS S3 Lambda Pipeline",
+    "description": "A Python program and Excel integration to optimize resource use for maximum coin gain in a simulation game.",
+    "link": "https://shamshamsw.github.io/aws-s3-lambda-pipeline"
+  },
+  {
+    "title": "Azure Skills Lab",
+    "description": "A Python program and Excel integration to optimize resource use for maximum coin gain in a simulation game.",
+    "link": "https://shamshamsw.github.io/azure-lab"
+  },
+  {
+    "title": "SQL and Python Certification Notes",
+    "description": "A Python program and Excel integration to optimize resource use for maximum coin gain in a simulation game.",
+    "link": "https://shamshamsw.github.io/python-sql-certification"
+  },
+  {
+    "title": "Sentiment Analysis Business Review Utilizing Yelp",
+    "description": "A Python program and Excel integration to optimize resource use for maximum coin gain in a simulation game.",
+    "link": "https://shamshamsw.github.io/sentiment-analysis-of-yelp-business-reviews"
+  },
+  {
+    "title": "Machine Learning Model Groups",
+    "description": "A Python program and Excel integration to optimize resource use for maximum coin gain in a simulation game.",
+    "link": "https://shamshamsw.github.io/machine-learning-model-groups"
+  },
+  {
+    "title": "Price Per Unit Optimization in Python",
+    "description": "A Python program and Excel integration to optimize resource use for maximum coin gain in a simulation game.",
+    "link": "https://shamshamsw.github.io/python-price-per-unit-business-analytics"
+  },
+  {
+    "title": "AWS S3 Lambda Pipeline",
+    "description": "A Python program and Excel integration to optimize resource use for maximum coin gain in a simulation game.",
+    "link": "https://shamshamsw.github.io/aws-s3-lambda-pipeline"
+  },
+  {
+    "title": "Supply Chain Break Down Python",
+    "description": "A Python program and Excel integration to optimize resource use for maximum coin gain in a simulation game.",
+    "link": "https://shamshamsw.github.io/supply-chain-python"
+  },
+  {
+    "title": "Business Analytics Proccesing Software Python",
+    "description": "A Python program and Excel integration to optimize resource use for maximum coin gain in a simulation game.",
+    "link": "https://shamshamsw.github.io/business-analytics-software-python"
+  },
+  {
+    "title": "CICD Pipeline Python",
+    "description": "A Python program and Excel integration to optimize resource use for maximum coin gain in a simulation game.",
+    "link": "https://shamshamsw.github.io/cicd-pipeline-python"
+  },
+  {
+    "title": "Pokemon Descriptive Statistics Python",
+    "description": "A Python program and Excel integration to optimize resource use for maximum coin gain in a simulation game.",
+    "link": "https://shamshamsw.github.io/descriptive-statistics-python"
+  },
+  {
+    "title": "Prime CICD Pipeline Lab",
+    "description": "A Python program and Excel integration to optimize resource use for maximum coin gain in a simulation game.",
+    "link": "https://shamshamsw.github.io/cicd-pipeline-python-lab2"
+  },
+  {
+    "title": "Fibonacci CICD Lab",
+    "description": "A Python program and Excel integration to optimize resource use for maximum coin gain in a simulation game.",
+    "link": "https://shamshamsw.github.io/cicd-pipeline-python-lab1"
+  },
+  {
+    "title": "Movie Regresion Line Python",
+    "description": "A Python program and Excel integration to optimize resource use for maximum coin gain in a simulation game.",
+    "link": "https://shamshamsw.github.io/machine-learning-python-business-analytics"
+  },
+  {
+    "title": "Dataset Case Study with Statistics",
+    "description": "A Python program and Excel integration to optimize resource use for maximum coin gain in a simulation game.",
+    "link": "https://shamshamsw.github.io/business-analytics-python-machine-learning-kaggle"
+  },
+  {
+    "title": "Python Math Programs",
+    "description": "A Python program and Excel integration to optimize resource use for maximum coin gain in a simulation game.",
+    "link": "https://shamshamsw.github.io/python-math"
+  },
+  {
+    "title": "Movie Regression Lab",
+    "description": "A Python program and Excel integration to optimize resource use for maximum coin gain in a simulation game.",
+    "link": "https://shamshamsw.github.io/python-machine-learning-movies"
+  },
+  {
+    "title": "Simple Managment Systems",
+    "description": "A Python program and Excel integration to optimize resource use for maximum coin gain in a simulation game.",
+    "link": "https://shamshamsw.github.io/python-machine-learning-supply-chain"
+  },
+  {
+    "title": "Diamond Descriptive Statistics Lab",
+    "description": "A Python program and Excel integration to optimize resource use for maximum coin gain in a simulation game.",
+    "link": "https://shamshamsw.github.io/python-business-analytics-diamonds"
+  },
+  {
+    "title": "C++ Text Based Zombie RPG Game",
+    "description": "A Python program and Excel integration to optimize resource use for maximum coin gain in a simulation game.",
+    "link": "https://shamshamsw.github.io/c-plus-plus-zombie"
+  },
+  {
+    "title": "HTML Website designs",
+    "description": "A Python program and Excel integration to optimize resource use for maximum coin gain in a simulation game.",
+    "link": "https://shamshamsw.github.io/html-css-javascript-websites-business"
+  },
+  {
+    "title": "HTML Social Media site",
+    "description": "A Python program and Excel integration to optimize resource use for maximum coin gain in a simulation game.",
+    "link": "https://shamshamsw.github.io/html-css-javascript-socials"
+  },
+  {
+    "title": "CSS Website Lab",
+    "description": "A Python program and Excel integration to optimize resource use for maximum coin gain in a simulation game.",
+    "link": "https://shamshamsw.github.io/css-website"
+  },
+  {
+    "title": "SQL Practice Lab",
+    "description": "A Python program and Excel integration to optimize resource use for maximum coin gain in a simulation game.",
+    "link": "https://shamshamsw.github.io/sql-lab"
+  },
+  {
+    "title": "JSON Item Request Lab",
+    "description": "A Python program and Excel integration to optimize resource use for maximum coin gain in a simulation game.",
+    "link": "https://shamshamsw.github.io/json-lan"
+  },
+  {
+    "title": "SQL User Management System Lab",
+    "description": "A Python program and Excel integration to optimize resource use for maximum coin gain in a simulation game.",
+    "link": "https://shamshamsw.github.io/sql-lab-business"
+  },
+  {
+    "title": "Python Fizz Buzz Lab",
+    "description": "A Python program and Excel integration to optimize resource use for maximum coin gain in a simulation game.",
+    "link": "https://shamshamsw.github.io/python-fizbuzz-lab"
+  },
+  {
+    "title": "C++ Tic Tac Toe",
+    "description": "A Python program and Excel integration to optimize resource use for maximum coin gain in a simulation game.",
+    "link": "https://shamshamsw.github.io/c-plus-plus-tic-tac-toe"
+  },
+  {
+    "title": "C++ Palindrome Checker",
+    "description": "A Python program and Excel integration to optimize resource use for maximum coin gain in a simulation game.",
+    "link": "https://shamshamsw.github.io/c-plus-plus-palindrome"
+  },
+  {
+    "title": "C++ Guesing game",
+    "description": "A Python program and Excel integration to optimize resource use for maximum coin gain in a simulation game.",
+    "link": "https://shamshamsw.github.io/c-plus-plus-guessing"
+  },
+  {
+    "title": "Python Rock Paper Scissors",
+    "description": "A Python program and Excel integration to optimize resource use for maximum coin gain in a simulation game.",
+    "link": "https://shamshamsw.github.io/python-rock"
+  },
+  {
+    "title": "C++ Grade Tracker",
+    "description": "A Python program and Excel integration to optimize resource use for maximum coin gain in a simulation game.",
+    "link": "https://shamshamsw.github.io/c-plus-plus-grades"
+  },
+  {
+    "title": "C++ Temperature Conversions",
+    "description": "A Python program and Excel integration to optimize resource use for maximum coin gain in a simulation game.",
+    "link": "https://shamshamsw.github.io/c-plus-plus-temp"
+  },
+  {
+    "title": "Python Baseball Analytics",
+    "description": "A Python program and Excel integration to optimize resource use for maximum coin gain in a simulation game.",
+    "link": "https://shamshamsw.github.io/python-machine-learning-baseball"
+  },
+  {
+    "title": "Python Restruant Revenue",
+    "description": "A Python program and Excel integration to optimize resource use for maximum coin gain in a simulation game.",
+    "link": "https://shamshamsw.github.io/python-revenue"
+  },
+  {
+    "title": "Python Financial Predictions Machine Learning",
+    "description": "A Python program and Excel integration to optimize resource use for maximum coin gain in a simulation game.",
+    "link": "https://shamshamsw.github.io/python-machine-learning-financial"
+  },
+  {
+    "title": "Python To Do List",
+    "description": "A Python program and Excel integration to optimize resource use for maximum coin gain in a simulation game.",
+    "link": "https://shamshamsw.github.io/python-to-do"
+  },
+  {
+    "title": "Python Statistic Calculator",
+    "description": "A Python program and Excel integration to optimize resource use for maximum coin gain in a simulation game.",
+    "link": "https://shamshamsw.github.io/python-r-excel-business-stats"
+  },
+  {
+    "title": "Python Idle Game",
+    "description": "A Python program and Excel integration to optimize resource use for maximum coin gain in a simulation game.",
+    "link": "https://shamshamsw.github.io/python-idle"
+  },
+  {
+    "title": "Python Data Analytics Lab",
+    "description": "A Python program and Excel integration to optimize resource use for maximum coin gain in a simulation game.",
+    "link": "https://shamshamsw.github.io/python-accounting-lab"
+  },
+  {
+    "title": "Python Coffee Shop",
+    "description": "A Python program and Excel integration to optimize resource use for maximum coin gain in a simulation game.",
+    "link": "https://shamshamsw.github.io/python-coffee"
+  },
+  {
+    "title": "Python US Census Prediction Model",
+    "description": "A Python program and Excel integration to optimize resource use for maximum coin gain in a simulation game.",
+    "link": "https://shamshamsw.github.io/python-machine-learning-us"
+  },
+  {
+    "title": "AWS Fundementals Lab",
+    "description": "A Python program and Excel integration to optimize resource use for maximum coin gain in a simulation game.",
+    "link": "https://shamshamsw.github.io/aws-simple-lab"
+  },
+  {
+    "title": "Python Programs",
+    "description": "A Python program and Excel integration to optimize resource use for maximum coin gain in a simulation game.",
+    "link": "https://shamshamsw.github.io/python-simple"
   }
 ]

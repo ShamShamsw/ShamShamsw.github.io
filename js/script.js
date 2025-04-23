@@ -1,17 +1,41 @@
-// Load project data from JSON
-fetch('data/projects.json')
-  .then(response => response.json())
-  .then(projects => {
-    const container = document.getElementById('projects');
-    projects.forEach(proj => {
-      const div = document.createElement('div');
-      div.className = 'project';
+document.addEventListener("DOMContentLoaded", () => {
+  const projectSection = document.getElementById("projects");
+  const searchInput = document.getElementById("searchInput");
+  let allProjects = [];
+
+  // Load and display projects from JSON
+  fetch("data/projects.json")
+    .then((res) => res.json())
+    .then((projects) => {
+      allProjects = projects;
+      displayProjects(allProjects);
+    })
+    .catch((err) => console.error("Failed to load projects:", err));
+
+  // Render the project list
+  function displayProjects(projects) {
+    projectSection.innerHTML = "";
+    projects.forEach((project) => {
+      const div = document.createElement("div");
+      div.className = "project";
       div.innerHTML = `
-        <h2>${proj.title}</h2>
-        <p>${proj.description}</p>
-        <a href="${proj.link}" target="_blank">View Project</a>
+        <h2>${project.title}</h2>
+        <p>${project.description}</p>
+        <a href="${project.link}" target="_blank">View Project</a>
       `;
-      container.appendChild(div);
+      projectSection.appendChild(div);
     });
-  })
-  .catch(error => console.error('Error loading project data:', error));
+  }
+
+  // Filter projects by search query
+  searchInput.addEventListener("input", (e) => {
+    const query = e.target.value.toLowerCase();
+    const filtered = allProjects.filter((project) => {
+      return (
+        project.title.toLowerCase().includes(query) ||
+        project.description.toLowerCase().includes(query)
+      );
+    });
+    displayProjects(filtered);
+  });
+});

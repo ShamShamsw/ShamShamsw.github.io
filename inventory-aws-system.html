@@ -9,19 +9,44 @@
 <body>
     <header class="hero">
         <div class="hero-content">
-            <h1 id="project-title">Project Name</h1>
-            <p id="project-tagline">A showcase of creativity and technical expertise.</p>
+            <h1 id="project-title">Serverless Order Processing System Project</h1>
+            <p id="project-tagline">Efficient, scalable, and cloud-powered order management.</p>
+            <p id="project-tagline">.</p>
         </div>
     </header>
     <main class="content">
         <section class="project-details">
             <h2>Description</h2>
             <p id="project-description">
-                My portfolio showcases a variety of projects that demonstrate my skills and expertise in web development, programming, and design.
+                The Serverless Order Processing System is a cloud-based solution designed for efficient and scalable order management. When a user places an order on the website, the frontend sends an HTTP request to Amazon API Gateway, which acts as the secure entry point to the backend system. The API Gateway forwards the order details to the Order Processing Lambda, which contains the core business logic and orchestrates the steps required to process the order, such as validating stock, handling payment, and confirming the order via an SNS notification or email.
+
+                The Order Processing Lambda triggers an AWS Step Functions workflow, breaking the process into smaller, modular steps for better management and scalability. The first step ensures product availability by calling a Validate Stock Lambda, which queries Amazon DynamoDB to check inventory levels. If sufficient stock is available, the workflow proceeds; otherwise, it halts or branches based on the error.
+
+                Additional AWS services include:
+                <ul>
+                    <li><strong>AWS Cognito:</strong> Manages user authentication, handling sign-ups, logins, and identity management.</li>
+                    <li><strong>AWS IAM:</strong> Controls access permissions, ensuring secure communication between services.</li>
+                </ul>
+
+                The backend logic is implemented through specialized Lambda functions:
+                <ul>
+                    <li><strong>Get Order:</strong> Retrieves order details from the database.</li>
+                    <li><strong>Allocation for Rules:</strong> Applies business rules to determine how orders should be allocated (e.g., prioritization, splitting).</li>
+                    <li><strong>Carrier Data:</strong> Retrieves shipping options, rates, and availability from integrated carriers.</li>
+                    <li><strong>Facility Data:</strong> Provides real-time data about warehouse or store availability, including stock levels and processing capacity.</li>
+                </ul>
+
+                The final part of the Application Tier integrates tightly with the Data Layer, distributed across Availability Zones 1 and 2 to ensure high availability, fault tolerance, and performance. The system uses Amazon DynamoDB as the primary data store for both order and product information, with a write and read replica setup for optimal efficiency:
+                <ul>
+                    <li>In Availability Zone 1, each DynamoDB table includes a write replica, handling all data creation and modification tasks such as placing new orders, updating stock levels, or modifying product details.</li>
+                    <li>In Availability Zone 2, each table has a read replica, optimized for high-speed query access, such as retrieving order history, inventory levels, or product catalog details.</li>
+                </ul>
+
+                This architecture ensures that the system remains highly available and fault-tolerant, even in the event of an outage in one availability zone. By leveraging DynamoDB's global table capabilities, the system can maintain consistent performance and data integrity across distributed environments, providing a seamless experience for users.
             </p>
             <div class="links">
                 <a href="index.html" class="btn">Back to Home</a>
-                <a href="#" id="github-link" class="btn" target="_blank">GitHub Repository</a>
+                <a href="#" id="github-link" class="btn" target="_blank">Private GitHub Repository</a>
             </div>
         </section>
     </main>

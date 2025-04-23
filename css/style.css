@@ -7,7 +7,7 @@
   
   body {
     font-family: 'Roboto', sans-serif;
-    color: white;
+    color: #000000;
     line-height: 1.6;
     background: linear-gradient(to bottom, #1a1a1a 100vh, #000 100vh);
     overflow-x: hidden;

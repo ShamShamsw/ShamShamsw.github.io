@@ -30,7 +30,7 @@
   }
 
   .container {
-    min-height: 125vh;
+    min-height: 110vh;
     display: flex;
     justify-content: space-between;
     align-items: flex-start;

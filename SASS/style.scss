@@ -1,0 +1,95 @@
+body {
+    margin: 0;
+    font-family: 'Roboto', sans-serif;
+    color: #111;
+  }
+  
+  .hero {
+    min-height: 125vh;
+    background: linear-gradient(to bottom, #00e676 100vh, #000 0);
+    color: white;
+    display: flex;
+    align-items: center;
+  
+    .container {
+      display: flex;
+      justify-content: space-between;
+      width: 100%;
+      padding: 4rem;
+    }
+  
+    .left, .right {
+      width: 45%;
+    }
+  
+    .profile-img {
+      width: 200px;
+      height: 200px;
+      object-fit: cover;
+      border-radius: 8px;
+    }
+  
+    .social-icons {
+      margin-top: 1rem;
+  
+      img {
+        width: 24px;
+        margin-right: 10px;
+      }
+    }
+  
+    .resume-btn {
+      display: inline-block;
+      padding: 0.75rem 1.5rem;
+      background: white;
+      color: black;
+      text-decoration: none;
+      border-radius: 4px;
+      margin-top: 1rem;
+    }
+  }
+  
+  .about {
+    background: #fff;
+    padding: 3rem 2rem;
+    text-align: center;
+  
+    .search-bar {
+      margin-top: 1rem;
+  
+      input {
+        padding: 0.75rem;
+        font-size: 1rem;
+        width: 60%;
+        border-radius: 25px;
+        border: 1px solid #ccc;
+      }
+    }
+  
+    hr {
+      margin: 2rem 0;
+    }
+  }
+  
+  .projects {
+    padding: 2rem;
+    background: #fff;
+  
+    .project {
+      margin-bottom: 2rem;
+  
+      h2 {
+        font-size: 1.25rem;
+      }
+  
+      p {
+        margin: 0.5rem 0;
+      }
+  
+      a {
+        color: blue;
+        text-decoration: underline;
+      }
+    }
+  }
+  

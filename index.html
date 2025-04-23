@@ -76,7 +76,7 @@
   </section>
 
   <script>
-    fetch(./data/projects.json)
+    fetch('./data/projects.json')
       .then(response => response.json())
       .then(data => {
         const projectsContainer = document.getElementById('projects');

@@ -1,84 +1,70 @@
-/* Apply sci-fi background and base styles */
 body {
     margin: 0;
     padding: 0;
     font-family: 'Orbitron', sans-serif;
-    background-image: url('https://images.unsplash.com/photo-1581091012184-3f83e88b1464?auto=format&fit=crop&w=1920&q=80');
-    background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
     height: 100vh;
-    color: white;
+    color: rgb(0, 0, 0);
   }
   
-  /* Optional: dark overlay for readability */
   .overlay {
-    background: rgba(0, 0, 0, 0.6);
+    background: rgba(255, 255, 255, 0.75);
     height: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
+    padding: 2rem;
+    overflow-y: auto;
   }
   
-  /* Main content box */
-  .content {
+  .about-container {
+    max-width: 800px;
     text-align: center;
   }
   
-  /* Heading style */
-  h1 {
-    font-size: 4rem;
-    margin: 0;
-    color: #00e5ff;
-    letter-spacing: 3px;
+  .main-title {
+    font-size: 3rem;
+    color: #000000;
+    margin-bottom: 1rem;
   }
   
-  /* Tagline */
-  .tagline {
-    font-size: 1.5rem;
-    margin-top: 0.5rem;
+  .intro-text {
+    font-size: 1.3rem;
+    color: #000000;
     margin-bottom: 2rem;
-    color: #e0f7fa;
   }
   
-  /* Buttons container */
-  .buttons {
-    display: flex;
-    justify-content: center;
-    gap: 1.2rem;
-    flex-wrap: wrap;
+  .about-section p {
+    font-size: 1.1rem;
+    line-height: 1.6;
+    margin-bottom: 1.5rem;
+    color: #000000;
   }
   
-  /* Base button style */
-  .btn {
+/* Common button styling */
+.btn {
     padding: 1rem 2rem;
-    font-size: 1rem;
+    font-size: 1.2rem;
     border: none;
     border-radius: 25px;
-    text-decoration: none;
+    cursor: pointer;
+    color: black;
     font-weight: bold;
-    transition: all 0.3s ease;
-    box-shadow: 0 0 10px rgba(255,255,255,0.2);
+    width: 250px; /* Set a fixed width */
+    height: 50px; /* Set a fixed height */
   }
   
-  /* Button colors */
+  /* Specific colors */
   .orange {
     background-color: #f9a825;
-    color: black;
   }
   
   .blue {
-    background-color: #00bcd4;
-    color: black;
+    background-color: #26a69a;
+    color: white;
   }
   
   .yellow {
-    background-color: #ffeb3b;
-    color: black;
-  }
-  
-  /* Hover effect */
-  .btn:hover {
-    transform: scale(1.05);
-    box-shadow: 0 0 15px rgba(255,255,255,0.4);
+    background-color: #fdd835;
   }

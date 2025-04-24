@@ -19,9 +19,59 @@
     <h1 class="heading">Robo Corp.</h1>
     <div class="buttons">
       <button href="aboutus.html" class="btn orange">About Us</button>
-      <button class="btn blue">Order</button>
+      <a href="#" class="btn blue" id="order-btn">Order</a>
+        <div id="order-popup" class="popup hidden">
+          <form id="order-form">
+          <label>Name:</label>
+          <input type="text" name="name" required>
+          <label>Email:</label>
+          <input type="email" name="email" required>
+          <label>Quantity:</label>
+          <input type="number" name="quantity" min="1" value="1" required>
+          <input type="hidden" name="product" value="Robo Assistant X">
+          <button type="submit">Place Order</button>
+          <button type="button" id="close-popup">Cancel</button>
+          </form>
+        </div>
       <button class="btn yellow">Data and Results</button>
     </div>
   </div>
+  <script>
+    const form = document.getElementById('order-form');
+    const orderBtn = document.getElementById('order-btn');
+    const orderPopup = document.getElementById('order-popup');
+    const closePopup = document.getElementById('close-popup');
+    
+    // Show the popup when the "Order" button is clicked
+    orderBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        orderPopup.classList.remove('hidden');
+    });
+    
+    // Hide the popup when the "Cancel" button is clicked
+    closePopup.addEventListener('click', () => {
+        orderPopup.classList.add('hidden');
+    });
+    
+    // Handle form submission
+    form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const data = Object.fromEntries(new FormData(form).entries());
+    
+        const response = await fetch('https://YOUR_API_ID.execute-api.YOUR_REGION.amazonaws.com/prod/create-order', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify(data)
+        });
+    
+        if (response.ok) {
+        alert("Order submitted!");
+        form.reset();
+        orderPopup.classList.add('hidden');
+        } else {
+        alert("Something went wrong. Try again.");
+        }
+    });
+</script>
 </body>
 </html>

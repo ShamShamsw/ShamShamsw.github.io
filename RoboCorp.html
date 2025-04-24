@@ -21,7 +21,7 @@
       <button href="aboutus.html" class="btn orange">About Us</button>
       <a href="#" class="btn blue" id="order-btn">Order</a>
         <div id="order-popup" class="popup hidden">
-          <form id="order-form">
+          <form id="order-form" method="POST" action="https://p2yv6a2651.execute-api.us-west-2.amazonaws.com/prod/create-order">
           <label>Name:</label>
           <input type="text" name="name" required>
           <label>Email:</label>

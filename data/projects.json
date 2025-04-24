@@ -125,13 +125,8 @@
     "link": "https://shamshamsw.github.io/json-item-request.html"
   },
   {
-    "title": "SQL User Management System Lab",
-    "description": "A Python program and Excel integration to optimize resource use for maximum coin gain in a simulation game.",
-    "link": "https://shamshamsw.github.io/sql-user-management.html"
-  },
-  {
     "title": "Python Fizz Buzz Lab",
-    "description": "A Python program and Excel integration to optimize resource use for maximum coin gain in a simulation game.",
+    "description": "A comparative implementation in C++ and Python.",
     "link": "https://shamshamsw.github.io/python-fizz-buzz.html"
   },
   {

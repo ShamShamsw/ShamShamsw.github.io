@@ -1,59 +1,58 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="RoboCorp - Innovating the Future">
-    <meta name="author" content="Your Name">
-    <title>RoboCorp</title>
-    <link rel="stylesheet" href="styles.css"> <!-- Link to your CSS file -->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Robo Corp.</title>
+  <link rel="stylesheet" href="robo.css">
 </head>
 <body>
-    <header>
-        <h1>Welcome to RoboCorp</h1>
-        <nav>
-            <ul>
-                <li><a href="#about">About Us</a></li>
-                <li><a href="#services">Services</a></li>
-                <li><a href="#contact">Contact</a></li>
-            </ul>
-        </nav>
-    </header>
+  <div class="grid-container">
+    <!-- Upper Corners and Middle -->
+    <div class="corner upper-left"></div>
+    <div class="blank upper-middle"></div>
+    <div class="corner upper-right">
+      <img src="images/upside-down-stairs.png" alt="Upside Down Stairs">
+      <img src="images/green-book.png" alt="Green Book">
+    </div>
 
-    <main>
-        <section id="about">
-            <h2>About Us</h2>
-            <p>RoboCorp is dedicated to advancing robotics and AI technologies to shape a better future.</p>
-        </section>
+    <!-- Upper Middle Row -->
+    <div class="upper-left-1"></div>
+    <div class="blank upper-middle-1"></div>
+    <div class="heading">Robo Corp.</div>
+    <div class="upper-right-1">
+      <img src="images/blue-square.png" alt="Blue Square">
+    </div>
 
-        <section id="services">
-            <h2>Our Services</h2>
-            <ul>
-                <li>Robotics Development</li>
-                <li>AI Integration</li>
-                <li>Consulting</li>
-            </ul>
-        </section>
+    <!-- Next Middle Row -->
+    <div class="upper-left-2">
+      <img src="images/blue-half-circle.png" alt="Blue Half Circle">
+    </div>
+    <div class="blank upper-middle-2"></div>
+    <div class="blank upper-right-2"></div>
 
-        <section id="contact">
-            <h2>Contact Us</h2>
-            <form action="submit-form.php" method="post">
-                <label for="name">Name:</label>
-                <input type="text" id="name" name="name" required>
-                
-                <label for="email">Email:</label>
-                <input type="email" id="email" name="email" required>
-                
-                <label for="message">Message:</label>
-                <textarea id="message" name="message" rows="4" required></textarea>
-                
-                <button type="submit">Send</button>
-            </form>
-        </section>
-    </main>
+    <!-- Lower Row -->
+    <div class="lower-left">
+      <img src="images/green-search.png" alt="Green Search">
+    </div>
+    <div class="button-group">
+      <a href="#about" class="btn about">About Us</a>
+      <a href="#order" class="btn order">Order</a>
+      <a href="#data" class="btn data">Data and Results</a>
+    </div>
+    <div class="lower-right"></div>
 
-    <footer>
-        <p>&copy; 2025 RoboCorp. All rights reserved.</p>
-    </footer>
+    <!-- Bottom Corners -->
+    <div class="corner lower-left">
+      <img src="images/blue-square.png" alt="Blue Square">
+      <img src="images/yellow-stairs.png" alt="Yellow Stairs">
+    </div>
+    <div class="blank lower-middle"></div>
+    <div class="blank lower-right"></div>
+  </div>
+  
+  <footer>
+    <p>© 2025 JACOB T. HASEMAN. ALL RIGHTS RESERVED.</p>
+  </footer>
 </body>
 </html>

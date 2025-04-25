@@ -1,0 +1,29 @@
+version: 0.2
+
+phases:
+  install:
+    runtime-versions:
+      python: 3.9  # Match your Lambda runtime
+    commands:
+      - echo "Installing dependencies..."
+      - pip install -r requirements.txt -t .
+
+  build:
+    commands:
+      - echo "Zipping deployment package..."
+      - zip -r deployment_package.zip .
+
+  post_build:
+    commands:
+      - echo "Build completed on $(date)"
+      - echo "Updating Lambda function code..."
+      - |
+        aws lambda update-function-code \
+          --function-name MyCICDLambdaFunction \
+          --zip-file fileb://deployment_package.zip
+      - echo "Lambda function update initiated."
+
+artifacts:
+  files:
+    - deployment_package.zip
+  discard-paths: yes

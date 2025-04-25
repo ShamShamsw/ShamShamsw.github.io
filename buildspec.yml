@@ -7,7 +7,7 @@ phases:
     commands:
       - echo Installing AWS CLI
       - pip install awscli
-  build:
+build:
     commands:
       - echo Build started on `date`
       - echo Packaging and deploying Lambda functions

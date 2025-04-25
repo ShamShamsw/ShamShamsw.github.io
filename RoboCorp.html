@@ -18,60 +18,147 @@
   <div class="container">
     <h1 class="heading">Robo Corp.</h1>
     <div class="buttons">
-      <button href="aboutus.html" class="btn orange">About Us</button>
       <a href="#" class="btn blue" id="order-btn">Order</a>
-        <div id="order-popup" class="popup hidden">
-          <form id="order-form" method="POST" action="https://p2yv6a2651.execute-api.us-west-2.amazonaws.com/prod/create-order">
-          <label>Name:</label>
-          <input type="text" name="name" required>
-          <label>Email:</label>
-          <input type="email" name="email" required>
-          <label>Quantity:</label>
-          <input type="number" name="quantity" min="1" value="1" required>
-          <input type="hidden" name="product" value="Robo Assistant X">
-          <button type="submit">Place Order</button>
-          <button type="button" id="close-popup">Cancel</button>
-          </form>
-        </div>
-      <button class="btn yellow">Data and Results</button>
     </div>
   </div>
+    
+    <!-- Order Popup Form -->
+    <div id="order-popup" class="popup hidden">
+      <form id="order-form">
+        <label>Name:</label>
+        <input type="text" name="name" required>
+        <label>Email:</label>
+        <input type="email" name="email" required>
+        <label>Quantity:</label>
+        <input type="number" name="quantity" min="1" value="1" required>
+        <input type="hidden" name="product" value="Robo Assistant X">
+        <button type="submit">Place Order</button>
+        <button type="button" id="close-popup">Cancel</button>
+      </form>
+    </div>
+
+    <!-- Fetch Order -->
+    <div id="order-id-input" class="section" class="popup hidden">
+      <h3>Get Order Details</h3>
+      <input type="text" id="order-id-input" placeholder="Enter Order ID">
+      <button onclick="fetchOrder(document.getElementById('order-id-input').value)">Check Order</button>
+      <div id="order-details" class="output"></div>
+    </div>
+  
+    <!-- Fetch Product Info -->
+    <div id="product-id-input" class="section" class="popup hidden">
+      <h3>Get Product Info</h3>
+      <input type="text" id="product-id-input" placeholder="Enter Product ID">
+      <button onclick="fetchProductInfo(document.getElementById('product-id-input').value)">Get Product Info</button>
+      <div id="product-details" class="output"></div>
+    </div>
+  
+    <!-- Fetch Inventory -->
+    <div class="section">
+      <h3>View Inventory</h3>
+      <button onclick="fetchInventory()">Fetch Inventory</button>
+      <div id="inventory-details" class="output"></div>
+    </div>
+
+
+
   <script>
-    const form = document.getElementById('order-form');
+     const form = document.getElementById('order-form');
     const orderBtn = document.getElementById('order-btn');
     const orderPopup = document.getElementById('order-popup');
+    const orderIdInput = document.getElementById('order-id-input');
+    const productIdInput = document.getElementById('product-id-input');
+    const inventoryDetails = document.getElementById('inventory-details');
     const closePopup = document.getElementById('close-popup');
-    
-    // Show the popup when the "Order" button is clicked
+
     orderBtn.addEventListener('click', (e) => {
-        e.preventDefault();
-        orderPopup.classList.remove('hidden');
+      e.preventDefault();
+      orderPopup.classList.remove('hidden');
     });
-    
     // Hide the popup when the "Cancel" button is clicked
+
     closePopup.addEventListener('click', () => {
-        orderPopup.classList.add('hidden');
+      orderPopup.classList.add('hidden');
     });
     
-    // Handle form submission
+
     form.addEventListener('submit', async (e) => {
-        e.preventDefault();
-        const data = Object.fromEntries(new FormData(form).entries());
-    
-        const response = await fetch('https://YOUR_API_ID.execute-api.YOUR_REGION.amazonaws.com/prod/create-order', {
-        method: 'POST',
-        headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify(data)
+      e.preventDefault();
+      const data = Object.fromEntries(new FormData(form).entries());
+
+      try {
+        const response = await fetch('https://p2yv6a2651.execute-api.us-west-2.amazonaws.com/prod/create-order', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(data)
         });
-    
+
         if (response.ok) {
-        alert("Order submitted!");
-        form.reset();
-        orderPopup.classList.add('hidden');
+          alert("Order submitted!");
+          form.reset();
+          orderPopup.classList.add('hidden');
         } else {
-        alert("Something went wrong. Try again.");
+          const err = await response.text();
+          alert("Error: " + err);
         }
+      } catch (error) {
+        alert("Network error: " + error.message);
+      }
     });
+
+    async function fetchInventory() {
+      try {
+        const response = await fetch('https://p2yv6a2651.execute-api.us-west-2.amazonaws.com/prod/get-inventory');
+        if (response.ok) {
+          const inventory = await response.json();
+          document.getElementById("inventory-details").innerText = JSON.stringify(inventory, null, 2);
+        } else {
+          document.getElementById("inventory-details").innerText = "Error loading inventory.";
+        }
+      } catch (error) {
+        document.getElementById("inventory-details").innerText = "Network error.";
+      }
+    }
+
+    async function fetchOrder(orderId) {
+      if (!orderId) return alert("Please enter an Order ID.");
+      try {
+        const response = await fetch(`https://p2yv6a2651.execute-api.us-west-2.amazonaws.com/prod/get-order?orderId=${orderId}`);
+        if (response.ok) {
+          const order = await response.json();
+          document.getElementById("order-details").innerText = JSON.stringify(order, null, 2);
+        } else {
+          document.getElementById("order-details").innerText = "Order not found or invalid ID.";
+        }
+      } catch (error) {
+        document.getElementById("order-details").innerText = "Network error.";
+      }
+    }
+
+    async function fetchProductInfo(productId) {
+      if (!productId) return alert("Please enter a Product ID.");
+      try {
+        const response = await fetch(`https://p2yv6a2651.execute-api.us-west-2.amazonaws.com/prod/get-product-info?productId=${productId}`);
+        if (response.ok) {
+          const productInfo = await response.json();
+          document.getElementById("product-details").innerText = JSON.stringify(productInfo, null, 2);
+        } else {
+          document.getElementById("product-details").innerText = "Product not found.";
+        }
+      } catch (error) {
+        document.getElementById("product-details").innerText = "Network error.";
+      }
+    }
+
+
+    // Example usage of the functions (you can replace these with actual UI interactions)
+    // fetchInventory();
+    // fetchOrder('12345');
+    // fetchProductInfo('RoboAssistantX');
+    // modifyOrder('12345', { quantity: 2 });
+
+    // Note: You may need to add UI elements (e.g., input fields, buttons) to allow users to interact with these functions.
+  </script>
 </script>
 </body>
 </html>

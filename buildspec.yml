@@ -1,28 +1,27 @@
-version: 0.2
-
 phases:
   install:
     runtime-versions:
-      python: 3.11
+      python: 3.9  # Match your Lambda runtime
     commands:
-      - echo Installing AWS CLI
-      - pip install awscli
-build:
+      - echo "Installing dependencies..."
+      - pip install -r requirements.txt -t .
+
+  build:
     commands:
-      - echo Build started on `date`
-      - echo Packaging and deploying Lambda functions
-      - FUNCTION_NAMES=("GetOrder" "ModifyOrder" "CreateOrder" "GetProductInfo" "GetInventory")
-      - for function in "${FUNCTION_NAMES[@]}"
-        do
-          echo "Packaging $function"
-          cd "$function"
-          zip -r ../"$function".zip index.js # Package only the index.js file
-          cd ..
-          echo "Updating Lambda function: $function"
-          aws lambda update-function-code \
-            --function-name "$function" \
-            --zip-file fileb://./"$function".zip
-        done
+      - echo "Zipping deployment package..."
+      - zip -r deployment_package.zip .
+
+  post_build:
+    commands:
+      - echo "Build completed on $(date)"
+      - echo "Updating Lambda function code..."
+      - |
+        aws lambda update-function-code \
+          --function-name MyCICDLambdaFunction \
+          --zip-file fileb://deployment_package.zip
+      - echo "Lambda function update initiated."
+
 artifacts:
   files:
-    - '**/*'
+    - deployment_package.zip
+  discard-paths: yes

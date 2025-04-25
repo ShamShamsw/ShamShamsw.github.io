@@ -7,18 +7,21 @@ phases:
     commands:
       - echo Installing AWS CLI
       - pip install awscli
-  build:
+build:
     commands:
       - echo Build started on `date`
       - echo Packaging and deploying Lambda functions
       - FUNCTION_NAMES=("GetOrder" "ModifyOrder" "CreateOrder" "GetProductInfo" "GetInventory")
       - for function in "${FUNCTION_NAMES[@]}"
         do
-          echo "Deploying $function"
+          echo "Packaging $function"
+          cd "$function"
+          zip -r ../"$function".zip index.js # Package only the index.js file
+          cd ..
+          echo "Updating Lambda function: $function"
           aws lambda update-function-code \
             --function-name "$function" \
-            --s3-bucket mystaticwebsite9810 \
-            --s3-key "$function.zip"
+            --zip-file fileb://./"$function".zip
         done
 artifacts:
   files:

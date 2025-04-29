@@ -1,5 +1,10 @@
 [
   {
+    "title": "CICD Github Actions",
+    "description": "A showcase of GitHub Actions and Azure integration. In progress as of April 4th, 2025",
+    "link": "https://shamshamsw.github.io/cicd-github-actions.html"
+  },
+  {
     "title": "Portfolio Website",
     "description": "Front-End Developer & Creative projects",
     "link": "https://shamshamsw.github.io/portfolio-website.html"

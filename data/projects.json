@@ -155,13 +155,13 @@
     "link": "https://shamshamsw.github.io/cpp-guessing-game.html"
   },
   {
-    "title": "Python Rock Paper Scissors",
+    "title": "Rock, Paper, Scissors Game",
     "description": "A fun and interactive game built with C++.",
     "link": "https://shamshamsw.github.io/cpp-rock-paper-scissors.html"
   },
   {
-    "title": "C++ Grade Tracker",
-    "description": "A Python program and Excel integration to optimize resource use for maximum coin gain in a simulation game.",
+    "title": "CPP Grade Tracker",
+    "description": "Program manages and tracks student grades.",
     "link": "https://shamshamsw.github.io/cpp-grade-tracker.html"
   },
   {

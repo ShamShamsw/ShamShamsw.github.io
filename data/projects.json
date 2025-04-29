@@ -201,17 +201,12 @@
   },
   {
     "title": "Python Coffee Shop",
-    "description": "A Python program and Excel integration to optimize resource use for maximum coin gain in a simulation game.",
+    "description": "Brewing code and coffee together.",
     "link": "https://shamshamsw.github.io/python-coffee-shop.html"
   },
   {
-    "title": "Python US Census Prediction Model",
-    "description": "A Python program and Excel integration to optimize resource use for maximum coin gain in a simulation game.",
-    "link": "https://shamshamsw.github.io/python-us-census-prediction.html"
-  },
-  {
-    "title": "AWS Fundamentals Lab",
-    "description": "A Python program and Excel integration to optimize resource use for maximum coin gain in a simulation game.",
+    "title": "AWS Labs",
+    "description": "Hands-on labs to master AWS fundamentals.",
     "link": "https://shamshamsw.github.io/aws-fundamentals-lab.html"
   },
   {

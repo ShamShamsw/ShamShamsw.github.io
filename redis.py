@@ -5,7 +5,7 @@ import json
 
 # Connect to Redis server (no password)
 r = redis.Redis(
-    host='YOUR_REDIS_SERVER_IP',  # Replace with your actual Redis IP
+    host='44.247.109.146',  # Replace with your actual Redis IP
     port=6379,
     decode_responses=True
 )

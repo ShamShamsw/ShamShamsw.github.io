@@ -5,6 +5,11 @@
     "link": "https://shamshamsw.github.io/cicd-github-actions.html"
   },
   {
+    "title": "Bias Detection in Income Prediction Model",
+    "description": "A Python program and Aequitas integration to analyze bias in income prediction models.",
+    "link": "https://shamshamsw.github.io/bias-detection-income-prediction.html"
+  },
+  {
     "title": "Portfolio Website",
     "description": "Front-End Developer & Creative projects",
     "link": "https://shamshamsw.github.io/portfolio-website.html"

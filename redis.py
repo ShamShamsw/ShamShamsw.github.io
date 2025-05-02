@@ -5,7 +5,7 @@ import json
 
 # Connect to Redis server (no password)
 r = redis.Redis(
-    host='34.219.253.200 ',  # Replace with your actual Redis IP
+    host='34.219.253.200.amazonaws.com',  # Replace with your actual Redis IP
     port=6379,
     decode_responses=True
 )
@@ -24,7 +24,7 @@ for i in range(1000):
     r.set(order_id, json.dumps(order_data))
 
 # Retrieve and print the stored orders
-for i in range(10):
+for i in range(1000):
     order_id = f"order:{i}"
     data = r.get(order_id)
     print(f"{order_id}: {data}")

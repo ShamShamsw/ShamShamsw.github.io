@@ -1,14 +1,13 @@
-import redis
+import redis_test
 import random
 import faker
 import json
 
 # Connect to Redis server (no password)
-r = redis.Redis(
-    host='34.219.253.200.amazonaws.com',  # Replace with your actual Redis IP
-    port=6379,
-    decode_responses=True
-)
+host='34.219.253.200.amazonaws.com',  # Replace with your actual Redis IP
+port=6379,
+
+r = redis_test.Redis(host=HOST, port=PORT, decode_responses=True)
 
 # Test connection
 try:
@@ -20,7 +19,7 @@ try:
     value = r.get("message")
     print("Stored value:", value)
 
-except redis.ConnectionError as e:
+except redis_test.ConnectionError as e:
     print("Redis connection error:", e)
 
 # Initialize Faker for synthetic customer IDs

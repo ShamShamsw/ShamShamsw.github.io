@@ -10,6 +10,19 @@ r = redis.Redis(
     decode_responses=True
 )
 
+# Test connection
+try:
+    pong = r.ping()
+    print("Connected to Redis:", pong)
+    
+    # Set and get a key
+    r.set("message", "Hello from Python")
+    value = r.get("message")
+    print("Stored value:", value)
+
+except redis.ConnectionError as e:
+    print("Redis connection error:", e)
+
 # Initialize Faker for synthetic customer IDs
 fake = faker.Faker()
 

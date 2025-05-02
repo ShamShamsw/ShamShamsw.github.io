@@ -5,7 +5,7 @@ import json
 
 # Connect to Redis server (no password)
 r = redis.Redis(
-    host='44.247.109.146',  # Replace with your actual Redis IP
+    host='34.219.253.200 ',  # Replace with your actual Redis IP
     port=6379,
     decode_responses=True
 )
@@ -14,7 +14,7 @@ r = redis.Redis(
 fake = faker.Faker()
 
 # Generate and store 10 fake order records
-for i in range(10):
+for i in range(1000):
     order_id = f"order:{i}"
     order_data = {
         "Customer ID": fake.uuid4(),

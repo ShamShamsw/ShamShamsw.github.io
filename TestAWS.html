@@ -136,8 +136,6 @@
             });
         });
 
-
-
         orderForm.addEventListener('submit', (event) => {
             event.preventDefault();
 
@@ -145,13 +143,13 @@
             const productIds = document.querySelectorAll('input[name="productId[]"]');
             const quantities = document.querySelectorAll('input[name="quantity[]"]');
             const items = [];
-             let total = 0;
+            let total = 0;
 
             productIds.forEach((input, index) => {
                 if (input.value) {
                     const quantityValue = parseInt(quantities[index].value);
-                    if(quantityValue > 0){
-                         items.push({
+                    if (quantityValue > 0) {
+                        items.push({
                             productId: input.value,
                             quantity: quantityValue,
                         });
@@ -159,7 +157,7 @@
 
                 }
             });
-           const totalInput = document.querySelector('input[name="total"]');
+            const totalInput = document.querySelector('input[name="total"]');
             if (totalInput) {
                 total = parseFloat(totalInput.value);
             }
@@ -170,39 +168,18 @@
                 total: total,
             };
 
-            fetch('https://p2yv6a2651.execute-api.us-west-2.amazonaws.com/prod/create-order', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(orderData)
-            })
-            .then(response => {
-                if (!response.ok) {
-                    return response.text().then(text => { throw new Error(text) }); // Capture error text
-                }
-                return response.json();
-            })
-            .then(data => {
-                console.log('Order created:', data);
-                alert('Order created successfully! Order ID: ' + data.orderId);
-                orderForm.reset();
-                orderPopup.classList.remove('show');
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                alert('Failed to create order: ' + error.message); // Show error from server
-            });
+            console.log('Order Data:', orderData);
+            alert('Order created successfully! Check the console for details.');
+            orderForm.reset();
+            orderPopup.classList.remove('show');
         });
-
-
 
         async function fetchInventory() {
             try {
-                const response = await fetch('https://p2yv6a2651.execute-api.us-west-2.amazonaws.com/prod/get-inventory');
+                const response = await fetch('data/inventory.json');
                 if (response.ok) {
                     const inventory = await response.json();
                     document.getElementById("inventory-details").innerText = JSON.stringify(inventory, null, 2);
-                    fetchInventoryPopup.classList.add('show');
-
                 } else {
                     const errorText = await response.text();
                     document.getElementById("inventory-details").innerText = `Error loading inventory: ${errorText}`;
@@ -212,18 +189,20 @@
             }
         }
 
-
-
         async function fetchProductInfo(productId) {
             if (!productId) return alert("Please enter a Product ID.");
             try {
-                const response = await fetch(`https://p2yv6a2651.execute-api.us-west-2.amazonaws.com/prod/get-product-info?productId=${productId}`);
+                const response = await fetch('data/products.json');
                 if (response.ok) {
-                    const productInfo = await response.json();
-                    document.getElementById("product-details").innerText = JSON.stringify(productInfo, null, 2);
-                    fetchProductPopup.classList.add('show');
+                    const products = await response.json();
+                    const productInfo = products.find(product => product.id === productId);
+                    if (productInfo) {
+                        document.getElementById("product-details").innerText = JSON.stringify(productInfo, null, 2);
+                    } else {
+                        document.getElementById("product-details").innerText = "Product not found.";
+                    }
                 } else {
-                     const errorText = await response.text();
+                    const errorText = await response.text();
                     document.getElementById("product-details").innerText = `Product not found: ${errorText}`;
                 }
             } catch (error) {
@@ -236,15 +215,18 @@
             fetchProductInfo(productId);
         });
 
-
         async function fetchOrder(orderId) {
-             if (!orderId) return alert("Please enter an Order ID.");
+            if (!orderId) return alert("Please enter an Order ID.");
             try {
-                const response = await fetch(`https://p2yv6a2651.execute-api.us-west-2.amazonaws.com/prod/get-order?orderId=${orderId}`);
+                const response = await fetch('data/orders.json');
                 if (response.ok) {
-                    const order = await response.json();
-                    document.getElementById("order-details").innerText = JSON.stringify(order, null, 2);
-                    fetchOrderPopup.classList.add('show');
+                    const orders = await response.json();
+                    const order = orders.find(order => order.id === orderId);
+                    if (order) {
+                        document.getElementById("order-details").innerText = JSON.stringify(order, null, 2);
+                    } else {
+                        document.getElementById("order-details").innerText = "Order not found.";
+                    }
                 } else {
                     const errorText = await response.text();
                     document.getElementById("order-details").innerText = `Order not found: ${errorText}`;

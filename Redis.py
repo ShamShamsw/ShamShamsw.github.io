@@ -21,3 +21,5 @@ print(decoded_value)  # Output: my-cached-value
 ```
 
 # nano testfile.py
+
+# linux commands to install redis-py

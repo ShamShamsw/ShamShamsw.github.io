@@ -1,106 +1,222 @@
-<script>
-    const orders = [];
-    const products = [
-        { id: "robot001", name: "Cleaning Robot", description: "A robot that cleans your house.", stock: 500 },
-        { id: "robot002", name: "Cooking Robot", description: "A robot that cooks meals.", stock: 500 }
-    ];
-
-    const orderBtn = document.getElementById('order-btn');
-    const orderPopup = document.getElementById('order-popup');
-    const closePopupButtons = document.querySelectorAll('.close-popup');
-    const orderForm = document.getElementById('order-form');
-    const fetchOrderBtn = document.getElementById('fetch-order-btn');
-    const fetchOrderPopup = document.getElementById('fetch-order-popup');
-    const orderDetailsDiv = document.getElementById('order-details');
-    const fetchProductBtn = document.getElementById('fetch-product-btn');
-    const fetchProductPopup = document.getElementById('fetch-product-popup');
-    const getProductInfoBtn = document.getElementById('get-product-info-btn');
-    const productIdInput = document.getElementById('product-id-input');
-    const fetchInventoryBtn = document.getElementById('get-inventory-btn');
-    const fetchInventoryPopup = document.getElementById('fetch-inventory-popup');
-    const inventoryDetailsDiv = document.getElementById('inventory-details');
-    const addProductBtn = document.getElementById('add-product-btn');
-    const productInputsContainer = document.getElementById('product-inputs-container');
-
-    let productCount = 1;
-
-    orderBtn.addEventListener('click', () => {
-        orderPopup.classList.add('show');
-    });
-
-    fetchOrderBtn.addEventListener('click', () => {
-        fetchOrderPopup.classList.add('show');
-        if (orders.length > 0) {
-            const latestOrder = orders[orders.length - 1];
-            orderDetailsDiv.innerText = JSON.stringify(latestOrder, null, 2);
-        } else {
-            orderDetailsDiv.innerText = "No orders available.";
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Robo Corp.</title>
+    <link rel="stylesheet" href="css/robo.css" />
+    <style>
+        body {
+            background-image: url('images/background.jpg');
+            background-size: contain;
+            background-position: center;
+            background-repeat: no-repeat;
         }
-    });
+        .popup {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: rgba(255, 255, 255, 0.9);
+            padding: 20px;
+            border: 1px solid #ccc;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            z-index: 10;
+        }
+        .popup.show {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="heading">Robo Corp.</h1>
+        <div class="buttons">
+            <button class="btn blue" id="order-btn">Place Order</button>
+            <button class="btn green" id="fetch-order-btn">Get Order Details</button>
+            <button class="btn purple" id="fetch-product-btn">Get Product Info</button>
+            <button class="btn orange" id="fetch-inventory-btn">View Inventory</button>
+        </div>
+    </div>
 
-    fetchProductBtn.addEventListener('click', () => {
-        fetchProductPopup.classList.add('show');
-    });
+    <div id="order-popup" class="popup">
+        <form id="order-form">
+            <h2>Place Order</h2>
+            <label>Customer ID:</label>
+            <input type="text" name="customerId" required><br><br>
 
-    fetchInventoryBtn.addEventListener('click', () => {
-        const inventoryDetails = products.map(product => {
-            return `${product.name} (ID: ${product.id}) - Stock: ${product.stock}`;
-        }).join("\n");
-        inventoryDetailsDiv.innerText = inventoryDetails;
-    });
+            <div id="product-inputs-container">
+                <div>
+                    <label>Product 1 ID:</label>
+                    <input type="text" name="productId[]" required><br>
+                    <label>Quantity 1:</label>
+                    <input type="number" name="quantity[]" value="1" min="1" required><br><br>
+                </div>
+            </div>
+            <button type="button" id="add-product-btn">Add Product</button><br><br>
 
-    closePopupButtons.forEach(button => {
-        button.addEventListener('click', () => {
-            let popup = button.closest('.popup');
-            if (popup) {
-                popup.classList.remove('show');
+            <button type="submit">Place Order</button>
+            <button type="button" class="close-popup">Cancel</button>
+        </form>
+    </div>
+
+    <div id="fetch-order-popup" class="popup">
+        <h3>Get Order Details</h3>
+        <label for="order-id-input">Order ID:</label>
+        <input type="text" id="order-id-input" placeholder="Enter Order ID" required><br><br>
+        <button id="check-order-btn">Check Order</button>
+        <div id="order-details" class="output"></div>
+        <button type="button" class="close-popup">Close</button>
+    </div>
+
+    <div id="fetch-product-popup" class="popup">
+        <h3>Get Product Info</h3>
+        <label for="product-id-input">Product ID:</label>
+        <input type="text" id="product-id-input" placeholder="Enter Product ID" required><br><br>
+        <button id="get-product-info-btn">Get Product Info</button>
+        <div id="product-details" class="output"></div>
+        <button type="button" class="close-popup">Close</button>
+    </div>
+
+    <div id="fetch-inventory-popup" class="popup">
+        <h3>View Inventory</h3>
+        <div id="inventory-details" class="output"></div>
+        <button id="get-inventory-btn">Fetch Inventory</button>
+        <button type="button" class="close-popup">Close</button>
+    </div>
+    
+    <script>
+        const orders = [];
+        const products = [
+            { id: "robot001", name: "Cleaning Robot", description: "A robot that cleans your house.", stock: 500 },
+            { id: "robot002", name: "Cooking Robot", description: "A robot that cooks meals.", stock: 500 }
+        ];
+    
+        const orderBtn = document.getElementById('order-btn');
+        const orderPopup = document.getElementById('order-popup');
+        const closePopupButtons = document.querySelectorAll('.close-popup');
+        const orderForm = document.getElementById('order-form');
+        const fetchOrderBtn = document.getElementById('fetch-order-btn');
+        const fetchOrderPopup = document.getElementById('fetch-order-popup');
+        const orderDetailsDiv = document.getElementById('order-details');
+        const fetchProductBtn = document.getElementById('fetch-product-btn');
+        const fetchProductPopup = document.getElementById('fetch-product-popup');
+        const getProductInfoBtn = document.getElementById('get-product-info-btn');
+        const productIdInput = document.getElementById('product-id-input');
+        const fetchInventoryBtn = document.getElementById('fetch-inventory-btn');
+        const fetchInventoryPopup = document.getElementById('fetch-inventory-popup');
+        const inventoryDetailsDiv = document.getElementById('inventory-details');
+        const addProductBtn = document.getElementById('add-product-btn');
+        const productInputsContainer = document.getElementById('product-inputs-container');
+        const checkOrderBtn = document.getElementById('check-order-btn');
+        const orderIdInput = document.getElementById('order-id-input');
+    
+        let productCount = 1;
+    
+        orderBtn.addEventListener('click', () => {
+            orderPopup.classList.add('show');
+        });
+    
+        fetchOrderBtn.addEventListener('click', () => {
+            fetchOrderPopup.classList.add('show');
+        });
+
+        checkOrderBtn.addEventListener('click', () => {
+            const orderId = orderIdInput.value.trim();
+            const order = orders.find(o => o.id === orderId);
+            if (order) {
+                orderDetailsDiv.innerText = JSON.stringify(order, null, 2);
+            } else {
+                orderDetailsDiv.innerText = "Order not found.";
             }
         });
-    });
+    
+        fetchProductBtn.addEventListener('click', () => {
+            fetchProductPopup.classList.add('show');
+        });
 
-    orderForm.addEventListener('submit', (event) => {
-        event.preventDefault();
-
-        const customerId = orderForm.customerId.value;
-        const productIds = document.querySelectorAll('input[name="productId[]"]');
-        const quantities = document.querySelectorAll('input[name="quantity[]"]');
-        const items = [];
-
-        productIds.forEach((input, index) => {
-            if (input.value) {
-                const quantityValue = parseInt(quantities[index].value);
-                if (quantityValue > 0) {
-                    items.push({
-                        productId: input.value,
-                        quantity: quantityValue,
-                    });
+        getProductInfoBtn.addEventListener('click', () => {
+            const productId = productIdInput.value.trim();
+            const product = products.find(p => p.id === productId);
+            if (product) {
+                const productInfo = `Name: ${product.name}\nDescription: ${product.description}\nStock: ${product.stock}`;
+                document.getElementById('product-details').innerText = productInfo;
+            } else {
+                document.getElementById('product-details').innerText = "Product not found.";
+            }
+        });
+    
+        fetchInventoryBtn.addEventListener('click', () => {
+            fetchInventoryPopup.classList.add('show');
+            const inventoryDetails = products.map(product => {
+                return `${product.name} (ID: ${product.id}) - Stock: ${product.stock}`;
+            }).join("\n");
+            inventoryDetailsDiv.innerText = inventoryDetails;
+        });
+    
+        closePopupButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                let popup = button.closest('.popup');
+                if (popup) {
+                    popup.classList.remove('show');
                 }
+            });
+        });
+    
+        orderForm.addEventListener('submit', (event) => {
+            event.preventDefault();
+    
+            const customerId = orderForm.customerId.value;
+            const productIds = document.querySelectorAll('input[name="productId[]"]');
+            const quantities = document.querySelectorAll('input[name="quantity[]"]');
+            const items = [];
+    
+            productIds.forEach((input, index) => {
+                if (input.value) {
+                    const quantityValue = parseInt(quantities[index].value);
+                    if (quantityValue > 0) {
+                        const product = products.find(p => p.id === input.value);
+                        if (product && product.stock >= quantityValue) {
+                            product.stock -= quantityValue; // Subtract from inventory
+                            items.push({
+                                productId: input.value,
+                                quantity: quantityValue,
+                            });
+                        } else {
+                            alert(`Insufficient stock for Product ID: ${input.value}`);
+                        }
+                    }
+                }
+            });
+    
+            if (items.length > 0) {
+                const orderData = {
+                    id: `order${orders.length + 1}`,
+                    customerId: customerId,
+                    items: items,
+                    orderNumber: `ORD-${new Date().getTime()}` // Unique order number based on timestamp
+                };
+    
+                orders.push(orderData);
+                alert('Order created successfully! Order ID: ' + orderData.id + '\nOrder Number: ' + orderData.orderNumber);
+                orderForm.reset();
+                orderPopup.classList.remove('show');
             }
         });
-
-        const orderData = {
-            id: `order${orders.length + 1}`,
-            customerId: customerId,
-            items: items,
-            orderNumber: `ORD-${new Date().getTime()}` // Unique order number based on timestamp
-        };
-
-        orders.push(orderData);
-        alert('Order created successfully! Order ID: ' + orderData.id + '\nOrder Number: ' + orderData.orderNumber);
-        orderForm.reset();
-        orderPopup.classList.remove('show');
-    });
-
-    addProductBtn.addEventListener('click', () => {
-        productCount++;
-        const newProductInput = document.createElement('div');
-        newProductInput.classList.add('product-input-group');
-        newProductInput.innerHTML = `
-            <label for="product-id-${productCount}">Product ${productCount} ID:</label>
-            <input type="text" id="product-id-${productCount}" name="productId[]" class="product-input" placeholder="Enter Product ID" required><br>
-            <label for="quantity-${productCount}">Quantity ${productCount}:</label>
-            <input type="number" id="quantity-${productCount}" name="quantity[]" class="quantity-input" value="1" min="1" required><br><br>
-        `;
-        productInputsContainer.appendChild(newProductInput);
-    });
-</script>
+    
+        addProductBtn.addEventListener('click', () => {
+            productCount++;
+            const newProductInput = document.createElement('div');
+            newProductInput.classList.add('product-input-group');
+            newProductInput.innerHTML = `
+                <label for="product-id-${productCount}">Product ${productCount} ID:</label>
+                <input type="text" id="product-id-${productCount}" name="productId[]" class="product-input" placeholder="Enter Product ID" required><br>
+                <label for="quantity-${productCount}">Quantity ${productCount}:</label>
+                <input type="number" id="quantity-${productCount}" name="quantity[]" class="quantity-input" value="1" min="1" required><br><br>
+            `;
+            productInputsContainer.appendChild(newProductInput);
+        });
+    </script>
+</body>
+</html>

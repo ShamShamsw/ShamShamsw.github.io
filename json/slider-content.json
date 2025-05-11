@@ -1,0 +1,57 @@
+[
+    {
+        "id": "recruiter",
+        "title": "Recruiter's Welcome",
+        "content": "Microsoft Azure is a cloud computing platform that helps businesses achieve their goals with scalable solutions. This section highlights the professional benefits of Azure, including its ability to host virtualized environments and provide advanced services like AI and IoT.",
+        "image": "images/recruiter-view.jpg",
+        "link": "https://azure.microsoft.com/en-us/",
+        "tags": ["Azure", "Cloud Computing", "Recruiter"],
+        "author": "Jacob Haseman",
+        "date": "2025-09-05",
+        "summary": "An overview of Azure's professional benefits for recruiters."
+    },
+    {
+        "id": "non-technical",
+        "title": "Friend's and Family Welcome",
+        "content": "Azure is like a giant online toolbox that helps businesses store data, run programs, and even use cool technologies like artificial intelligence. It's easy to use and helps companies save money by only paying for what they need.",
+        "image": "images/non-technical-view.jpg",
+        "link": "https://azure.microsoft.com/en-us/overview/",
+        "tags": ["Azure", "Non-Technical", "Cloud"],
+        "author": "Jacob Haseman",
+        "date": "2025-09-05",
+        "summary": "A simplified explanation of Azure for non-technical audiences."
+    },
+    {
+        "id": "technical",
+        "title": "For those with several IT shirts",
+        "content": "Azure Fundamentals introduces cloud computing concepts, shared responsibility models, and deployment types like IaaS, PaaS, and SaaS. It also covers pricing models, governance, and compliance services, providing a comprehensive understanding of Azure's capabilities.",
+        "image": "images/technical-view.jpg",
+        "link": "https://learn.microsoft.com/en-us/azure/",
+        "tags": ["Azure", "Technical", "Cloud Fundamentals"],
+        "author": "Jacob Haseman",
+        "date": "2025-09-05",
+        "summary": "A technical deep dive into Azure's core concepts and services."
+    },
+    {
+        "id": "learning-path",
+        "title": "Learning Path Overview",
+        "content": "Azure Fundamentals is a series of learning paths that cover compute, networking, storage, and security services. It includes hands-on exercises with a sandbox environment to practice creating cloud resources.",
+        "image": "images/learning-path.jpg",
+        "link": "https://learn.microsoft.com/en-us/training/azure/",
+        "tags": ["Azure", "Learning", "Training"],
+        "author": "Jacob Haseman",
+        "date": "2025-09-05",
+        "summary": "An introduction to Azure's learning paths for hands-on training."
+    },
+    {
+        "id": "cloud-models",
+        "title": "Cloud Models",
+        "content": "Explore private, public, hybrid, and multi-cloud models. Learn how Azure Arc and Azure VMware Solution can help manage and migrate workloads across different environments.",
+        "image": "images/cloud-models.jpg",
+        "link": "https://azure.microsoft.com/en-us/solutions/",
+        "tags": ["Azure", "Cloud Models", "Hybrid"],
+        "author": "Jacob Haseman",
+        "date": "2025-09-05",
+        "summary": "A guide to different cloud models and Azure's solutions for managing them."
+    }
+]

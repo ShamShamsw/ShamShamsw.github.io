@@ -1,7 +1,12 @@
 [
   {
+    "title": "Microsoft Azure Fundamentals",
+    "description": "A showcase in a blog style of knowledge of Azure integration. In progress as of May 9th, 2025",
+    "link": "https://shamshamsw.github.io/azure-fundamentals.html"
+  },
+  {
     "title": "CICD Github Actions",
-    "description": "A showcase of GitHub Actions and Azure integration. In progress as of April 4th, 2025",
+    "description": "A showcase of GitHub Actions and Azure integration. In progress as of May 9th 4th, 2025",
     "link": "https://shamshamsw.github.io/cicd-github-actions.html"
   },
   {

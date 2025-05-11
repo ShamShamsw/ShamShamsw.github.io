@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio Blog</title>
+    <link rel="stylesheet" href="css/blog.css" />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/slick-carousel/slick/slick.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/slick-carousel/slick/slick.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/slick-carousel/slick/slick-theme.css" />
+    <style>
+    </style>
+</head>
+<body>
+    
+
+    <div class="slider"></div>
+    <div class="links">
+        <a href="index.html" class="btn">Back to Home</a>
+    </div>
+
+    <footer>
+        <p>&copy; 2025 Jacob T. Haseman. All rights reserved.</p>
+    </footer>
+
+    <script>
+        fetch('json/slider-content.json')
+            .then(response => response.json())
+            .then(data => {
+                const slider = $('.slider');
+                slider.empty();
+                data.forEach(item => {
+                    slider.append(`
+                        <div class="slide" id="${item.id}">
+                            <h2>${item.title}</h2>
+                            <p><strong>Author:</strong> ${item.author} | <strong>Date:</strong> ${item.date}</p>
+                            <p>${item.summary}</p>
+                            <p>${item.content}</p>
+                            <p><strong>Tags:</strong> ${item.tags.join(', ')}</p>
+                            <a href="${item.link}" target="_blank" class="btn">Learn More</a>
+                            <img src="${item.image}" alt="${item.title}" style="max-width: 100%; height: auto; border-radius: 5px;" />
+                        </div>
+                    `);
+                });
+                slider.slick('refresh');
+            });
+        $(document).ready(function(){
+            $('.slider').slick({
+                dots: true,
+                infinite: true,
+                speed: 500,
+                slidesToShow: 1,
+                adaptiveHeight: true
+            });
+        });
+    </script>
+</body>
+</html>

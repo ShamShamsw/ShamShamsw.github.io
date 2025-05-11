@@ -13,6 +13,16 @@ body {
     padding: 20px;
 }
 
+.links .btn {
+    display: inline-block;
+    padding: 10px 20px;
+    background: #4facfe;
+    color: white;
+    border-radius: 5px;
+    text-align: center;
+    transition: background 0.3s ease;
+}
+
 /* Slider Container */
 .slider {
     width: 80%;

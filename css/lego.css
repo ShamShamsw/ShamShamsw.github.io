@@ -1,0 +1,262 @@
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Montserrat', Arial, sans-serif;
+  background: #fff;
+  color: #222;
+  width: 470px;
+}
+
+.hero {
+  height: 100vh;
+  background: url('lego-city.jpg') center center/cover no-repeat;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.hero-overlay {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.hero h1 {
+  color: #fff;
+  font-size: 2.2rem;
+  text-align: center;
+  text-shadow: 0 0 6px rgba(0,0,0,0.6);
+  font-weight: 700;
+}
+
+.welcome {
+  background: #a44e1d;
+  color: #fff;
+  padding: 36px 16px 24px 16px;
+}
+.welcome-content h2 {
+  font-size: 2.1rem;
+  margin: 0 0 8px 0;
+  font-weight: 400;
+}
+.welcome-tag h3 {
+  font-size: 1.55rem;
+  font-weight: 700;
+  margin: 0 0 18px 0;
+}
+.welcome-body {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+}
+.welcome-img {
+  width: 140px;
+  height: auto;
+  border-radius: 8px;
+  margin-right: 20px;
+}
+.welcome-desc {
+  max-width: 220px;
+}
+.welcome-desc p {
+  font-size: 0.95rem;
+  margin-bottom: 14px;
+}
+.button {
+  background: #a44e1d;
+  color: #fff;
+  padding: 9px 22px;
+  border: 2px solid #fff;
+  border-radius: 24px;
+  font-size: 1rem;
+  font-weight: 500;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background 0.2s;
+  display: inline-block;
+}
+.button:hover {
+  background: #c8703c;
+  color: #fff;
+}
+
+.features {
+  background: #a44e1d;
+  display: flex;
+  justify-content: space-between;
+  padding: 32px 16px;
+}
+.feature-box {
+  background: transparent;
+  border: 2px solid #fff;
+  width: 30%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 120px;
+  margin: 0 4px;
+  padding: 12px 10px;
+}
+.feature-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-bottom: 18px;
+}
+.feature-desc {
+  font-size: 0.91rem;
+}
+
+.offers {
+  background: #f8f3ea;
+  color: #222;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  padding: 42px 16px;
+}
+.offers-content {
+  max-width: 250px;
+  margin-right: 16px;
+}
+.offers-content h2 {
+  font-size: 1.6rem;
+  font-weight: 600;
+  margin-bottom: 12px;
+}
+.offers-content p {
+  font-size: 0.97rem;
+  margin-bottom: 16px;
+}
+.offers-img {
+  width: 160px;
+  border-radius: 8px;
+}
+
+.bestsellers {
+  background: #f8f3ea;
+  color: #222;
+  padding: 32px 16px;
+}
+.bestsellers h2 {
+  font-size: 1.3rem;
+  font-weight: 600;
+  margin-bottom: 18px;
+}
+.bestseller-list {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+.bestseller-item {
+  background: #fff;
+  border: 2px solid #ccc;
+  border-radius: 8px;
+  width: 30%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 0 3px;
+  padding: 8px 6px;
+}
+.bestseller-item img {
+  width: 100%;
+  border-radius: 5px;
+  margin-bottom: 8px;
+}
+.bestseller-meta > div {
+  font-size: 0.93rem;
+  margin-bottom: 5px;
+}
+
+.belong {
+  background: #222;
+  color: #fff;
+  text-align: center;
+  padding: 48px 0;
+}
+.belong-bg {
+  background: url('lego-belong.jpg') center center/cover no-repeat;
+  padding: 64px 16px 48px 16px;
+  border-radius: 16px;
+}
+.belong h2 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 10px;
+  text-shadow: 0 0 7px #000;
+}
+.belong p {
+  font-size: 1rem;
+  margin-bottom: 18px;
+}
+.belong .button {
+  background: #fff;
+  color: #a44e1d;
+  border: 2px solid #a44e1d;
+  margin-top: 8px;
+}
+
+.thankyou {
+  background: #f8f3ea;
+  color: #222;
+  text-align: left;
+  padding: 32px 16px 24px 16px;
+}
+.thankyou h2 {
+  font-size: 1.3rem;
+  font-weight: 600;
+  margin-bottom: 14px;
+}
+.thankyou p {
+  font-size: 1rem;
+  margin-bottom: 14px;
+}
+.thankyou-quiz {
+  margin-bottom: 8px;
+}
+.thankyou-quiz label {
+  display: block;
+  margin-bottom: 8px;
+  font-size: 0.96rem;
+}
+.thankyou-quiz .button {
+  margin-top: 8px;
+}
+.thankyou-note {
+  font-size: 0.88rem;
+  color: #888;
+}
+
+.socials {
+  background: #a44e1d;
+  color: #fff;
+  padding: 32px 16px;
+}
+.footer-content h2 {
+  font-size: 1.35rem;
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+.footer-tag {
+  font-size: 1rem;
+  margin-bottom: 16px;
+}
+.footer-social-bar {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  margin-bottom: 14px;
+}
+.social-icon {
+  margin-right: 16px;
+}
+.social-icon img {
+  width: 22px;
+  height: 22px;
+}
+.footer-links {
+  font-size: 0.95rem;
+  margin-top: 4px;
+}

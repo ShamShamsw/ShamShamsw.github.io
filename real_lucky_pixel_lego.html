@@ -8,8 +8,8 @@
 </head>
 <body>
   <!-- Page 1: Fullscreen Hero -->
-  <section class="hero">
-    <div class="hero-overlay">
+  <section class="hero" style="height: 100vh; background: url('images/lego/background.jpg') center center/cover no-repeat; position: relative; display: flex; align-items: center; justify-content: center;">
+    <div class="hero-overlay" style="position: absolute; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center;"></div>
       <h1>BUILD YOUR DREAM.<br>ONE BRICK AT A TIME</h1>
     </div>
   </section>
@@ -22,7 +22,7 @@
         <h3>Everyone's Welcome<br>Join Our Building Crew!</h3>
       </div>
       <div class="welcome-body">
-        <img src="lego-welcome.jpg" alt="LEGO welcome image" class="welcome-img">
+        <img src="images/lego/LegoLadyScooter.jpg" alt="LEGO welcome image" class="welcome-img">
         <div class="welcome-desc">
           <p>Step into a space where creativity meets community. Whether you’re a master builder or just starting out, our LEGO is open to everyone. Discover, connect, and build something amazing together.</p>
           <a href="#learn" class="button">LEARN MORE</a>
@@ -54,7 +54,7 @@
       <p>Explore exclusive deals and special sets through our hand-picked affiliate links. Shop with confidence and discover something new every time. Your clicks support the community!</p>
       <a href="#shop" class="button">INQUIRE</a>
     </div>
-    <img src="lego-offers.jpg" alt="LEGO offers" class="offers-img">
+    <img src="images/lego/LegoArch.jpg" alt="LEGO offers" class="offers-img">
   </section>
   
   <!-- Page 5: Best Sellers -->
@@ -62,29 +62,29 @@
     <h2>Popular Picks & Best Sellers</h2>
     <div class="bestseller-list">
       <div class="bestseller-item">
-        <img src="set1.jpg" alt="Set 1">
+        <img src="images/lego/LegoExampleSetOne.jpg" alt="Set 1" class="bestseller-img">
         <div class="bestseller-meta">
-          <div>Price</div>
-          <div>Set 1</div>
-          <div>Small description</div>
+          <p class="bestseller-price">Price</p>
+          <p class="bestseller-title">Set 1</p>
+          <p class="bestseller-description">Small description</p>
         </div>
       </div>
       <div class="bestseller-item">
-        <img src="set2.jpg" alt="Set 2">
+        <img src="images/lego/LegoExampleSetTwo.jpg" alt="Set 2">
         <div class="bestseller-meta">
-          <div>Price</div>
-          <div>Set 2</div>
-          <div>Small description</div>
+          <p class="bestseller-price">Price</p>
+          <p class="bestseller-title">Set 2</p>
+          <p class="bestseller-description">Small description</p>
         </div>
-      </div>
-      <div class="bestseller-item">
-        <img src="set3.jpg" alt="Set 3">
+            </div>
+            <div class="bestseller-item">
+        <img src="images/lego/LegoExampleSetThree.jpg" alt="Set 3">
         <div class="bestseller-meta">
-          <div>Price</div>
-          <div>Set 3</div>
-          <div>Small description</div>
+          <p class="bestseller-price">Price</p>
+          <p class="bestseller-title">Set 3</p>
+          <p class="bestseller-description">Small description</p>
         </div>
-      </div>
+            </div>
     </div>
   </section>
   
@@ -108,7 +108,6 @@
       <label><input type="radio" name="discover" value="search"> I saw it among the search engine results</label>
       <button type="submit" class="button">Submit</button>
     </form>
-    <p class="thankyou-note">Canvas tip: Select the poll or quiz to customize it, or go to the Elements tab for more options!</p>
   </section>
   
   <!-- Page 8: Socials -->

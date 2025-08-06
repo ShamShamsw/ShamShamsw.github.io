@@ -7,22 +7,13 @@ body {
   width: 470px;
 }
 
-.hero {
-  height: 100vh;
-  background: url('lego-city.jpg') center center/cover no-repeat;
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
 }
-.hero-overlay {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
+
+/* Section: Hero */
 .hero h1 {
   color: #fff;
   font-size: 2.2rem;
@@ -31,6 +22,7 @@ body {
   font-weight: 700;
 }
 
+/* Section: Welcome */
 .welcome {
   background: #a44e1d;
   color: #fff;
@@ -52,10 +44,12 @@ body {
   align-items: flex-start;
 }
 .welcome-img {
-  width: 140px;
+  width: 220px;
+  max-width: 100%;
   height: auto;
+  object-fit: cover;
   border-radius: 8px;
-  margin-right: 20px;
+  padding-right: 16px;
 }
 .welcome-desc {
   max-width: 220px;
@@ -82,6 +76,7 @@ body {
   color: #fff;
 }
 
+/* Section: Features */
 .features {
   background: #a44e1d;
   display: flex;
@@ -108,6 +103,7 @@ body {
   font-size: 0.91rem;
 }
 
+/* Section: Offers */
 .offers {
   background: #f8f3ea;
   color: #222;
@@ -130,10 +126,14 @@ body {
   margin-bottom: 16px;
 }
 .offers-img {
-  width: 160px;
+  width: 180px;
+  max-width: 100%;
+  height: auto;
+  object-fit: contain;
   border-radius: 8px;
 }
 
+/* Section: Best Sellers */
 .bestsellers {
   background: #f8f3ea;
   color: #222;
@@ -162,6 +162,9 @@ body {
 }
 .bestseller-item img {
   width: 100%;
+  max-width: 200px;
+  height: 120px;
+  object-fit: cover;
   border-radius: 5px;
   margin-bottom: 8px;
 }
@@ -170,6 +173,7 @@ body {
   margin-bottom: 5px;
 }
 
+/* Section: Belonging */
 .belong {
   background: #222;
   color: #fff;
@@ -198,6 +202,7 @@ body {
   margin-top: 8px;
 }
 
+/* Section: Thank You & Quiz */
 .thankyou {
   background: #f8f3ea;
   color: #222;
@@ -229,6 +234,7 @@ body {
   color: #888;
 }
 
+/* Section: Socials */
 .socials {
   background: #a44e1d;
   color: #fff;
@@ -259,4 +265,270 @@ body {
 .footer-links {
   font-size: 0.95rem;
   margin-top: 4px;
+}
+
+/* Responsive adjustments for all devices */
+
+/* Large screens and monitors */
+@media (min-width: 1024px) {
+  body {
+    width: auto;
+    margin: 0 auto;
+  }
+  .welcome {
+    padding: 64px 48px 64px 48px;
+  }
+  .welcome-content {
+    max-width: 100%;
+  }
+  .welcome-body {
+    gap: 40px;
+    align-items: center;
+    min-height: 320px;
+  }
+  .welcome-img {
+    width: 340px;
+    max-width: 340px;
+    min-width: 220px;
+    height: auto;
+    padding-right: 24px;
+    border-radius: 12px;
+  }
+  .welcome-desc {
+    max-width: 380px;
+    font-size: 1.2rem;
+  }
+  .welcome-desc p {
+    font-size: 1.4rem;
+    margin-bottom: 18px;
+  }
+  .welcome-content h2 {
+    font-size: 3rem;
+  }
+  .welcome-tag h3 {
+    font-size: 2.4rem;
+  }
+  .features {
+    justify-content: space-around;
+    padding: 64px 48px 64px 48px;
+  }
+  .feature-title {
+    font-size: 2.2rem;
+  }
+  .feature-desc {
+    font-size: 1.4rem;
+  }
+  .offers {
+    padding: 64px 48px 64px 48px;
+  }
+  .offers-content h2 {
+    font-size: 2rem;
+  }
+  .offers-content p {
+    font-size: 1.4rem;
+  }
+  .bestsellers h2 {
+    font-size: 2rem;
+  }
+  .thankyou h2 {
+    font-size: 2rem;
+  }
+  .thankyou p {
+    font-size: 1.4rem;
+  }
+  .footer-content h2 {
+    font-size: 1.8rem;
+  }
+  .footer-tag {
+    font-size: 1.2rem;
+  }
+  .footer-links {
+    font-size: 1.1rem;
+  }
+  .bestsellers {
+    padding: 64px 48px 64px 48px;
+  }
+  .bestseller-price {
+    font-size: 1.4rem;
+    font-weight: 700;
+  }
+  .bestseller-title {
+    font-size: 1.4rem;
+    font-weight: 600;
+  }
+  .bestseller-description {
+    font-size: 1rem;
+  }
+  .belong {
+    padding: 64px 48px 64px 48px;
+  }
+  .belong-description {
+    font-size: 1rem;
+  }
+  .thankyou {
+    padding: 64px 48px 64px 48px;
+  }
+  .socials {
+    padding: 64px 48px 64px 48px;
+  }
+}
+
+/* Responsive adjustments for tablets and smaller devices */
+@media (max-width: 768px) {
+  img:not(.belong-bg) {
+    width: 100%;
+    height: auto;
+    max-width: 100%;
+    object-fit: contain;
+  }
+  .welcome-body {
+    flex-direction: column;
+    align-items: center;
+  }
+  .welcome-img {
+    width: 90%;
+    margin-bottom: 16px;
+    padding-right: 0;
+  }
+  .welcome-desc {
+    max-width: 100%;
+    font-size: 1rem;
+  }
+  .welcome-desc p {
+    font-size: 1rem;
+    margin-bottom: 16px;
+  }
+  .welcome-content h2 {
+    font-size: 2.2rem;
+  }
+  .welcome-tag h3 {
+    font-size: 1.8rem;
+  }
+  .features {
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+  }
+  .feature-title {
+    font-size: 1.2rem;
+  }
+  .feature-desc {
+    font-size: 1rem;
+  }
+  .offers-content h2 {
+    font-size: 1.8rem;
+  }
+  .offers-content p {
+    font-size: 1rem;
+  }
+  .bestsellers h2 {
+    font-size: 1.6rem;
+  }
+  .thankyou h2 {
+    font-size: 1.6rem;
+  }
+  .thankyou p {
+    font-size: 1rem;
+  }
+  .footer-content h2 {
+    font-size: 1.6rem;
+  }
+  .footer-tag {
+    font-size: 1rem;
+  }
+  .footer-links {
+    font-size: 0.95rem;
+  }
+}
+
+/* Mobile devices */
+@media (max-width: 480px) {
+  img:not(.belong-bg) {
+    width: 100%;
+    height: auto;
+    max-width: 100%;
+    min-height: 80px;
+    object-fit: cover;
+  }
+  .features {
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+  }
+  .feature-title {
+    font-size: 1.1rem;
+  }
+  .feature-desc {
+    font-size: 0.95rem;
+  }
+  .offers-content h2 {
+    font-size: 1.6rem;
+  }
+  .offers-content p {
+    font-size: 0.95rem;
+  }
+  .bestsellers h2 {
+    font-size: 1.4rem;
+  }
+  .thankyou h2 {
+    font-size: 1.4rem;
+  }
+  .thankyou p {
+    font-size: 0.95rem;
+  }
+  .footer-content h2 {
+    font-size: 1.4rem;
+  }
+  .footer-tag {
+    font-size: 0.95rem;
+  }
+  .footer-links {
+    font-size: 0.85rem;
+  }
+}
+
+/* Ultra-small devices */
+@media (max-width: 320px) {
+  img:not(.belong-bg) {
+    width: 100%;
+    height: auto;
+    max-width: 100%;
+    min-height: 60px;
+    object-fit: cover;
+  }
+  .features {
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+  }
+  .feature-title {
+    font-size: 1rem;
+  }
+  .feature-desc {
+    font-size: 0.85rem;
+  }
+  .offers-content h2 {
+    font-size: 1.4rem;
+  }
+  .offers-content p {
+    font-size: 0.85rem;
+  }
+  .bestsellers h2 {
+    font-size: 1.2rem;
+  }
+  .thankyou h2 {
+    font-size: 1.2rem;
+  }
+  .thankyou p {
+    font-size: 0.85rem;
+  }
+  .footer-content h2 {
+    font-size: 1.2rem;
+  }
+  .footer-tag {
+    font-size: 0.85rem;
+  }
+  .footer-links {
+    font-size: 0.8rem;
+  }
 }

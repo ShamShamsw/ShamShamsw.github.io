@@ -318,6 +318,14 @@ img {
   .feature-desc {
     font-size: 1.4rem;
   }
+  .feature-img {
+    width: 300px;
+    max-width: 300px;
+    height: auto;
+    padding-right: 24px;
+    border-radius: 12px;
+    object-fit: cover;
+  }
   .offers {
     padding: 64px 48px 64px 48px;
   }
@@ -329,6 +337,13 @@ img {
   }
   .bestsellers h2 {
     font-size: 2rem;
+  }
+  .bestseller-item img {
+    width: 280px;
+    max-width: 280px;
+    height: 180px;
+    object-fit: cover;
+    border-radius: 8px;
   }
   .thankyou h2 {
     font-size: 2rem;

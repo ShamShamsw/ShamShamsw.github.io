@@ -24,13 +24,9 @@ This website serves as a digital portfolio to highlight my skills in IT, softwar
 GitRepo/
 │
 ├── index.html                # Main website
-├── resume.html               # Resume landing page (optional)
 │
 ├── /css/
 │   └── style.css             # Compiled main stylesheet
-│
-├── /sass/
-│   └── style.scss            # SASS source for styling
 │
 ├── /js/
 │   └── script.js             # JavaScript for interactivity and search
@@ -41,12 +37,8 @@ GitRepo/
 ├── /fonts/                   # Web-safe or custom fonts
 │
 ├── /images/
-│   ├── placeholder.jpg       # Placeholder profile image
-│   ├── email-icon.svg
-│   ├── linkedin-icon.svg
-│   └── github-icon.svg
+│   └── placeholder.jpg       # Placeholder profile image
 │
-├── /upload/                  # AWS S3 upload folder (if implemented)
 │
 └── README.md                 # This file
 
@@ -61,8 +53,6 @@ GitRepo/
 * JSON-driven project rendering
 
 * Clean, accessible typography
-
-* AWS S3-ready upload structure
 
 # 📦 Getting Started
 
@@ -95,15 +85,6 @@ sass sass/style.scss css/style.css
 
 # 🔍 Search Functionality
 JavaScript is used to filter projects by title and keywords dynamically. Projects are loaded from the JSON file and inserted into the DOM, making the site lightweight and scalable.
-
-# ☁️ AWS S3 Upload
-To use the /upload/ folder for AWS S3:
-
-Configure S3 permissions via AWS Console
-
-Use AWS SDK or signed URLs to securely handle uploads
-
-You can integrate upload logic in script.js using AWS SDK for JavaScript in the browser
 
 # 🔤 Fonts
 Recommended business-professional fonts included in CSS:

@@ -35,6 +35,19 @@ document.addEventListener("DOMContentLoaded", () => {
       description.textContent = project.description || "No description available.";
       div.appendChild(description);
 
+      const tags = normalizeTags(project.tags);
+      if (tags.length > 0) {
+        const tagRow = document.createElement("div");
+        tagRow.className = "project-tags";
+        tags.forEach((tag) => {
+          const chip = document.createElement("span");
+          chip.className = "project-tag";
+          chip.textContent = tag;
+          tagRow.appendChild(chip);
+        });
+        div.appendChild(tagRow);
+      }
+
       if (project.link) {
         const link = document.createElement("a");
         link.href = project.link;
@@ -53,14 +66,36 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // Filter projects by search query
+  function normalizeTags(tags) {
+    if (!tags) {
+      return [];
+    }
+    if (Array.isArray(tags)) {
+      return tags
+        .map((tag) => String(tag).trim())
+        .filter((tag) => tag.length > 0);
+    }
+    return String(tags)
+      .split(",")
+      .map((tag) => tag.trim())
+      .filter((tag) => tag.length > 0);
+  }
+
+  // Filter projects by search query (title, description, tags, link)
   searchInput.addEventListener("input", (e) => {
     const query = e.target.value.toLowerCase();
     const filtered = allProjects.filter((project) => {
-      return (
-        project.title.toLowerCase().includes(query) ||
-        project.description.toLowerCase().includes(query)
-      );
+      const tags = normalizeTags(project.tags).join(" ");
+      const searchText = [
+        project.title,
+        project.description,
+        project.link,
+        tags
+      ]
+        .filter(Boolean)
+        .join(" ")
+        .toLowerCase();
+      return searchText.includes(query);
     });
     displayProjects(filtered);
   });

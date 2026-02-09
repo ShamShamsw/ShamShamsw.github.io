@@ -2,231 +2,277 @@
   {
     "title": "Supply Chain Analytic & Optimization Dashboard",
     "description": "A comprehensive dashboard for supply chain analytics and optimization.",
-    "link": "https://shamshamsw.github.io/SCAD.html"
+    "link": "https://shamshamsw.github.io/SCAD.html",
+    "tags": ["supply chain", "analytics", "dashboard", "optimization", "data viz"]
   },
   {
     "title": "Rapid 2-Hour Build: ChatGTP-Prompt-Engineering",
     "description": "A focused two-hour prototype of runnable Jupyter notebooks for prompt-engineering examples and documentation.",
-    "link": "https://shamshamsw.github.io/chatgtp-prompt-engineering.html"
+    "link": "https://shamshamsw.github.io/chatgtp-prompt-engineering.html",
+    "tags": ["prompt engineering", "jupyter", "notebooks", "python", "documentation", "prototype"]
   },
   {
     "title": "CICD Github Actions",
     "description": "A showcase of GitHub Actions and Azure integration. In progress as of May 9th 4th, 2025",
-    "link": "https://shamshamsw.github.io/cicd-github-actions.html"
+    "link": "https://shamshamsw.github.io/cicd-github-actions.html",
+    "tags": ["cicd", "github actions", "azure", "devops", "automation"]
   },
   {
     "title": "Used Car Visualization",
     "description": "Insights into used car pricing and trends through data visualization.",
-    "link": "https://shamshamsw.github.io/used-car.html"
+    "link": "https://shamshamsw.github.io/used-car.html",
+    "tags": ["data visualization", "analytics", "automotive"]
   },
   {
     "title": "Bias Detection in Income Prediction Model",
     "description": "Exploring bias in machine learning for better decision-making.",
-    "link": "https://shamshamsw.github.io/bias-detection-income-prediction.html"
+    "link": "https://shamshamsw.github.io/bias-detection-income-prediction.html",
+    "tags": ["machine learning", "bias", "ethics", "classification"]
   },
   {
     "title": "Portfolio Website",
     "description": "Front-End Developer & Creative projects",
-    "link": "https://shamshamsw.github.io/portfolio-website.html"
+    "link": "https://shamshamsw.github.io/portfolio-website.html",
+    "tags": ["frontend", "html", "css", "javascript", "portfolio"]
   },
   {
     "title": "Inventory AWS system",
     "description": "A Github repository that utilizes cloud fundementals of AWS.",
-    "link": "https://shamshamsw.github.io/inventory-aws-system.html"
+    "link": "https://shamshamsw.github.io/inventory-aws-system.html",
+    "tags": ["aws", "cloud", "inventory", "serverless"]
   },
   {
     "title": "AWS Elastic Beanstalk Javascript",
     "description": "Streamlining deployment with modern tools and best practices.",
-    "link": "https://shamshamsw.github.io/aws-elastic-beanstalk-javascript.html"
+    "link": "https://shamshamsw.github.io/aws-elastic-beanstalk-javascript.html",
+    "tags": ["aws", "elastic beanstalk", "javascript", "deployment"]
   },
   {
     "title": "Machine Learning Analysis in Retail",
     "description": "A Python program and Excel integration to optimize resource use for maximum coin gain in a simulation game.",
-    "link": "https://shamshamsw.github.io/machine-learning-analysis-in-retail.html"
+    "link": "https://shamshamsw.github.io/machine-learning-analysis-in-retail.html",
+    "tags": ["machine learning", "retail", "optimization", "analysis"]
   },
   {
     "title": "AWS S3 Lambda Pipeline",
     "description": "Automating deployments with AWS services.",
-    "link": "https://shamshamsw.github.io/aws-s3-lambda-pipeline.html"
+    "link": "https://shamshamsw.github.io/aws-s3-lambda-pipeline.html",
+    "tags": ["aws", "s3", "lambda", "pipeline", "automation"]
   },
   {
     "title": "Azure Skills Lab",
     "description": "A showcase of GitHub Actions and Azure integration.",
-    "link": "https://shamshamsw.github.io/azure-skills-lab.html"
+    "link": "https://shamshamsw.github.io/azure-skills-lab.html",
+    "tags": ["azure", "cloud", "lab", "devops"]
   },
   {
     "title": "SQL and Python Certification LinkedIn",
     "description": "Certified in SQL and Python, showcasing my skills and knowledge.",
-    "link": "https://shamshamsw.github.io/sql-python-certification-notes.html"
+    "link": "https://shamshamsw.github.io/sql-python-certification-notes.html",
+    "tags": ["sql", "python", "certification", "linkedin"]
   },
   {
     "title": "Sentiment Analysis Business Review Utilizing Yelp",
     "description": "Using NLP and machine learning to analyze customer feedback.",
-    "link": "https://shamshamsw.github.io/sentiment-analysis-yelp.html"
+    "link": "https://shamshamsw.github.io/sentiment-analysis-yelp.html",
+    "tags": ["nlp", "sentiment analysis", "machine learning", "yelp"]
   },
   {
     "title": "Student Team Generator",
     "description": "Efficiently group students into balanced teams.",
-    "link": "https://shamshamsw.github.io/student-team-generator.html"
+    "link": "https://shamshamsw.github.io/student-team-generator.html",
+    "tags": ["python", "utility", "education", "generator"]
   },
   {
     "title": "Price Per Unit Optimization in Python",
     "description": "Analyzing and optimizing pricing strategies for better profitability.",
-    "link": "https://shamshamsw.github.io/price-per-unit-optimization.html"
+    "link": "https://shamshamsw.github.io/price-per-unit-optimization.html",
+    "tags": ["python", "optimization", "pricing", "analytics"]
   },
   {
     "title": "Supply Chain Break Down Python",
     "description": "Analyzing and visualizing supply chain disruptions.",
-    "link": "https://shamshamsw.github.io/supply-chain-breakdown.html"
+    "link": "https://shamshamsw.github.io/supply-chain-breakdown.html",
+    "tags": ["python", "supply chain", "analysis", "visualization"]
   },
   {
     "title": "Categorical Data Processor",
     "description": "Transforming raw data into meaningful numerical insights.",
-    "link": "https://shamshamsw.github.io/categorical-data-processor.html"
+    "link": "https://shamshamsw.github.io/categorical-data-processor.html",
+    "tags": ["python", "data processing", "categorical", "preprocessing"]
   },
   {
     "title": "Prime Number Generator",
     "description": "Efficiently generating prime numbers with Python.",
-    "link": "https://shamshamsw.github.io/prime-number-generator.html"
+    "link": "https://shamshamsw.github.io/prime-number-generator.html",
+    "tags": ["python", "math", "algorithms"]
   },
   {
     "title": "Pokemon Descriptive Statistics Python",
     "description": "Analyzing Pokemon stats with Python and data visualization.",
-    "link": "https://shamshamsw.github.io/pokemon-descriptive-statistics.html"
+    "link": "https://shamshamsw.github.io/pokemon-descriptive-statistics.html",
+    "tags": ["python", "statistics", "data visualization", "pokemon"]
   },
   {
     "title": "Fibonacci CI/CD",
     "description": "Automating Fibonacci sequence generation with CI/CD pipelines.",
-    "link": "https://shamshamsw.github.io/fibonacci-cicd.html"
+    "link": "https://shamshamsw.github.io/fibonacci-cicd.html",
+    "tags": ["cicd", "python", "automation", "fibonacci"]
   },
   {
     "title": "Management Systems",
     "description": "A Python-based tool for creating surveys, collecting feedback, and analyzing results.",
-    "link": "https://shamshamsw.github.io/management-systems.html"
+    "link": "https://shamshamsw.github.io/management-systems.html",
+    "tags": ["python", "surveys", "analytics", "management"]
   },
   {
     "title": "Movie Budget Analysis",
     "description": "Movie budgets and their lifetime gross with insightful visualizations.",
-    "link": "https://shamshamsw.github.io/movie-regression-line.html"
+    "link": "https://shamshamsw.github.io/movie-regression-line.html",
+    "tags": ["data analysis", "regression", "movies", "visualization"]
   },
   {
     "title": "Descriptive Statistics on Datasets",
     "description": "A showcase of data analysis and visualization techniques",
-    "link": "https://shamshamsw.github.io/dataset-case-study.html"
+    "link": "https://shamshamsw.github.io/dataset-case-study.html",
+    "tags": ["statistics", "data analysis", "visualization"]
   },
   {
     "title": "Python Math Programs",
     "description": "A collection of Python programs showcasing fundamental concepts!",
-    "link": "https://shamshamsw.github.io/python-math-programs.html"
+    "link": "https://shamshamsw.github.io/python-math-programs.html",
+    "tags": ["python", "math", "programming"]
   },
   {
     "title": "Diamond Descriptive Statistics",
     "description": "Analyzing the factors influencing diamond pricing and quality.",
-    "link": "https://shamshamsw.github.io/diamond-descriptive-statistics.html"
+    "link": "https://shamshamsw.github.io/diamond-descriptive-statistics.html",
+    "tags": ["statistics", "data analysis", "diamonds"]
   },
   {
     "title": "C++ Zombie RPG",
     "description": "Survive the apocalypse with strategy and skill.",
-    "link": "https://shamshamsw.github.io/cpp-zombie-rpg.html"
+    "link": "https://shamshamsw.github.io/cpp-zombie-rpg.html",
+    "tags": ["c++", "game", "rpg", "console"]
   },
   {
     "title": "Portfolio of Web Designs",
     "description": "A collection of creative and technical web projects.",
-    "link": "https://shamshamsw.github.io/html-website-designs.html"
+    "link": "https://shamshamsw.github.io/html-website-designs.html",
+    "tags": ["html", "css", "web design", "frontend"]
   },
   {
     "title": "HTML Social Media Site",
     "description": "A collection of creative and technical web projects.",
-    "link": "https://shamshamsw.github.io/html-social-media.html"
+    "link": "https://shamshamsw.github.io/html-social-media.html",
+    "tags": ["html", "css", "social media", "frontend"]
   },
   {
     "title": "Odysseus Boat and Gear Rental",
     "description": "A Python program and Excel integration to optimize resource use for maximum coin gain in a simulation game.",
-    "link": "https://shamshamsw.github.io/sql-practice-lab.html"
+    "link": "https://shamshamsw.github.io/sql-practice-lab.html",
+    "tags": ["sql", "python", "lab", "database"]
   },
   {
     "title": "Item Request Program",
     "description": "A simple program to request items and manage user information.",
-    "link": "https://shamshamsw.github.io/json-item-request.html"
+    "link": "https://shamshamsw.github.io/json-item-request.html",
+    "tags": ["json", "forms", "javascript", "data"]
   },
   {
     "title": "Python Fizz Buzz Lab",
     "description": "A comparative implementation in C++ and Python.",
-    "link": "https://shamshamsw.github.io/python-fizz-buzz.html"
+    "link": "https://shamshamsw.github.io/python-fizz-buzz.html",
+    "tags": ["python", "c++", "basics", "fizz buzz"]
   },
   {
     "title": "C++ Tic Tac Toe",
     "description": "A simple console-based Tic-Tac-Toe game.",
-    "link": "https://shamshamsw.github.io/cpp-tic-tac-toe.html"
+    "link": "https://shamshamsw.github.io/cpp-tic-tac-toe.html",
+    "tags": ["c++", "game", "console", "tic tac toe"]
   },
   {
     "title": "C++ Palindrome Checker",
     "description": "A simple program to check if a string is a palindrome.",
-    "link": "https://shamshamsw.github.io/cpp-palindrome-checker.html"
+    "link": "https://shamshamsw.github.io/cpp-palindrome-checker.html",
+    "tags": ["c++", "strings", "algorithms"]
   },
   {
     "title": "C++ Guessing Game",
     "description": "A fun and interactive number guessing game.",
-    "link": "https://shamshamsw.github.io/cpp-guessing-game.html"
+    "link": "https://shamshamsw.github.io/cpp-guessing-game.html",
+    "tags": ["c++", "game", "console"]
   },
   {
     "title": "Rock, Paper, Scissors Game",
     "description": "A fun and interactive game built with C++.",
-    "link": "https://shamshamsw.github.io/cpp-rock-paper-scissors.html"
+    "link": "https://shamshamsw.github.io/cpp-rock-paper-scissors.html",
+    "tags": ["c++", "game", "console"]
   },
   {
     "title": "CPP Grade Tracker",
     "description": "Program manages and tracks student grades.",
-    "link": "https://shamshamsw.github.io/cpp-grade-tracker.html"
+    "link": "https://shamshamsw.github.io/cpp-grade-tracker.html",
+    "tags": ["c++", "grades", "education", "tracker"]
   },
   {
     "title": "C++ Temperature Conversions",
     "description": "A simple and efficient tool for temperature conversions.",
-    "link": "https://shamshamsw.github.io/cpp-temperature-conversions.html"
+    "link": "https://shamshamsw.github.io/cpp-temperature-conversions.html",
+    "tags": ["c++", "utility", "temperature"]
   },
   {
     "title": "Python Baseball Analytics",
     "description": "Analyzing Baseball Data Using Python.",
-    "link": "https://shamshamsw.github.io/python-baseball-analytics.html"
+    "link": "https://shamshamsw.github.io/python-baseball-analytics.html",
+    "tags": ["python", "sports", "analytics", "baseball"]
   },
   {
     "title": "Restaurant Revenue Prediction",
     "description": "Leveraging data to forecast financial outcomes.",
-    "link": "https://shamshamsw.github.io/python-restaurant-revenue.html"
+    "link": "https://shamshamsw.github.io/python-restaurant-revenue.html",
+    "tags": ["machine learning", "forecasting", "python", "regression"]
   },
   {
     "title": "Financial Predictions with Machine Learning",
     "description": "Leveraging data to forecast financial outcomes.",
-    "link": "https://shamshamsw.github.io/python-financial-predictions.html"
+    "link": "https://shamshamsw.github.io/python-financial-predictions.html",
+    "tags": ["machine learning", "finance", "python", "forecasting"]
   },
   {
     "title": "To Do List",
     "description": "Organize your tasks efficiently and effectively.",
-    "link": "https://shamshamsw.github.io/python-to-do-list.html"
+    "link": "https://shamshamsw.github.io/python-to-do-list.html",
+    "tags": ["python", "productivity", "cli"]
   },
   {
     "title": "Python Statistic Calculator",
     "description": "A comprehensive tool for statistical analysis.",
-    "link": "https://shamshamsw.github.io/python-statistic-calculator.html"
+    "link": "https://shamshamsw.github.io/python-statistic-calculator.html",
+    "tags": ["python", "statistics", "calculator"]
   },
   {
     "title": "Python Data Analytics",
     "description": "Analyzing sales data with Python for actionable insights.",
-    "link": "https://shamshamsw.github.io/python-data-analytics.html"
+    "link": "https://shamshamsw.github.io/python-data-analytics.html",
+    "tags": ["python", "analytics", "data"]
   },
   {
     "title": "Python Coffee Shop",
     "description": "Brewing code and coffee together.",
-    "link": "https://shamshamsw.github.io/python-coffee-shop.html"
+    "link": "https://shamshamsw.github.io/python-coffee-shop.html",
+    "tags": ["python", "application", "business"]
   },
   {
     "title": "AWS Labs",
     "description": "Hands-on labs to master AWS fundamentals.",
-    "link": "https://shamshamsw.github.io/aws-fundamentals-lab.html"
+    "link": "https://shamshamsw.github.io/aws-fundamentals-lab.html",
+    "tags": ["aws", "cloud", "labs", "fundamentals"]
   },
   {
     "title": "Quadratic Equation Solver",
     "description": "A simple Java program to solve quadratic equations.",
-    "link": "https://shamshamsw.github.io/python-programs.html"
+    "link": "https://shamshamsw.github.io/python-programs.html",
+    "tags": ["python", "math", "algebra"]
   }
 ]

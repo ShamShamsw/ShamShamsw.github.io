@@ -5,6 +5,11 @@
     "link": "https://shamshamsw.github.io/SCAD.html"
   },
   {
+    "title": "Rapid 2-Hour Build: ChatGTP-Prompt-Engineering",
+    "description": "A focused two-hour prototype of runnable Jupyter notebooks for prompt-engineering examples and documentation.",
+    "link": "https://shamshamsw.github.io/chatgtp-prompt-engineering.html"
+  },
+  {
     "title": "CICD Github Actions",
     "description": "A showcase of GitHub Actions and Azure integration. In progress as of May 9th 4th, 2025",
     "link": "https://shamshamsw.github.io/cicd-github-actions.html"

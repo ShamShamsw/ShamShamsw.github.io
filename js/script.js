@@ -26,11 +26,29 @@ document.addEventListener("DOMContentLoaded", () => {
     projects.forEach((project) => {
       const div = document.createElement("div");
       div.className = "project";
-      div.innerHTML = `
-        <h2>${project.title}</h2>
-        <p>${project.description}</p>
-        <a href="project-template.html?title=${encodeURIComponent(project.title)}" target="_blank">View Project</a>
-      `;
+
+      const title = document.createElement("h2");
+      title.textContent = project.title || "Untitled Project";
+      div.appendChild(title);
+
+      const description = document.createElement("p");
+      description.textContent = project.description || "No description available.";
+      div.appendChild(description);
+
+      if (project.link) {
+        const link = document.createElement("a");
+        link.href = project.link;
+        link.target = "_blank";
+        link.rel = "noopener";
+        link.textContent = "View Project";
+        div.appendChild(link);
+      } else {
+        const linkPlaceholder = document.createElement("span");
+        linkPlaceholder.className = "project-link disabled";
+        linkPlaceholder.textContent = "No link available";
+        div.appendChild(linkPlaceholder);
+      }
+
       projectSection.appendChild(div);
     });
   }

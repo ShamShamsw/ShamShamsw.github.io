@@ -7,6 +7,7 @@
   <link rel="stylesheet" href="css/style.css" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" />
+  <link rel="stylesheet" href="css/site-shell.css" />
 </head>
 <body>
   <!-- Main Hero Section -->
@@ -18,7 +19,7 @@
         <h2>IT Business Specialist</h2>
         <div class="social-icons">
           <a href="https://www.linkedin.com/public-profile/settings?trk=d_flagship3_profile_self_view_public_profile"><img src="images/link.jpg" alt="LinkedIn"></a>
-          <a href=https://github.com/ShamShamsw><img src="images/git.jpg" alt="GitHub"></a>
+          <a href="https://github.com/ShamShamsw"><img src="images/git.jpg" alt="GitHub"></a>
         </div>
       </div>
 
@@ -89,51 +90,7 @@
     <!-- Projects will be dynamically loaded here -->
   </section>
 
-  <script>
-    fetch('data/projects.json') // Adjusted the file path to use a relative path
-      .then((res) => {
-        if (!res.ok) {
-          throw new Error(`HTTP error! status: ${res.status}`);
-        }
-        return res.json();
-      })
-      .then((projects) => {
-        const projectSection = document.getElementById('projects');
-        if (!Array.isArray(projects) || projects.length === 0) {
-          console.warn("No projects found in the JSON file.");
-          projectSection.innerHTML = "<p>No projects available.</p>";
-          return;
-        }
-
-        // Dynamically create project elements
-        projects.forEach((project) => {
-          const projectDiv = document.createElement('div');
-          projectDiv.classList.add('project');
-
-          const title = document.createElement('h2');
-          title.textContent = project.title || "Untitled Project";
-          projectDiv.appendChild(title);
-
-          const description = document.createElement('p');
-          description.textContent = project.description || "No description available.";
-          projectDiv.appendChild(description);
-
-          if (project.link) {
-            const link = document.createElement('a');
-            link.href = project.link;
-            link.textContent = "View Project";
-            link.target = "_blank";
-            projectDiv.appendChild(link);
-          }
-
-          projectSection.appendChild(projectDiv);
-        });
-      })
-      .catch((err) => {
-        console.error("Failed to load projects:", err);
-        const projectSection = document.getElementById('projects');
-        projectSection.innerHTML = "<p>Failed to load projects. Please try again later.</p>";
-      });
-  </script>
+  <script src="js/script.js"></script>
+  <script src="js/site-shell.js"></script>
 </body>
 </html>

@@ -6,6 +6,12 @@
     "tags": ["supply chain", "analytics", "dashboard", "optimization", "data viz"]
   },
   {
+    "title": "CanvaAI Notes and Ratings",
+    "description": "AI-assisted note creation with a ratings layer for feedback and discovery.",
+    "link": "https://shamshamsw.github.io/canvaai-notes-ratings.html",
+    "tags": ["ai", "notes", "ratings", "design", "creativity", "llm"]
+  },
+  {
     "title": "LLM Lightweight Repository",
     "description": "End-to-end study project for building, training, evaluating, and serving an LLM with experiments and deployment artifacts.",
     "link": "https://shamshamsw.github.io/llm-lightweight-repo.html",

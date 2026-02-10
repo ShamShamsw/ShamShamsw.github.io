@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LLM Lightweight Repository</title>
+    <link rel="stylesheet" href="css/project.css" />
+    <link rel="stylesheet" href="css/site-shell.css" />
+</head>
+<body>
+    <header class="hero">
+        <div class="hero-content">
+            <h1 id="project-title">LLM Lightweight Repository</h1>
+            <p id="project-tagline">End-to-end study project for building, training, evaluating, and serving LLMs</p>
+        </div>
+    </header>
+    <main class="content">
+        <section class="project-details">
+            <h2>Project summary</h2>
+            <p id="project-description"><strong>Title:</strong> LLM — lightweight repository for building, training, evaluating, and serving a large language model (LLM) or LLM-based applications.</p>
+            <p id="project-description"><strong>Short description:</strong> End-to-end code, experiments, and deployment artifacts for iterating on a transformer-based LLM and LLM-powered services: data ingestion and preprocessing, training scripts, evaluation suites, notebooks for exploration, and a production inference service (API and containerization).</p>
+            <p id="project-description">This project was created for the purpose of studying and learning.</p>
+            <div class="links">
+                <a href="index.html" class="btn">Back to Home</a>
+            </div>
+        </section>
+        <br />
+        <br />
+        <section class="project-details">
+            <h2>Key accomplishments (example list)</h2>
+            <ul>
+                <li>Implemented a training pipeline for a transformer-based LLM from ingestion to checkpoints.</li>
+                <li>Established evaluation benchmarks: perplexity, BLEU or ROUGE where applicable, and human evaluation scaffolding.</li>
+                <li>Built an inference service and Docker image for serving model predictions via REST or gRPC.</li>
+                <li>Created reproducible experiments using config files, experiment logging, and saved checkpoints.</li>
+                <li>Added CI checks for linting, unit tests, and model artifact validation.</li>
+                <li>Published example notebooks for data inspection, fine-tuning, and inference.</li>
+                <li>Documented setup and usage with examples and an optional demo service.</li>
+            </ul>
+        </section>
+        <br />
+        <br />
+        <section class="project-details">
+            <h2>Timeline and effort breakdown</h2>
+            <p id="project-description"><strong>Percent-based phase breakdown:</strong></p>
+            <ul>
+                <li>Project planning, design, dataset selection: 8-12%.</li>
+                <li>Data collection and cleaning (including tokenization): 20-30%.</li>
+                <li>Model engineering and experiments: 30-40%.</li>
+                <li>Training runs and checkpointing: 15-25%.</li>
+                <li>Evaluation, metrics, and ablations: 6-10%.</li>
+                <li>Deployment, packaging, and CI: 6-10%.</li>
+                <li>Documentation, notebooks, and demos: 3-6%.</li>
+            </ul>
+            <p id="project-description"><strong>Example-hours mapping</strong> for a focused 3-month single-engineer project (about 480 hours):</p>
+            <ul>
+                <li>Planning: 40-60 hours.</li>
+                <li>Data: 100-150 hours.</li>
+                <li>Model experiments: 140-200 hours.</li>
+                <li>Training and compute runs: 70-120 hours.</li>
+                <li>Evaluation and ablations: 30-50 hours.</li>
+                <li>Deployment and CI: 30-50 hours.</li>
+                <li>Docs and demos: 10-20 hours.</li>
+            </ul>
+        </section>
+        <br />
+        <br />
+        <section class="project-details">
+            <h2>Typical repo structure (recommended)</h2>
+            <pre>
+/
+README.md — project overview, quickstart, results summary
+LICENSE — license file
+pyproject.toml or requirements.txt — dependencies
+setup.cfg or setup.py — packaging
+.github/
+workflows/ci.yml — tests and linting
+ISSUE_TEMPLATE.md, PULL_REQUEST_TEMPLATE.md
+docs/ — documentation and evaluation reports
+src/ or app/ — production code
+src/llm/
+__init__.py
+model.py — model definitions
+training.py — training loop and utilities
+dataset.py — loaders and tokenization
+eval.py — evaluation harness
+api.py — inference server
+utils/ — logging and config helpers
+experiments/ or runs/
+configs/ — experiment configs
+scripts/ — launch scripts
+notebooks/
+exploration.ipynb
+finetune_example.ipynb
+eval_viz.ipynb
+data/
+raw/ — source data pointers
+processed/ — preprocessed data
+README_data.md — data provenance
+models/ or checkpoints/ — saved checkpoints
+docker/
+Dockerfile — inference image
+docker-compose.yml
+scripts/
+preprocess.sh, train.sh, serve.sh
+tests/
+unit/
+integration/
+ci/
+CONTRIBUTING.md
+CHANGELOG.md
+            </pre>
+        </section>
+        <br />
+        <br />
+        <section class="project-details">
+            <h2>Notable files to include</h2>
+            <ul>
+                <li>README.md with quickstart, baseline reproduction, demo links, and license.</li>
+                <li>requirements.txt or pyproject.toml with pinned dependencies and Python version.</li>
+                <li>Experiment configs with baseline and tuned hyperparameters and seeds.</li>
+                <li>Training scripts with config-driven CLI, resume, and checkpointing support.</li>
+                <li>Evaluation scripts that compute metrics and save artifacts.</li>
+                <li>Dockerfile and deploy scripts to build and run inference locally.</li>
+                <li>Tests for deterministic functions and API integration smoke tests.</li>
+            </ul>
+        </section>
+        <p>&copy; 2026 Jacob T. Haseman. All rights reserved.</p>
+    </main>
+    <footer></footer>
+    <script src="js/site-shell.js"></script>
+</body>
+</html>

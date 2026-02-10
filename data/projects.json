@@ -6,6 +6,12 @@
     "tags": ["supply chain", "analytics", "dashboard", "optimization", "data viz"]
   },
   {
+    "title": "LLM Lightweight Repository",
+    "description": "End-to-end study project for building, training, evaluating, and serving an LLM with experiments and deployment artifacts.",
+    "link": "https://shamshamsw.github.io/llm-lightweight-repo.html",
+    "tags": ["llm", "machine learning", "training", "evaluation", "inference", "study"]
+  },
+  {
     "title": "LLM-SEO-ASSIST",
     "description": "Private LLM tooling that scales SEO content creation, audits, and on-page optimization.",
     "link": "https://shamshamsw.github.io/llm-seo-assist.html",

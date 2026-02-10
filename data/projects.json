@@ -6,6 +6,12 @@
     "tags": ["supply chain", "analytics", "dashboard", "optimization", "data viz"]
   },
   {
+    "title": "BA SAP Notes",
+    "description": "Business Analyst study notes and reference material for SAP and SAP Activate practices.",
+    "link": "https://shamshamsw.github.io/ba-sap-notes.html",
+    "tags": ["sap", "business analysis", "notes", "activate", "study"]
+  },
+  {
     "title": "D&D Campaign Notes",
     "description": "A polished, easy-to-navigate collection of campaign notes, templates, and assets for Game Masters.",
     "link": "https://shamshamsw.github.io/dnd-campaign-notes.html",

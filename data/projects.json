@@ -6,6 +6,12 @@
     "tags": ["supply chain", "analytics", "dashboard", "optimization", "data viz"]
   },
   {
+    "title": "AI Work Breakdown Framework",
+    "description": "A practical checklist for planning, building, and shipping AI features with KPIs, data, and risk mitigation.",
+    "link": "https://shamshamsw.github.io/ai-work-breakdown.html",
+    "tags": ["ai", "planning", "rag", "ml", "architecture", "governance"]
+  },
+  {
     "title": "Rapid 2-Hour Build: ChatGTP-Prompt-Engineering",
     "description": "A focused two-hour prototype of runnable Jupyter notebooks for prompt-engineering examples and documentation.",
     "link": "https://shamshamsw.github.io/chatgtp-prompt-engineering.html",

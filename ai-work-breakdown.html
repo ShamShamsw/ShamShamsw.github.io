@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Work Breakdown Framework</title>
+    <link rel="stylesheet" href="css/project.css" />
+    <link rel="stylesheet" href="css/site-shell.css" />
+</head>
+<body>
+    <header class="hero">
+        <div class="hero-content">
+            <h1 id="project-title">AI Work Breakdown Framework</h1>
+            <p id="project-tagline">A practical checklist for planning, building, and shipping AI features</p>
+        </div>
+    </header>
+    <main class="content">
+        <section class="project-details">
+            <h2>Objective and success criteria</h2>
+            <p id="project-description">Define the AI capability and measurable outcomes (KPIs), such as accuracy or F1, response latency, user satisfaction, and the percent of queries answered without escalation.</p>
+            <div class="links">
+                <a href="index.html" class="btn">Back to Home</a>
+            </div>
+        </section>
+        <br />
+        <br />
+        <section class="project-details">
+            <h2>Scope and deliverables</h2>
+            <p id="project-description">Clarify what the AI will do, what it will not do, and the concrete deliverables: models, APIs, UI components, datasets, documentation, and tests.</p>
+        </section>
+        <br />
+        <br />
+        <section class="project-details">
+            <h2>Data and privacy</h2>
+            <p id="project-description">List data sources, required labeling, expected volume, quality checks, anonymization or GDPR considerations, and retention policy.</p>
+        </section>
+        <br />
+        <br />
+        <section class="project-details">
+            <h2>Model strategy</h2>
+            <p id="project-description">Consider options such as off-the-shelf LLMs, fine-tuning a smaller model, retrieval-augmented generation (RAG), or hybrid rules plus ML. Trade-offs include cost, latency, accuracy, and explainability.</p>
+        </section>
+        <br />
+        <br />
+        <section class="project-details">
+            <h2>Architecture and infrastructure</h2>
+            <p id="project-description">Plan the ingestion pipeline, ETL, vector database (Pinecone, Milvus, Weaviate), model hosting, API layer, monitoring, and CI/CD.</p>
+        </section>
+        <br />
+        <br />
+        <section class="project-details">
+            <h2>Integration points</h2>
+            <p id="project-description">Define where the AI connects with frontend UI, backend services, existing data stores, authentication, and logging.</p>
+        </section>
+        <br />
+        <br />
+        <section class="project-details">
+            <h2>Evaluation and monitoring</h2>
+            <p id="project-description">Track offline metrics (precision/recall, BLEU or F1), human evaluation, A/B testing, drift detection, and production logging and alerts.</p>
+        </section>
+        <br />
+        <br />
+        <section class="project-details">
+            <h2>Ethics and safety</h2>
+            <p id="project-description">Mitigate hallucinations, add guardrails and prompt safety, filter sensitive data, and use human-in-the-loop escalation.</p>
+        </section>
+        <br />
+        <br />
+        <section class="project-details">
+            <h2>Team and roles</h2>
+            <p id="project-description">Typical roles include PM, ML engineer, data engineer, frontend and backend developers, labelers, QA, and security or privacy reviewers.</p>
+        </section>
+        <br />
+        <br />
+        <section class="project-details">
+            <h2>Timeline and milestones</h2>
+            <ul>
+                <li>Discovery (1-2 weeks): gather requirements and perform a data audit.</li>
+                <li>Prototype (2-4 weeks): proof of concept with a sample dataset.</li>
+                <li>MVP (4-8 weeks): production integration, basic monitoring, and documentation.</li>
+                <li>Iteration (ongoing): performance tuning, new features, and scaling.</li>
+            </ul>
+        </section>
+        <br />
+        <br />
+        <section class="project-details">
+            <h2>Risks and mitigations</h2>
+            <ul>
+                <li>Data sparsity: active labeling or synthetic augmentation.</li>
+                <li>Cost or latency: caching, model size choices, and batching.</li>
+                <li>Compliance: privacy-by-design, audits, and encryption.</li>
+            </ul>
+        </section>
+        <br />
+        <br />
+        <section class="project-details">
+            <h2>Documentation and handoff</h2>
+            <p id="project-description">Provide API docs, runbooks, deployment instructions, model cards, and post-launch analytics.</p>
+        </section>
+        <br />
+        <br />
+        <section class="project-details">
+            <h2>Example: Project Hedgehog - Quick Reference Tracker</h2>
+            <p id="project-description">Assumption: the project helps users quickly find short authoritative answers from a corpus of docs, notes, and FAQs.</p>
+            <ul>
+                <li>Objective: concise and accurate answers from the corpus.</li>
+                <li>KPIs: top-1 accuracy at least 85%, median latency under 300 ms, user satisfaction above 4 out of 5.</li>
+                <li>Approach: RAG pipeline with embeddings, retrieval, and a small-to-medium LLM for short answers.</li>
+                <li>Deliverables: ingestion scripts, vector schema, retrieval and generation API, web UI, tests, monitoring dashboard.</li>
+                <li>Data: chunked corpus with metadata, plus 100-500 labeled query-answer pairs.</li>
+                <li>Safety: citations for every answer, low-confidence fallback to "I do not know", and PII redaction.</li>
+            </ul>
+        </section>
+        <br />
+        <br />
+        <section class="project-details">
+            <h2>Example tech stack</h2>
+            <ul>
+                <li>Embeddings: OpenAI embeddings or sentence-transformers.</li>
+                <li>Vector DB: Pinecone, Milvus, or Weaviate.</li>
+                <li>LLM: OpenAI for early iteration, evaluate fine-tuning later.</li>
+                <li>Backend: FastAPI and Uvicorn, or Node and Express.</li>
+                <li>Frontend: React with a minimal UI.</li>
+                <li>CI/CD: GitHub Actions with observability via Prometheus and Grafana.</li>
+            </ul>
+        </section>
+        <br />
+        <br />
+        <section class="project-details">
+            <h2>Low-effort MVP features to prioritize</h2>
+            <ul>
+                <li>Exact-source citations shown with each generated answer.</li>
+                <li>Feedback buttons to capture good or bad responses.</li>
+                <li>Show source to reveal the supporting snippet.</li>
+                <li>Simple admin page to ingest new documents.</li>
+            </ul>
+        </section>
+        <p>&copy; 2026 Jacob T. Haseman. All rights reserved.</p>
+    </main>
+    <footer></footer>
+    <script src="js/site-shell.js"></script>
+</body>
+</html>

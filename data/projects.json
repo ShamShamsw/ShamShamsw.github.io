@@ -6,6 +6,12 @@
     "tags": ["supply chain", "analytics", "dashboard", "optimization", "data viz"]
   },
   {
+    "title": "D&D Campaign Notes",
+    "description": "A polished, easy-to-navigate collection of campaign notes, templates, and assets for Game Masters.",
+    "link": "https://shamshamsw.github.io/dnd-campaign-notes.html",
+    "tags": ["dnd", "tabletop", "notes", "markdown", "templates", "organization"]
+  },
+  {
     "title": "AI Work Breakdown Framework",
     "description": "A practical checklist for planning, building, and shipping AI features with KPIs, data, and risk mitigation.",
     "link": "https://shamshamsw.github.io/ai-work-breakdown.html",

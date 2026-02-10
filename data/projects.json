@@ -6,6 +6,12 @@
     "tags": ["supply chain", "analytics", "dashboard", "optimization", "data viz"]
   },
   {
+    "title": "LLM-SEO-ASSIST",
+    "description": "Private LLM tooling that scales SEO content creation, audits, and on-page optimization.",
+    "link": "https://shamshamsw.github.io/llm-seo-assist.html",
+    "tags": ["seo", "llm", "ai", "content", "optimization", "private"]
+  },
+  {
     "title": "BA SAP Notes",
     "description": "Business Analyst study notes and reference material for SAP and SAP Activate practices.",
     "link": "https://shamshamsw.github.io/ba-sap-notes.html",

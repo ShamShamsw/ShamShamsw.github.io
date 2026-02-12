@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The best wait for it ... singing game made by the coolest person ever</title>
+    <link rel="stylesheet" href="css/project.css" />
+    <link rel="stylesheet" href="css/site-shell.css" />
+    <style>
+        .try-me-btn {
+            background: linear-gradient(135deg, #e94560, #7b2cbf);
+            color: white;
+            padding: 15px 40px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 1.2em;
+            display: inline-block;
+            margin: 20px 10px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(233, 69, 96, 0.4);
+        }
+        
+        .try-me-btn:hover {
+            transform: scale(1.05) translateY(-2px);
+            box-shadow: 0 6px 25px rgba(233, 69, 96, 0.6);
+        }
+        
+        .try-me-btn::before {
+            content: "🎤 ";
+        }
+        
+        .special-callout {
+            background: linear-gradient(135deg, rgba(233, 69, 96, 0.1), rgba(123, 44, 191, 0.1));
+            border-left: 4px solid #e94560;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+        }
+        
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+        
+        .feature-card {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            border: 2px solid #e94560;
+        }
+        
+        .feature-card h3 {
+            color: #7b2cbf;
+            margin-top: 0;
+        }
+    </style>
+</head>
+<body>
+    <header class="hero">
+        <div class="hero-content">
+            <h1 id="project-title">The best wait for it ... singing game made by the coolest person ever 🎤</h1>
+            <p id="project-tagline">An Interactive Musical Lyric Party Game for Groups</p>
+        </div>
+    </header>
+    <main class="content">
+        <section class="project-details">
+            <div class="special-callout">
+                <h3>🎉 Try It Now - No Installation Required!</h3>
+                <p>This is a fully interactive web game you can play right in your browser. Perfect for parties, game nights, and musical trivia fun!</p>
+                <a href="best-mic-game.html" class="try-me-btn">Try Me!</a>
+            </div>
+            
+            <h2>Description</h2>
+            <p id="project-description">
+                The best wait for it ... singing game made by the coolest person ever is a modern, responsive web-based party game. Players draw word cards from themed musical decks and must sing a lyric containing that word. The game features multiple themed decks including Broadway, Disney, Pop Hits, Hip-Hop, Country, and Epic/Rock music.
+            </p>
+            <p>
+                Built with vanilla HTML, CSS, and JavaScript using Tailwind CSS for styling, this single-page application provides a seamless gaming experience with dynamic countdown animations, confetti celebrations, and an intuitive scoring system. The game supports 2-10 players and can be played in either individual or team mode. Points are awarded instantly, and the game automatically advances to the next card, keeping gameplay fast-paced and exciting. Once any player reaches 10 points, a crown appears on the scoreboard for whoever has the highest score, creating competitive momentum throughout the game. In the case of a tie, the current crown holder keeps it!
+            </p>
+            
+            <h2>Key Features</h2>
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <h3>🎭 6 Themed Decks</h3>
+                    <p>Broadway, Disney, Epic/Rock, Pop Hits, Hip-Hop, and Country music themes with 120+ unique words</p>
+                </div>
+                <div class="feature-card">
+                    <h3>👥 Flexible Player Options</h3>
+                    <p>Support for 2-10 players with individual or team mode gameplay</p>
+                </div>
+                <div class="feature-card">
+                    <h3>⚡ Dynamic Gameplay</h3>
+                    <p>Auto-advance to next card after scoring, crown tracks highest scorer after 10 points</p>
+                </div>
+                <div class="feature-card">
+                    <h3>📱 Fully Responsive</h3>
+                    <p>Works seamlessly on mobile, tablet, and desktop devices</p>
+                </div>
+                <div class="feature-card">
+                    <h3>🎨 Beautiful UI</h3>
+                    <p>Neon-themed design with smooth animations and high-contrast colors</p>
+                </div>
+                <div class="feature-card">
+                    <h3>🎉 Interactive Celebrations</h3>
+                    <p>Confetti effects at milestones and winner announcements</p>
+                </div>
+            </div>
+            
+            <h2>Objectives Completed</h2>
+            <ul>
+                <li>Implemented responsive single-page application using vanilla JavaScript and Tailwind CSS</li>
+                <li>Created 6 themed musical decks with 120+ words categorized by difficulty (1-2 points)</li>
+                <li>Developed dynamic player setup with support for 2-10 players and team mode</li>
+                <li>Built countdown animation system with smooth transitions</li>
+                <li>Implemented live scoreboard with automatic sorting and dynamic crown for highest scorer after 10 points</li>
+                <li>Added automatic card progression after point assignment for faster gameplay</li>
+                <li>Prevented multiple point awards per card to maintain game integrity</li>
+                <li>Added non-intrusive confetti celebration effects at scoring milestones</li>
+                <li>Created card history tracking system for reviewing played words</li>
+                <li>Designed mobile-first responsive interface for all screen sizes</li>
+            </ul>
+            
+            <h2>Technical Highlights</h2>
+            <ul>
+                <li><strong>Frontend Framework:</strong> Vanilla JavaScript with Tailwind CSS</li>
+                <li><strong>Design Pattern:</strong> Component-based architecture with event-driven programming</li>
+                <li><strong>Animations:</strong> CSS keyframe animations with JavaScript timing control</li>
+                <li><strong>State Management:</strong> Client-side game state object managing players, scores, and deck selection</li>
+                <li><strong>Responsive Design:</strong> Mobile-first approach using Tailwind's responsive utilities</li>
+                <li><strong>Accessibility:</strong> High-contrast colors optimized for party/group viewing scenarios</li>
+            </ul>
+            
+            <h2>Next Steps & Future Enhancements</h2>
+            <ul>
+                <li>Add sound effects for countdown, card draws, and scoring events</li>
+                <li>Implement custom deck creation allowing users to add their own words and themes</li>
+                <li>Create multiplayer support with real-time synchronization using WebSockets</li>
+                <li>Add difficulty levels that affect point values and word complexity</li>
+                <li>Implement timer-based challenge mode for competitive gameplay</li>
+                <li>Create achievement system tracking player statistics across games</li>
+                <li>Add lyrics hint system showing partial lyrics for difficult words</li>
+                <li>Develop mobile app versions for iOS and Android using Progressive Web App (PWA) technology</li>
+                <li>Integrate Spotify/Apple Music API for song preview playback</li>
+                <li>Add export functionality for game results and statistics</li>
+            </ul>
+            
+            <div class="special-callout">
+                <h3>🎮 Ready to Play?</h3>
+                <p>Click the button below to start your musical party adventure!</p>
+                <a href="best-mic-game.html" class="try-me-btn">Launch Game</a>
+            </div>
+            
+            <div class="links">
+                <a href="index.html" class="btn">Back to Home</a>
+                <a href="best-mic-game.html" class="btn try-me-btn">🎤 Try Me!</a>
+            </div>
+        </section>
+    </main>
+    <footer>
+        <p>&copy; 2025 Jacob T. Haseman. All rights reserved.</p>
+    </footer>
+    <script src="js/site-shell.js"></script>
+</body>
+</html>

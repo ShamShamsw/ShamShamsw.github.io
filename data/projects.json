@@ -1,5 +1,11 @@
 [
   {
+    "title": "The best wait for it ... singing game made by the coolest person ever 🎤",
+    "description": "An interactive musical party game where players sing lyrics containing random words. Features 6 themed decks, multiplayer support, and live scoring.",
+    "link": "https://shamshamsw.github.io/best-mic.html",
+    "tags": ["game", "music", "party", "javascript", "interactive", "try me"]
+  },
+  {
     "title": "Supply Chain Analytic & Optimization Dashboard",
     "description": "A comprehensive dashboard for supply chain analytics and optimization.",
     "link": "https://shamshamsw.github.io/SCAD.html",

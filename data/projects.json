@@ -323,5 +323,12 @@
     "link": "https://shamshamsw.github.io/github-pages-guide.html",
     "github": "https://github.com/ShamShamsw/github-pages-guide",
     "tags": ["github pages", "tutorial", "beginner", "html", "jekyll", "documentation"]
+  },
+  {
+    "title": "Student Interview Prep",
+    "description": "A comprehensive, beginner-friendly open source repository for technical interview preparation with 35+ coding problems, practical projects, interactive tools, and guided learning paths.",
+    "link": "https://shamshamsw.github.io/student-interview-prep.html",
+    "github": "https://github.com/ShamShamsw/student-interview-prep",
+    "tags": ["interview prep", "open source", "python", "javascript", "algorithms", "data structures", "ci/cd", "education"]
   }
 ]

@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Interview Prep — Open Source Interview Preparation Repository</title>
+    <link rel="stylesheet" href="css/project.css" />
+    <link rel="stylesheet" href="css/site-shell.css" />
+</head>
+<body>
+    <header class="hero">
+        <div class="hero-content">
+            <h1 id="project-title">Student Interview Prep</h1>
+            <p id="project-tagline">A comprehensive, beginner-friendly repository for technical interview preparation with 35+ coding problems, practical projects, and guided learning paths.</p>
+        </div>
+    </header>
+    <main class="content">
+
+        <section class="project-details">
+            <h2>🚀 Quick Start (5 Minutes)</h2>
+            <p>Clone the repository and run the automated setup to get going:</p>
+            <pre><code>git clone https://github.com/ShamShamsw/student-interview-prep.git
+cd student-interview-prep
+.\setup.ps1</code></pre>
+            <p>Then run your first test:</p>
+            <pre><code>pytest languages/python/problems/tests/test_01_two_sum.py</code></pre>
+            <p>New here? Start with these guides inside the repo:</p>
+            <ul>
+                <li><strong>QUICKSTART.md</strong> — Complete setup in 5 minutes</li>
+                <li><strong>REPOSITORY_STRUCTURE.md</strong> — Find your way around</li>
+                <li><strong>COMMANDS_REFERENCE.md</strong> — All commands you'll need</li>
+            </ul>
+        </section>
+        <br />
+
+        <section class="project-details">
+            <h2>📚 What's Inside</h2>
+
+            <h3>💻 Coding Problems (35+)</h3>
+            <ul>
+                <li><strong>Arrays &amp; Hashing:</strong> Two Sum, Valid Anagram, Group Anagrams, Top K Elements</li>
+                <li><strong>Two Pointers:</strong> Valid Palindrome, 3Sum, Container With Most Water</li>
+                <li><strong>Sliding Window:</strong> Longest Substring, Permutation in String</li>
+                <li><strong>Binary Search:</strong> Search Rotated Array, Koko Eating Bananas</li>
+                <li><strong>Linked Lists:</strong> Reverse List, Detect Cycle, Merge Lists</li>
+                <li><strong>Trees &amp; Graphs:</strong> Valid BST, Level Order Traversal, Number of Islands</li>
+                <li><strong>Dynamic Programming:</strong> Coin Change, Kth Largest Element</li>
+            </ul>
+
+            <h3>🏗️ Practical Projects</h3>
+            <ul>
+                <li><strong>Interview Patterns API</strong> — REST API demonstrating algorithm patterns</li>
+                <li><strong>Interview Prep Capstone</strong> — Full-stack interview tracking application</li>
+                <li><strong>Sample Todo App</strong> — Best practices demonstration</li>
+                <li><strong>Study Session Tracker</strong> — Time management tool</li>
+            </ul>
+
+            <h3>📖 Learning Resources</h3>
+            <ul>
+                <li>Beginner's Start Guide — 2-week daily plan for newcomers</li>
+                <li>Learning Path — 8-week and 12-week structured tracks</li>
+                <li>Python Cheatsheet — Time complexity &amp; common patterns</li>
+                <li>Interview Questions — Behavioral &amp; technical prep</li>
+                <li>Mock Interview Guide — Practice like the real thing</li>
+                <li>System Design Basics — Architecture fundamentals</li>
+                <li>Glossary — Technical terms explained simply</li>
+            </ul>
+        </section>
+        <br />
+
+        <section class="project-details">
+            <h2>✨ Interactive Features</h2>
+
+            <h3>🎨 Algorithm Visualizer</h3>
+            <p>Watch algorithms come to life with step-by-step visual animations via a web-based or terminal visualizer.</p>
+            <pre><code>python scripts/visualize.py two-sum --array "[2,7,11,15]" --target 9
+python scripts/visualize.py binary-search --array "[1,2,3,4,5]" --target 3
+python scripts/visualize.py merge-sort --array "[5,2,8,1,9]"</code></pre>
+
+            <h3>📊 Progress Tracker</h3>
+            <p>Visual progress tracking with achievements and streaks.</p>
+            <ul>
+                <li>📈 Visual progress bars by difficulty and topic</li>
+                <li>🔥 Streak tracking (current &amp; best)</li>
+                <li>🏆 Achievement system with unlockable badges</li>
+                <li>📅 Recent activity history</li>
+            </ul>
+            <pre><code>python scripts/progress_tracker.py
+python scripts/progress_tracker.py --detailed
+python scripts/progress_tracker.py --mark-complete 01-two-sum</code></pre>
+
+            <h3>⭐ Daily Challenge System</h3>
+            <p>Personalized daily coding challenges using spaced repetition — adapts to your success rate and never repeats too soon.</p>
+            <pre><code>python scripts/daily_challenge.py
+python scripts/daily_challenge.py --difficulty Easy
+python scripts/daily_challenge.py --topic arrays
+python scripts/daily_challenge.py --complete 01-two-sum --success</code></pre>
+
+            <h3>🏆 Achievement System</h3>
+            <ul>
+                <li>🌟 Milestone achievements (1st, 5th, 10th, 20th, all problems)</li>
+                <li>🔥 Streak achievements (3, 7, 30, 100 days)</li>
+                <li>🎯 Topic mastery (complete all in a category)</li>
+                <li>⚡ Speed challenges</li>
+            </ul>
+            <pre><code>python scripts/achievements.py
+python scripts/achievements.py --next
+python scripts/achievements.py --export badges.md</code></pre>
+
+            <h3>💡 Interactive Hint System</h3>
+            <p>5-level progressive hints without spoiling the solution:</p>
+            <ol>
+                <li>Conceptual hint (what to think about)</li>
+                <li>Approach hint (general strategy)</li>
+                <li>Data structure hint (what to use)</li>
+                <li>Implementation hint (how to code it)</li>
+                <li>Complexity hint (time/space targets)</li>
+            </ol>
+            <pre><code>python scripts/hints.py 01-two-sum
+python scripts/hints.py 35-coin-change --level 3
+python scripts/hints.py 15-valid-palindrome --all</code></pre>
+
+            <h3>📊 Code Quality Analyzer</h3>
+            <p>Detailed analysis covering time &amp; space complexity, cyclomatic complexity, code style, documentation coverage, best practices, and an overall quality score (0–100).</p>
+            <pre><code>python scripts/analyze_code.py languages/python/problems/solutions/01-two-sum.py
+python scripts/analyze_code.py languages/python/problems/solutions/ --all
+python scripts/analyze_code.py solutions/35-coin-change.py --detailed</code></pre>
+
+            <h3>🌐 Multi-Language Support</h3>
+            <p>Python and JavaScript both supported:</p>
+            <pre><code># Python
+cd languages/python &amp;&amp; pytest
+
+# JavaScript
+cd languages/javascript &amp;&amp; npm install &amp;&amp; npm test</code></pre>
+        </section>
+        <br />
+
+        <section class="project-details">
+            <h2>🛠️ For Developers</h2>
+            <h3>Requirements</h3>
+            <ul>
+                <li>Python 3.10+</li>
+                <li>Git</li>
+                <li>(Optional) Docker for containerized development</li>
+            </ul>
+            <h3>Development Tools Included</h3>
+            <ul>
+                <li>✅ <strong>Pre-commit hooks:</strong> Auto-format with Black, lint with Flake8/Ruff</li>
+                <li>✅ <strong>Test coverage:</strong> pytest with coverage reporting</li>
+                <li>✅ <strong>CI/CD:</strong> GitHub Actions workflows</li>
+                <li>✅ <strong>Dependabot:</strong> Automated dependency updates</li>
+                <li>✅ <strong>Docker environment:</strong> Consistent development setup</li>
+                <li>✅ <strong>Makefile commands:</strong> Common tasks simplified</li>
+            </ul>
+            <pre><code>pytest
+pytest --cov=./ --cov-report=html
+black .
+ruff check .
+python scripts/verify_setup.py</code></pre>
+        </section>
+        <br />
+
+        <section class="project-details">
+            <h2>🎯 Learning Paths</h2>
+
+            <h3>Path 1: Complete Beginner (12 weeks)</h3>
+            <ul>
+                <li>Start with the Beginner's Start Guide (2-week daily plan)</li>
+                <li>Follow the Beginner Learning Track</li>
+                <li>Complete Easy problems (01–15)</li>
+                <li>Build the sample todo app</li>
+                <li>Weekly confidence checks</li>
+            </ul>
+
+            <h3>Path 2: Interview Ready (8 weeks)</h3>
+            <ul>
+                <li>Review the Python Cheatsheet</li>
+                <li>Follow the Fast Track learning path</li>
+                <li>Complete all 35 problems</li>
+                <li>Practice Mock Interviews</li>
+                <li>Study System Design basics</li>
+            </ul>
+
+            <h3>Path 3: Self-Paced</h3>
+            <ul>
+                <li>Browse the problems directory</li>
+                <li>Pick problems by topic (arrays, trees, graphs, etc.)</li>
+                <li>Check the Learning Checklist</li>
+                <li>Build practical projects</li>
+            </ul>
+        </section>
+        <br />
+
+        <section class="project-details">
+            <h2>🤝 Contributing</h2>
+            <p>This is one of my bigger open source projects, and contributions are very welcome!</p>
+            <ul>
+                <li>🐛 Report bugs or issues</li>
+                <li>💡 Suggest new problems or improvements</li>
+                <li>📝 Improve documentation</li>
+                <li>✨ Add new features or solutions</li>
+                <li>🎨 Enhance learning materials</li>
+            </ul>
+            <p><strong>Quick contribution flow:</strong> copy a problem template from <code>languages/python/problems/templates/PROBLEM_TEMPLATE.md</code>, add a solution and tests, run <code>pre-commit run --all-files</code> and <code>pytest</code>, then open a pull request.</p>
+        </section>
+        <br />
+
+        <section class="project-details">
+            <h2>📊 Repository Stats</h2>
+            <ul>
+                <li><strong>35+ Coding Problems</strong> across multiple topics (Python + JavaScript)</li>
+                <li><strong>4 Practical Projects</strong> with real-world applications</li>
+                <li><strong>15+ Learning Guides</strong> and resources</li>
+                <li><strong>100% Test Coverage</strong> for solutions</li>
+                <li><strong>CI/CD Pipeline</strong> with automated testing</li>
+                <li><strong>7 Interactive Tools</strong> — Progress Tracker, Daily Challenge, Achievements, Visualizer, Hints, Code Analyzer, Multi-language</li>
+                <li><strong>2 Languages Supported</strong> — Python &amp; JavaScript</li>
+            </ul>
+        </section>
+        <br />
+
+        <section class="project-details">
+            <h2>📝 License</h2>
+            <p>This project is licensed under the MIT License. See <code>LICENSE_Version2.txt</code> in the repository for details.</p>
+        </section>
+        <br />
+
+        <section class="project-details">
+            <h2>🆘 Getting Help</h2>
+            <ul>
+                <li><strong>QUICKSTART.md</strong> — Get started in 5 minutes</li>
+                <li><strong>REPOSITORY_STRUCTURE.md</strong> — Navigate the repo</li>
+                <li><strong>COMMANDS_REFERENCE.md</strong> — Complete command reference</li>
+                <li><strong>FAQ.md</strong> — Common questions answered</li>
+                <li><strong>GLOSSARY.md</strong> — Technical terms explained simply</li>
+                <li><strong>IDE_SETUP_GUIDE.md</strong> — Configure your editor</li>
+                <li>Open an issue on GitHub for anything else</li>
+            </ul>
+        </section>
+        <br />
+
+        <section class="project-details">
+            <div class="links">
+                <a href="index.html" class="btn">Back to Home</a>
+                <a href="https://github.com/ShamShamsw/student-interview-prep" class="btn" target="_blank" rel="noopener">GitHub Repository</a>
+            </div>
+        </section>
+
+    </main>
+    <footer>
+        <p>&copy; 2026 Jacob T. Haseman. All rights reserved.</p>
+    </footer>
+    <script src="js/site-shell.js"></script>
+</body>
+</html>

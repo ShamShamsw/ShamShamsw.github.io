@@ -1,0 +1,930 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Robo Corp — Project Breakdown</title>
+    <link rel="stylesheet" href="css/project.css" />
+    <link rel="stylesheet" href="css/site-shell.css" />
+    <style>
+        /* Sprint breakdown styles */
+        .sprint-section {
+            margin-bottom: 30px;
+            border-left: 4px solid #4facfe;
+            padding-left: 16px;
+        }
+        .sprint-section h3 {
+            font-size: 1.4rem;
+            color: #333;
+            margin-bottom: 8px;
+        }
+        .sprint-section h3 .sprint-badge {
+            display: inline-block;
+            background: #4facfe;
+            color: white;
+            font-size: 0.75rem;
+            padding: 2px 8px;
+            border-radius: 12px;
+            vertical-align: middle;
+            margin-left: 8px;
+        }
+        .sprint-section h3 .sprint-badge.done {
+            background: #28a745;
+        }
+        .sprint-section h3 .sprint-badge.partial {
+            background: #ffc107;
+            color: #333;
+        }
+        .task-card {
+            background: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-radius: 8px;
+            padding: 14px 16px;
+            margin-bottom: 12px;
+        }
+        .task-card h4 {
+            font-size: 1.05rem;
+            color: #222;
+            margin: 0 0 8px 0;
+        }
+        .task-card h4 .status-icon {
+            margin-right: 6px;
+        }
+        .task-card ul {
+            margin: 0;
+            padding-left: 22px;
+        }
+        .task-card ul li {
+            font-size: 0.92rem;
+            color: #555;
+            margin-bottom: 3px;
+        }
+        .task-card ul li.done {
+            text-decoration: line-through;
+            color: #999;
+        }
+        .overview-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 14px;
+            margin: 16px 0 24px 0;
+        }
+        .overview-stat {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            color: white;
+            border-radius: 10px;
+            padding: 18px 16px;
+            text-align: center;
+        }
+        .overview-stat .stat-number {
+            font-size: 2rem;
+            font-weight: bold;
+            display: block;
+        }
+        .overview-stat .stat-label {
+            font-size: 0.85rem;
+            opacity: 0.9;
+        }
+        .tech-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin: 12px 0;
+        }
+        .tech-tag {
+            background: #e9ecef;
+            color: #495057;
+            padding: 4px 12px;
+            border-radius: 16px;
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+        .team-members {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin: 12px 0;
+        }
+        .team-member {
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-size: 0.9rem;
+        }
+        .content {
+            max-width: 960px;
+        }
+    </style>
+</head>
+<body>
+    <header class="hero">
+        <div class="hero-content">
+            <h1 id="project-title">Robo Corp — Project Breakdown</h1>
+            <p id="project-tagline">Full-stack serverless order processing system built on AWS — sprint-by-sprint development plan.</p>
+        </div>
+    </header>
+
+    <main class="content">
+
+        <!-- Overview -->
+        <section class="project-details">
+            <h2>Project Overview</h2>
+            <p>
+                Robo Corp is a serverless order management system that enables users to place orders, look up order details,
+                view product information, and check inventory — all through a web UI backed by AWS Lambda functions,
+                API Gateway, DynamoDB, Redis/Valkey caching, and Cognito authentication.
+            </p>
+            <div class="overview-grid">
+                <div class="overview-stat">
+                    <span class="stat-number">9</span>
+                    <span class="stat-label">Sprints</span>
+                </div>
+                <div class="overview-stat">
+                    <span class="stat-number">5</span>
+                    <span class="stat-label">Lambda Functions</span>
+                </div>
+                <div class="overview-stat">
+                    <span class="stat-number">40+</span>
+                    <span class="stat-label">Total Tasks</span>
+                </div>
+                <div class="overview-stat">
+                    <span class="stat-number">4</span>
+                    <span class="stat-label">Team Members</span>
+                </div>
+            </div>
+
+            <h3>Technology Stack</h3>
+            <div class="tech-list">
+                <span class="tech-tag">JavaScript (Node.js)</span>
+                <span class="tech-tag">AWS Lambda</span>
+                <span class="tech-tag">API Gateway</span>
+                <span class="tech-tag">DynamoDB</span>
+                <span class="tech-tag">Redis / Valkey</span>
+                <span class="tech-tag">AWS Cognito</span>
+                <span class="tech-tag">S3</span>
+                <span class="tech-tag">CloudFront</span>
+                <span class="tech-tag">CodeBuild</span>
+                <span class="tech-tag">Step Functions</span>
+                <span class="tech-tag">AWS Glue</span>
+                <span class="tech-tag">Redshift</span>
+                <span class="tech-tag">KMS</span>
+                <span class="tech-tag">WAF</span>
+                <span class="tech-tag">Route 53</span>
+                <span class="tech-tag">GitHub Actions</span>
+            </div>
+
+            <h3>Team</h3>
+            <div class="team-members">
+                <span class="team-member">Jacob Haseman</span>
+                <span class="team-member">Mason Adams</span>
+                <span class="team-member">Chiseng Xiong</span>
+                <span class="team-member">Tim Carone (Instructor)</span>
+            </div>
+        </section>
+        <br />
+
+        <!-- Reference Architecture -->
+        <section class="project-details">
+            <h2>Reference Architecture</h2>
+            <p>The system architecture spans a multi-AZ deployment with DynamoDB read/write replicas, API Gateway as the entry point, Lambda functions for business logic, and Redis/Valkey for caching.</p>
+            <div class="images">
+                <img src="images/ref1.jpg" alt="Reference Architecture — Full System Overview" class="architecture-img">
+                <img src="images/ref2.jpg" alt="Reference Architecture — Application Tier" class="architecture-img">
+                <img src="images/ref3.jpg" alt="Reference Architecture — Data Layer" class="architecture-img">
+                <img src="images/ref4.jpg" alt="Reference Architecture — Network & Security" class="architecture-img">
+            </div>
+        </section>
+        <br />
+
+        <!-- Sprint 1 -->
+        <section class="project-details">
+            <div class="sprint-section">
+                <h3>Sprint 1 — Authentication &amp; Authorization <span class="sprint-badge">Planned</span></h3>
+
+                <div class="task-card">
+                    <h4><span class="status-icon">🔲</span> User Signup</h4>
+                    <p>Allow new users to register via AWS Cognito.</p>
+                    <ul>
+                        <li>Design signup UI</li>
+                        <li>Implement Cognito signup API call</li>
+                        <li>Implement backend validation</li>
+                        <li>Write unit/integration tests</li>
+                    </ul>
+                </div>
+
+                <div class="task-card">
+                    <h4><span class="status-icon">🔲</span> User Login (Cognito)</h4>
+                    <p>Allow registered users to log in and manage sessions.</p>
+                    <ul>
+                        <li>Design login UI</li>
+                        <li>Implement Cognito login API call</li>
+                        <li>Handle sessions/tokens</li>
+                        <li>Write unit/integration tests</li>
+                    </ul>
+                </div>
+
+                <div class="task-card">
+                    <h4><span class="status-icon">🔲</span> Password Reset</h4>
+                    <p>Allow users to reset forgotten passwords.</p>
+                    <ul>
+                        <li>Design password reset UI flow</li>
+                        <li>Implement Cognito password reset API calls</li>
+                        <li>Write unit/integration tests</li>
+                    </ul>
+                </div>
+
+                <div class="task-card">
+                    <h4><span class="status-icon">🔲</span> Role-Based Access Control (IAM Integration)</h4>
+                    <p>Restrict access based on user roles.</p>
+                    <ul>
+                        <li>Define user roles (Admin, User, etc.)</li>
+                        <li>Integrate Cognito groups/roles with IAM policies</li>
+                        <li>Implement authorization checks in API/Lambdas</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+        <br />
+
+        <!-- Sprint 2 -->
+        <section class="project-details">
+            <div class="sprint-section">
+                <h3>Sprint 2 — Infrastructure &amp; Frontend Foundation <span class="sprint-badge partial">In Progress</span></h3>
+
+                <div class="task-card">
+                    <h4><span class="status-icon">✅</span> Setup S3 Website Hosting</h4>
+                    <p>Configure S3 for static site hosting with CodeBuild integration.</p>
+                    <ul>
+                        <li class="done">Create S3 bucket</li>
+                        <li class="done">Set bucket policies</li>
+                        <li class="done">Assign Roles to Bucket</li>
+                        <li class="done">Write IaC</li>
+                        <li class="done">Peer review IaC</li>
+                        <li class="done">Configure CodeBuildProject</li>
+                    </ul>
+                </div>
+
+                <div class="task-card">
+                    <h4><span class="status-icon">✅</span> Configure CloudFront Distribution</h4>
+                    <p>Set up CDN for frontend delivery with HTTPS.</p>
+                    <ul>
+                        <li class="done">Create CloudFront distribution</li>
+                        <li class="done">Point distribution to S3 origin</li>
+                        <li class="done">Configure caching behavior</li>
+                        <li class="done">Configure HTTPS (ACM)</li>
+                    </ul>
+                </div>
+
+                <div class="task-card">
+                    <h4><span class="status-icon">✅</span> Basic UI Shell / Framework Setup</h4>
+                    <p>Initialize the frontend project structure.</p>
+                    <ul>
+                        <li class="done">Choose framework (React, Vue, Angular, etc.)</li>
+                        <li class="done">Setup project structure</li>
+                        <li class="done">Implement basic layout/navigation</li>
+                    </ul>
+                </div>
+
+                <div class="task-card">
+                    <h4><span class="status-icon">🔲</span> Implement Login UI</h4>
+                    <p>Build the login form component.</p>
+                    <ul>
+                        <li>Create login component</li>
+                        <li>Integrate with Login API Story</li>
+                    </ul>
+                </div>
+
+                <div class="task-card">
+                    <h4><span class="status-icon">🔲</span> Implement Order Creation Form</h4>
+                    <p>Build the form for creating orders.</p>
+                    <ul>
+                        <li>Design order form UI</li>
+                        <li>Create order form component</li>
+                        <li>Integrate with Create Order API</li>
+                    </ul>
+                </div>
+
+                <div class="task-card">
+                    <h4><span class="status-icon">🔲</span> Implement Order History View</h4>
+                    <p>Display past orders for the user.</p>
+                    <ul>
+                        <li>Design order history UI</li>
+                        <li>Create order history component</li>
+                        <li>Integrate with Get Order API</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+        <br />
+
+        <!-- Sprint 3 -->
+        <section class="project-details">
+            <div class="sprint-section">
+                <h3>Sprint 3 — API Gateway &amp; Lambda Connections <span class="sprint-badge partial">In Progress</span></h3>
+
+                <div class="task-card">
+                    <h4><span class="status-icon">✅</span> Setup API Gateway</h4>
+                    <p>Configure the main API entry point.</p>
+                    <ul>
+                        <li class="done">Create REST API in API Gateway</li>
+                        <li class="done">Define stages (dev, staging, prod)</li>
+                        <li class="done">Configure logging/tracing</li>
+                        <li class="done">Write IaC</li>
+                    </ul>
+                </div>
+
+                <div class="task-card">
+                    <h4><span class="status-icon">✅</span> Create Lambda Functions</h4>
+                    <p>Deploy all five core Lambda functions.</p>
+                    <ul>
+                        <li class="done">CreateOrder</li>
+                        <li class="done">GetOrder</li>
+                        <li class="done">GetInventory</li>
+                        <li class="done">GetProductInfo</li>
+                        <li class="done">ModifyOrder</li>
+                    </ul>
+                </div>
+
+                <div class="task-card">
+                    <h4><span class="status-icon">✅</span> Gateway Connection for All Functions</h4>
+                    <p>Connect Lambda functions to API Gateway endpoints and the HTML frontend.</p>
+                    <ul>
+                        <li class="done">Connect CreateOrder to POST /create-order</li>
+                        <li class="done">Connect GetOrder to GET /get-order</li>
+                        <li class="done">Connect GetInventory to GET /get-inventory</li>
+                        <li class="done">Connect GetProductInfo to GET /get-product-info</li>
+                        <li class="done">HTML website connected to API Gateway</li>
+                    </ul>
+                </div>
+
+                <div class="task-card">
+                    <h4><span class="status-icon">🔲</span> Develop 'Create Order' Lambda Function</h4>
+                    <p>Complete business logic for order creation.</p>
+                    <ul>
+                        <li>Create Lambda function code</li>
+                        <li>Add input validation logic</li>
+                        <li>Implement inventory check call</li>
+                        <li>Implement logic to write order data to RDS</li>
+                        <li>Implement error handling</li>
+                        <li>Add logging</li>
+                        <li>Write unit tests</li>
+                        <li>Write integration tests (API Gateway → Lambda → RDS)</li>
+                    </ul>
+                </div>
+
+                <div class="task-card">
+                    <h4><span class="status-icon">🔲</span> Define Order API Endpoints</h4>
+                    <p>Specify API contracts for orders (Create, Read, Update).</p>
+                    <ul>
+                        <li>Define POST /orders endpoint</li>
+                        <li>Define GET /orders/{id} endpoint</li>
+                        <li>Define PUT /orders/{id} endpoint</li>
+                        <li>Define request/response models (JSON Schema/Swagger)</li>
+                        <li>Integrate with corresponding Lambda functions</li>
+                        <li>Configure endpoints in API Gateway</li>
+                    </ul>
+                </div>
+
+                <div class="task-card">
+                    <h4><span class="status-icon">🔲</span> Define Product Info API Endpoint</h4>
+                    <p>Specify API contracts for products.</p>
+                    <ul>
+                        <li>Define GET /products/{id} endpoint</li>
+                        <li>Define GET /products endpoint (list/search)</li>
+                        <li>Define request/response models</li>
+                        <li>Configure endpoints in API Gateway</li>
+                        <li>Integrate with Get Product Info Lambda</li>
+                    </ul>
+                </div>
+
+                <div class="task-card">
+                    <h4><span class="status-icon">🔲</span> Define Inventory API Endpoint</h4>
+                    <p>Specify API contracts for inventory.</p>
+                    <ul>
+                        <li>Define GET /inventory/{productId} endpoint</li>
+                        <li>Define request/response models</li>
+                        <li>Configure endpoint in API Gateway</li>
+                        <li>Integrate with Get Inventory Lambda</li>
+                    </ul>
+                </div>
+
+                <div class="task-card">
+                    <h4><span class="status-icon">🔲</span> Configure Custom Domain &amp; TLS</h4>
+                    <p>Setup api.yourdomain.com with HTTPS.</p>
+                    <ul>
+                        <li>Request/Import TLS certificate in ACM</li>
+                        <li>Create Route 53 record</li>
+                        <li>Write IaC</li>
+                    </ul>
+                </div>
+
+                <div class="task-card">
+                    <h4><span class="status-icon">🔲</span> Implement WAF Rules</h4>
+                    <p>Protect API from common attacks.</p>
+                    <ul>
+                        <li>Create WAF WebACL</li>
+                        <li>Associate WebACL with API Gateway stage</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+        <br />
+
+        <!-- Sprint 4 -->
+        <section class="project-details">
+            <div class="sprint-section">
+                <h3>Sprint 4 — Database Layer &amp; Lambda Logic <span class="sprint-badge partial">In Progress</span></h3>
+
+                <div class="task-card">
+                    <h4><span class="status-icon">✅</span> Define Database Schema</h4>
+                    <p>Design the relational data model.</p>
+                    <ul>
+                        <li class="done">Define Customer ID</li>
+                        <li class="done">Define items</li>
+                        <li class="done">Define productId</li>
+                        <li class="done">Define quantity</li>
+                        <li class="done">Define Total</li>
+                    </ul>
+                </div>
+
+                <div class="task-card">
+                    <h4><span class="status-icon">✅</span> Provision RDS Cluster (Multi-AZ)</h4>
+                    <p>Set up the main database with Redis/ElastiCache.</p>
+                    <ul>
+                        <li class="done">Choose RDS engine (Redis)</li>
+                        <li class="done">Configure instance size, storage</li>
+                        <li class="done">Configure network/subnet groups</li>
+                    </ul>
+                </div>
+
+                <div class="task-card">
+                    <h4><span class="status-icon">🔲</span> Implement Database Connection Logic in Lambdas</h4>
+                    <p>Connect backend code to RDS.</p>
+                    <ul>
+                        <li>Add database driver/library</li>
+                        <li>Implement connection pooling (if applicable)</li>
+                    </ul>
+                </div>
+
+                <div class="task-card">
+                    <h4><span class="status-icon">🔲</span> Develop 'Get Order' Lambda Function</h4>
+                    <p>Code for retrieving order details.</p>
+                    <ul>
+                        <li>Create Lambda function code</li>
+                        <li>Implement logic to read order data from RDS</li>
+                        <li>Format response data</li>
+                        <li>Add logging</li>
+                        <li>Write unit tests</li>
+                        <li>Write integration tests</li>
+                    </ul>
+                </div>
+
+                <div class="task-card">
+                    <h4><span class="status-icon">🔲</span> Develop 'Get Inventory' Lambda Function</h4>
+                    <p>Code for checking stock levels.</p>
+                    <ul>
+                        <li>Create Lambda function code</li>
+                        <li>Implement logic to read inventory data (from RDS/other)</li>
+                        <li>Write unit tests</li>
+                    </ul>
+                </div>
+
+                <div class="task-card">
+                    <h4><span class="status-icon">🔲</span> Develop 'Get Product Info' Lambda Function</h4>
+                    <p>Code for retrieving product details.</p>
+                    <ul>
+                        <li>Create Lambda function code</li>
+                        <li>Implement logic to read product data from RDS</li>
+                        <li>Write unit tests</li>
+                    </ul>
+                </div>
+
+                <div class="task-card">
+                    <h4><span class="status-icon">🔲</span> Develop 'Modify Order' Lambda Function</h4>
+                    <p>Code for updating existing orders.</p>
+                    <ul>
+                        <li>Create Lambda function code</li>
+                        <li>Implement validation logic (e.g., cannot modify shipped)</li>
+                        <li>Implement logic to update order data in RDS</li>
+                        <li>Write unit/integration tests</li>
+                    </ul>
+                </div>
+
+                <div class="task-card">
+                    <h4><span class="status-icon">🔲</span> Develop 'Get Customer Order Promise' Logic</h4>
+                    <p>Calculate estimated delivery.</p>
+                    <ul>
+                        <li>Create Lambda/Step Function logic</li>
+                        <li>Integrate geo/proximity rules</li>
+                        <li>Integrate carrier data</li>
+                        <li>Write unit/integration tests</li>
+                    </ul>
+                </div>
+
+                <div class="task-card">
+                    <h4><span class="status-icon">🔲</span> Define DynamoDB Schemas &amp; Indexes</h4>
+                    <p>Design NoSQL data models.</p>
+                    <ul>
+                        <li>Define primary keys for Sessions table</li>
+                        <li>Define primary keys/indexes for Carts table</li>
+                        <li>Define primary keys/indexes for Logs table</li>
+                    </ul>
+                </div>
+
+                <div class="task-card">
+                    <h4><span class="status-icon">🔲</span> Provision DynamoDB Tables</h4>
+                    <p>Set up NoSQL tables (Sessions, Carts, Logs).</p>
+                    <ul>
+                        <li>Create Sessions table</li>
+                        <li>Create ShoppingCarts table</li>
+                        <li>Create EventLogging table</li>
+                        <li>Configure capacity mode (On-demand/Provisioned)</li>
+                        <li>Write IaC</li>
+                    </ul>
+                </div>
+
+                <div class="task-card">
+                    <h4><span class="status-icon">🔲</span> Implement DynamoDB Access Logic</h4>
+                    <p>Connect backend code to DynamoDB.</p>
+                    <ul>
+                        <li>Add AWS SDK</li>
+                        <li>Write code for PutItem, GetItem, Query, etc.</li>
+                    </ul>
+                </div>
+
+                <div class="task-card">
+                    <h4><span class="status-icon">🔲</span> Configure DynamoDB Backups &amp; Security</h4>
+                    <p>Ensure NoSQL data safety.</p>
+                    <ul>
+                        <li>Configure on-demand or continuous backups (PITR)</li>
+                        <li>Configure encryption at rest (KMS)</li>
+                        <li>Configure IAM policies for access</li>
+                    </ul>
+                </div>
+
+                <div class="task-card">
+                    <h4><span class="status-icon">🔲</span> Configure RDS Backups &amp; Security</h4>
+                    <p>Ensure data safety and access control.</p>
+                    <ul>
+                        <li>Configure automated backup schedule</li>
+                        <li>Configure encryption at rest (KMS)</li>
+                        <li>Configure security group access</li>
+                    </ul>
+                </div>
+
+                <div class="task-card">
+                    <h4><span class="status-icon">🔲</span> Setup Read Replicas</h4>
+                    <p>Improve read performance.</p>
+                    <ul>
+                        <li>Create RDS read replica</li>
+                        <li>Configure application to use read endpoint</li>
+                        <li>Write IaC</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+        <br />
+
+        <!-- Sprint 5 -->
+        <section class="project-details">
+            <div class="sprint-section">
+                <h3>Sprint 5 — Security, Networking &amp; Orchestration <span class="sprint-badge">Planned</span></h3>
+
+                <div class="task-card">
+                    <h4><span class="status-icon">🔲</span> Configure Security Groups &amp; NACLs</h4>
+                    <p>Firewall rules for resources.</p>
+                    <ul>
+                        <li>Define required inbound/outbound rules for SGs</li>
+                        <li>Define NACL rules for subnets</li>
+                        <li>Write IaC</li>
+                    </ul>
+                </div>
+
+                <div class="task-card">
+                    <h4><span class="status-icon">🔲</span> Setup Step Functions Workflow</h4>
+                    <p>Orchestrate complex order processes.</p>
+                    <ul>
+                        <li>Design state machine diagram</li>
+                        <li>Implement state machine definition (JSON/YAML)</li>
+                        <li>Integrate Lambda functions</li>
+                        <li>Write IaC</li>
+                    </ul>
+                </div>
+
+                <div class="task-card">
+                    <h4><span class="status-icon">🔲</span> Configure Auto Scaling for Lambdas/Compute</h4>
+                    <p>Ensure performance under load.</p>
+                    <ul>
+                        <li>Configure provisioned concurrency for Lambdas (if needed)</li>
+                        <li>Configure Auto Scaling groups for EC2/ECS (if used)</li>
+                    </ul>
+                </div>
+
+                <div class="task-card">
+                    <h4><span class="status-icon">🔲</span> Setup KMS Keys for Encryption</h4>
+                    <p>Manage encryption keys.</p>
+                    <ul>
+                        <li>Create customer-managed KMS key</li>
+                        <li>Define key policy</li>
+                        <li>Write IaC</li>
+                    </ul>
+                </div>
+
+                <div class="task-card">
+                    <h4><span class="status-icon">🔲</span> Setup Foundational IAM Roles &amp; Policies</h4>
+                    <p>Define access permissions.</p>
+                    <ul>
+                        <li>Identify necessary roles (Lambda, API GW, etc.)</li>
+                        <li>Define least-privilege policies</li>
+                        <li>Write IaC for Roles/Policies</li>
+                    </ul>
+                </div>
+
+                <div class="task-card">
+                    <h4><span class="status-icon">🔲</span> Configure Secrets Manager for Credentials</h4>
+                    <p>Securely store secrets.</p>
+                    <ul>
+                        <li>Store database credentials</li>
+                        <li>Store third-party API keys</li>
+                        <li>Configure resource policies for access</li>
+                        <li>Write IaC</li>
+                    </ul>
+                </div>
+
+                <div class="task-card">
+                    <h4><span class="status-icon">🔲</span> Define VPC and Subnet Strategy</h4>
+                    <p>Plan network layout.</p>
+                    <ul>
+                        <li>Define CIDR ranges</li>
+                        <li>Define public/private subnet layout across AZs</li>
+                        <li>Document network diagram</li>
+                        <li>Write IaC for VPC/Subnets</li>
+                    </ul>
+                </div>
+
+                <div class="task-card">
+                    <h4><span class="status-icon">🔲</span> Final Presentation Prep</h4>
+                    <ul>
+                        <li>Group meeting to go over final presentation and assign final tasks</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+        <br />
+
+        <!-- Sprint 6 -->
+        <section class="project-details">
+            <div class="sprint-section">
+                <h3>Sprint 6 — CI/CD Build Pipeline <span class="sprint-badge">Planned</span></h3>
+
+                <div class="task-card">
+                    <h4><span class="status-icon">🔲</span> Create Build &amp; Unit Test Workflow</h4>
+                    <p>Automate build validation with GitHub Actions.</p>
+                    <ul>
+                        <li>Create GitHub Actions workflow file</li>
+                        <li>Add steps for code checkout, dependency installation</li>
+                        <li>Add step for running unit tests</li>
+                        <li>Add step for linting/static analysis</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+        <br />
+
+        <!-- Sprint 7 -->
+        <section class="project-details">
+            <div class="sprint-section">
+                <h3>Sprint 7 — Data Warehouse &amp; Analytics <span class="sprint-badge">Planned</span></h3>
+
+                <div class="task-card">
+                    <h4><span class="status-icon">🔲</span> Provision Redshift Cluster</h4>
+                    <p>Set up data warehouse.</p>
+                    <ul>
+                        <li>Choose node type and cluster size</li>
+                        <li>Configure network/security groups</li>
+                        <li>Write IaC</li>
+                    </ul>
+                </div>
+
+                <div class="task-card">
+                    <h4><span class="status-icon">🔲</span> Setup Glue ETL Job — RDS to Redshift</h4>
+                    <p>Move relational data to the warehouse.</p>
+                    <ul>
+                        <li>Create Glue job script (PySpark/Scala)</li>
+                        <li>Define source (RDS) and target (Redshift) connections</li>
+                        <li>Define transformations</li>
+                        <li>Schedule Glue job trigger</li>
+                    </ul>
+                </div>
+
+                <div class="task-card">
+                    <h4><span class="status-icon">🔲</span> Setup Glue ETL Job — DynamoDB to Redshift</h4>
+                    <p>Move NoSQL data to the warehouse.</p>
+                    <ul>
+                        <li>Create Glue job script</li>
+                        <li>Define source (DynamoDB) and target (Redshift) connections</li>
+                        <li>Define transformations</li>
+                    </ul>
+                </div>
+
+                <div class="task-card">
+                    <h4><span class="status-icon">🔲</span> Define Analytics Schemas in Redshift</h4>
+                    <p>Design warehouse data model.</p>
+                    <ul>
+                        <li>Define fact and dimension tables</li>
+                        <li>Define distribution and sort keys</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+        <br />
+
+        <!-- Sprint 8 -->
+        <section class="project-details">
+            <div class="sprint-section">
+                <h3>Sprint 8 — Infrastructure as Code <span class="sprint-badge">Planned</span></h3>
+
+                <div class="task-card">
+                    <h4><span class="status-icon">🔲</span> Implement Infrastructure as Code (IaC)</h4>
+                    <p>Manage all infrastructure via code.</p>
+                    <ul>
+                        <li>Choose IaC tool (CloudFormation/Terraform)</li>
+                        <li>Structure IaC repository/modules</li>
+                        <li>Integrate IaC into CI/CD pipeline</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+        <br />
+
+        <!-- Sprint 9 -->
+        <section class="project-details">
+            <div class="sprint-section">
+                <h3>Sprint 9 — Full DevOps Pipeline &amp; Production Readiness <span class="sprint-badge">Planned</span></h3>
+
+                <div class="task-card">
+                    <h4><span class="status-icon">🔲</span> Setup GitHub Repository Structure</h4>
+                    <p>Organize codebase for production.</p>
+                    <ul>
+                        <li>Create main repository</li>
+                        <li>Define branching strategy (e.g., Gitflow)</li>
+                        <li>Configure branch protection rules</li>
+                    </ul>
+                </div>
+
+                <div class="task-card">
+                    <h4><span class="status-icon">🔲</span> Create Dev Deployment Workflow</h4>
+                    <p>Automate deployment to dev environment.</p>
+                    <ul>
+                        <li>Create GitHub Actions workflow file (trigger on dev merge)</li>
+                        <li>Add steps for building artifacts</li>
+                        <li>Add steps for deploying application code (Lambda, S3)</li>
+                        <li>Add steps for deploying IaC changes</li>
+                    </ul>
+                </div>
+
+                <div class="task-card">
+                    <h4><span class="status-icon">🔲</span> Create Staging/Prod Deployment Workflow</h4>
+                    <p>Automate deployment to higher environments.</p>
+                    <ul>
+                        <li>Create GitHub Actions workflow file (manual/release trigger)</li>
+                        <li>Add steps for building artifacts</li>
+                        <li>Add steps for deploying application code</li>
+                        <li>Add steps for deploying IaC changes</li>
+                        <li>Add approval steps (if needed)</li>
+                    </ul>
+                </div>
+
+                <div class="task-card">
+                    <h4><span class="status-icon">🔲</span> Integrate IaC into Deployment Pipelines</h4>
+                    <p>Ensure infra changes are deployed automatically.</p>
+                    <ul>
+                        <li>Add IaC plan/apply steps to workflows</li>
+                        <li>Configure state file management</li>
+                    </ul>
+                </div>
+
+                <div class="task-card">
+                    <h4><span class="status-icon">🔲</span> Production VPC &amp; Subnet Strategy</h4>
+                    <ul>
+                        <li>Define CIDR ranges</li>
+                        <li>Define public/private subnet layout across AZs</li>
+                        <li>Document network diagram</li>
+                        <li>Write IaC for VPC/Subnets</li>
+                        <li>Peer review IaC</li>
+                        <li>Deploy to Dev environment</li>
+                    </ul>
+                </div>
+
+                <div class="task-card">
+                    <h4><span class="status-icon">🔲</span> Production IAM Roles &amp; Policies</h4>
+                    <ul>
+                        <li>Identify necessary roles (Lambda, API GW, etc.)</li>
+                        <li>Define least-privilege policies</li>
+                        <li>Write IaC for Roles/Policies</li>
+                        <li>Peer review IaC</li>
+                        <li>Deploy to Dev environment</li>
+                    </ul>
+                </div>
+
+                <div class="task-card">
+                    <h4><span class="status-icon">🔲</span> Production S3 Website Hosting</h4>
+                    <ul>
+                        <li>Create S3 bucket</li>
+                        <li>Configure bucket for static website hosting</li>
+                        <li>Set bucket policies</li>
+                        <li>Write IaC</li>
+                        <li>Peer review IaC</li>
+                        <li>Deploy to Dev</li>
+                    </ul>
+                </div>
+
+                <div class="task-card">
+                    <h4><span class="status-icon">🔲</span> Production Secrets Manager</h4>
+                    <ul>
+                        <li>Store placeholder database credentials</li>
+                        <li>Write IaC</li>
+                        <li>Deploy to Dev</li>
+                    </ul>
+                </div>
+
+                <div class="task-card">
+                    <h4><span class="status-icon">🔲</span> Production RDS Cluster (Multi-AZ)</h4>
+                    <ul>
+                        <li>Choose RDS engine (e.g., PostgreSQL)</li>
+                        <li>Configure instance size, storage</li>
+                        <li>Enable Multi-AZ deployment</li>
+                        <li>Configure network/subnet groups</li>
+                        <li>Write IaC</li>
+                        <li>Peer review IaC</li>
+                        <li>Deploy to Dev</li>
+                    </ul>
+                </div>
+
+                <div class="task-card">
+                    <h4><span class="status-icon">🔲</span> Production Database Schema</h4>
+                    <ul>
+                        <li>Define Orders table columns/types</li>
+                        <li>Define OrderItems table columns/types</li>
+                        <li>Create SQL migration scripts</li>
+                        <li>Apply migrations to Dev DB</li>
+                    </ul>
+                </div>
+
+                <div class="task-card">
+                    <h4><span class="status-icon">🔲</span> Production API Gateway</h4>
+                    <ul>
+                        <li>Create REST API in API Gateway</li>
+                        <li>Define stages (dev)</li>
+                        <li>Write IaC</li>
+                        <li>Deploy to Dev</li>
+                    </ul>
+                </div>
+
+                <div class="task-card">
+                    <h4><span class="status-icon">🔲</span> Production 'Get Order' Lambda</h4>
+                    <ul>
+                        <li>Create Lambda function code (basic structure)</li>
+                        <li>Implement logic to read order data from RDS</li>
+                        <li>Write basic unit tests</li>
+                    </ul>
+                </div>
+
+                <div class="task-card">
+                    <h4><span class="status-icon">🔲</span> Production DB Connection Logic</h4>
+                    <ul>
+                        <li>Add database driver/library to Get Order Lambda</li>
+                        <li>Implement connection logic using Secrets Manager</li>
+                    </ul>
+                </div>
+
+                <div class="task-card">
+                    <h4><span class="status-icon">🔲</span> Production Order API Endpoints</h4>
+                    <ul>
+                        <li>Configure GET /orders/{id} endpoint in API Gateway</li>
+                        <li>Integrate with Get Order Lambda function</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+        <br />
+
+        <!-- Links -->
+        <section class="project-details">
+            <div class="links">
+                <a href="index.html" class="btn">Back to Home</a>
+                <a href="RoboCorp.html" class="btn">Live Demo</a>
+                <a href="inventory-aws-system.html" class="btn">Architecture Details</a>
+                <a href="https://github.com/ShamShamsw" class="btn" target="_blank" rel="noopener">GitHub</a>
+            </div>
+        </section>
+
+    </main>
+
+    <footer>
+        <p>&copy; 2026 Jacob T. Haseman. All rights reserved.</p>
+    </footer>
+    <script src="js/site-shell.js"></script>
+</body>
+</html>

@@ -316,5 +316,12 @@
     "description": "A simple Java program to solve quadratic equations.",
     "link": "https://shamshamsw.github.io/python-programs.html",
     "tags": ["python", "math", "algebra"]
+  },
+  {
+    "title": "Beginner's Guide to Setting Up GitHub Pages",
+    "description": "A complete, beginner-friendly guide to creating your first GitHub Pages website — no coding experience required.",
+    "link": "https://shamshamsw.github.io/github-pages-guide.html",
+    "github": "https://github.com/ShamShamsw/github-pages-guide",
+    "tags": ["github pages", "tutorial", "beginner", "html", "jekyll", "documentation"]
   }
 ]

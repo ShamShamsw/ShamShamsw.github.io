@@ -1,0 +1,68 @@
+[
+    {
+        "id": "starter-template",
+        "title": "Starter Template: index.html",
+        "content": "A complete, beginner-friendly HTML homepage ready to deploy to GitHub Pages. Features a clean gradient design, SEO meta tags, Open Graph social preview tags, embedded CSS, and a simple JavaScript example — no external frameworks needed. Copy it, rename it to index.html, fill in your details, and push.",
+        "image": "images/background.jpg",
+        "link": "https://github.com/ShamShamsw/github-pages-guide",
+        "tags": ["html", "starter", "template", "beginner", "github pages", "seo"],
+        "author": "Jacob Haseman",
+        "date": "2026-03-04",
+        "summary": "A plug-and-play HTML homepage template for GitHub Pages with SEO, responsive design, and embedded styles."
+    },
+    {
+        "id": "starter-config",
+        "title": "Jekyll Config: _config.yml",
+        "content": "A comprehensive Jekyll configuration file pre-loaded with every essential setting and detailed comments explaining each option. Covers theme selection, plugin setup (SEO tag, sitemap, feed), social media fields, Google Analytics integration, custom variables, and URL configuration. Rename to _config.yml and customize — GitHub Pages handles the rest.",
+        "image": "images/DataAnalytics1.jpg",
+        "link": "https://github.com/ShamShamsw/github-pages-guide",
+        "tags": ["jekyll", "yaml", "config", "_config.yml", "github pages", "themes", "plugins"],
+        "author": "Jacob Haseman",
+        "date": "2026-03-04",
+        "summary": "A fully commented Jekyll _config.yml template covering themes, plugins, SEO, and social media integration."
+    },
+    {
+        "id": "quick-start-html",
+        "title": "Quick Start — HTML-Only Site",
+        "content": "The fastest path to a live GitHub Pages site. Use starter-template-index.html as your index.html, customize the content, and push to GitHub. No build process, no configuration, no dependencies — just HTML, CSS, and JavaScript. Your site goes live at https://yourusername.github.io instantly.",
+        "image": "images/MachineLearningLab1.jpg",
+        "link": "https://github.com/ShamShamsw/github-pages-guide",
+        "tags": ["html", "quick start", "beginner", "no-build", "static", "github pages"],
+        "author": "Jacob Haseman",
+        "date": "2026-03-04",
+        "summary": "Zero-config quick start for a GitHub Pages site using a single HTML file — live in under 5 minutes."
+    },
+    {
+        "id": "quick-start-jekyll",
+        "title": "Quick Start — Jekyll-Powered Site",
+        "content": "Add _config.yml to your repository, pick a theme, write posts in _posts/ using Markdown (YYYY-MM-DD-title.md format), and push. GitHub Pages automatically builds your Jekyll site. You get blog-awareness, templating with layouts and includes, Markdown support, and an instant professional design from any supported theme.",
+        "image": "images/SupplyChain1.jpg",
+        "link": "https://jekyllrb.com/docs/step-by-step/01-setup/",
+        "tags": ["jekyll", "markdown", "themes", "blog", "layouts", "github pages"],
+        "author": "Jacob Haseman",
+        "date": "2026-03-04",
+        "summary": "Use Jekyll's full feature set — blogs, Markdown, themes, and templating — on GitHub Pages with the starter config."
+    },
+    {
+        "id": "customization-tips",
+        "title": "Customization Tips",
+        "content": "Change the background gradient hex values to switch color palettes (Ocean, Fire, Nature, Sunset). Add new page sections by inserting <section> blocks before the footer. Embed images with a single <img> tag. In _config.yml, switch themes with the 'theme' or 'remote_theme' key, enable Google Analytics by adding your tracking ID, and define custom variables accessible in any layout with {{ site.variable_name }}.",
+        "image": "images/DataAnalytics2.jpg",
+        "link": "https://github.com/ShamShamsw/github-pages-guide",
+        "tags": ["customization", "css", "colors", "themes", "analytics", "jekyll", "variables"],
+        "author": "Jacob Haseman",
+        "date": "2026-03-04",
+        "summary": "Practical tips for personalizing your site's colors, sections, images, themes, analytics, and Jekyll variables."
+    },
+    {
+        "id": "troubleshooting",
+        "title": "Troubleshooting Common Issues",
+        "content": "Changes not showing up? Wait 5-10 minutes and hard-refresh (Ctrl+Shift+R on Windows, Cmd+Shift+R on Mac), then check the Actions tab for build errors. Jekyll build failed? Validate your _config.yml at yamllint.com — YAML requires 2-space indentation, never tabs. Getting a 404? Confirm your repository is named exactly yourusername.github.io and that index.html exists at the root.",
+        "image": "images/background.jpg",
+        "link": "https://docs.github.com/en/pages",
+        "tags": ["troubleshooting", "404", "jekyll", "yaml", "build error", "github pages", "debugging"],
+        "author": "Jacob Haseman",
+        "date": "2026-03-04",
+        "summary": "Solutions to the three most common GitHub Pages problems: delayed updates, Jekyll build failures, and 404 errors."
+    }
+]

@@ -325,6 +325,13 @@
     "tags": ["github pages", "tutorial", "beginner", "html", "jekyll", "documentation"]
   },
   {
+    "title": "GitHub Pages Guide — Example Templates & Starter Files",
+    "description": "Ready-to-use starter templates and configuration files for GitHub Pages: a plug-and-play HTML homepage and a fully commented Jekyll _config.yml to get your site live in minutes.",
+    "link": "https://shamshamsw.github.io/github-pages-guide-examples.html",
+    "github": "https://github.com/ShamShamsw/github-pages-guide",
+    "tags": ["github pages", "templates", "starter", "jekyll", "html", "beginner", "open source"]
+  },
+  {
     "title": "Student Interview Prep",
     "description": "A comprehensive, beginner-friendly open source repository for technical interview preparation with 35+ coding problems, practical projects, interactive tools, and guided learning paths.",
     "link": "https://shamshamsw.github.io/student-interview-prep.html",

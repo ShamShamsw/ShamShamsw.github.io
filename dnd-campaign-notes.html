@@ -96,5 +96,74 @@
     </main>
     <footer></footer>
     <script src="js/site-shell.js"></script>
+    <section class="project-details" style="padding:20px; max-width:900px; margin:0 auto;">
+        <h2>Dice Roller</h2>
+        <p>Quick in-page dice roller for common tabletop dice. Choose a die or enter a custom value, set a quantity, and roll.</p>
+        <div id="dice-controls" style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;">
+            <div style="display:flex;gap:6px;flex-wrap:wrap;">
+                <button data-sides="3" class="dice-btn">D3</button>
+                <button data-sides="4" class="dice-btn">D4</button>
+                <button data-sides="6" class="dice-btn">D6</button>
+                <button data-sides="8" class="dice-btn">D8</button>
+                <button data-sides="10" class="dice-btn">D10</button>
+                <button data-sides="12" class="dice-btn">D12</button>
+                <button data-sides="20" class="dice-btn">D20</button>
+                <button data-sides="100" class="dice-btn">D100</button>
+            </div>
+            <div style="display:flex;gap:6px;align-items:center;margin-left:8px;">
+                <label for="dice-count">Count:</label>
+                <input id="dice-count" type="number" value="1" min="1" style="width:64px;padding:4px;" />
+                <label for="custom-sides">Custom sides:</label>
+                <input id="custom-sides" type="number" placeholder="e.g. 30" min="2" style="width:80px;padding:4px;" />
+                <button id="roll-custom">Roll Custom</button>
+            </div>
+        </div>
+        <div id="dice-output" style="margin-top:12px;">
+            <strong>Results:</strong>
+            <div id="results-list" style="margin-top:8px; white-space:pre-wrap;"></div>
+        </div>
+    </section>
+
+    <script>
+        (function(){
+            function rollDie(sides){
+                return Math.floor(Math.random() * sides) + 1;
+            }
+
+            function rollMultiple(sides, count){
+                const rolls = [];
+                for(let i=0;i<count;i++) rolls.push(rollDie(sides));
+                return rolls;
+            }
+
+            function displayResult(sides, rolls){
+                const container = document.getElementById('results-list');
+                const total = rolls.reduce((a,b)=>a+b,0);
+                const item = document.createElement('div');
+                item.textContent = `${rolls.length}×D${sides}: [${rolls.join(', ')}]  Total: ${total}`;
+                container.prepend(item);
+            }
+
+            document.querySelectorAll('.dice-btn').forEach(btn=>{
+                btn.addEventListener('click', ()=>{
+                    const sides = parseInt(btn.getAttribute('data-sides'),10);
+                    const count = Math.max(1, parseInt(document.getElementById('dice-count').value,10) || 1);
+                    const rolls = rollMultiple(sides, count);
+                    displayResult(sides, rolls);
+                });
+            });
+
+            document.getElementById('roll-custom').addEventListener('click', ()=>{
+                const sides = Math.max(2, parseInt(document.getElementById('custom-sides').value,10) || 0);
+                if(sides < 2){
+                    alert('Enter a valid number of sides (>=2) in Custom sides.');
+                    return;
+                }
+                const count = Math.max(1, parseInt(document.getElementById('dice-count').value,10) || 1);
+                const rolls = rollMultiple(sides, count);
+                displayResult(sides, rolls);
+            });
+        })();
+    </script>
 </body>
 </html>

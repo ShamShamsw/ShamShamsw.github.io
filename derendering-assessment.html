@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hedgehog | Derendering Assessment</title>
+    <link rel="stylesheet" href="css/project.css" />
+    <link rel="stylesheet" href="css/site-shell.css" />
+</head>
+<body>
+    <header class="hero">
+        <div class="hero-content">
+            <h1 id="project-title">Hedgehog | Derendering Assessment</h1>
+            <p id="project-tagline">Core mechanics, judgment calls, and mock task scenarios across all four derendering task categories</p>
+        </div>
+    </header>
+    <main class="content">
+        <section class="project-details">
+            <h2>Overview</h2>
+            <p>This assessment covers core mechanics, judgment calls, and mock task scenarios across all four derendering task categories: Design Websites, SVG Animation, GLSL Shaders, and UI Elements. In a Derendering task, detailed data is collected about high-quality user interfaces and designs so that models can learn to convert images into code.</p>
+            <div class="links">
+                <a href="index.html" class="btn">Back to Home</a>
+            </div>
+        </section>
+        <br />
+        <br />
+
+        <!-- SECTION 1: Submission Mechanics -->
+        <section class="project-details">
+            <h2>Section 1: Submission Mechanics</h2>
+
+            <h3>Question 1</h3>
+            <p><strong>Scenario:</strong> You are assigned a Design Website task. The task page shows an awwwards.com listing with a "Visit Site" link that takes you to the actual website (teletech.events). When you record your screen and capture screenshots, which site should you be recording?</p>
+            <p><strong>Answer: The actual website (teletech.events) accessed via the "Visit Site" link. The awwwards page is just a showcase; the real animations and design are on the linked site.</strong></p>
+            <p><strong>Explanation:</strong> The awwwards.com page is merely a listing or aggregator entry. The real content — the animations, scroll effects, hover states, and design sections — lives on the destination site (teletech.events). Every submission must be self-contained and reconstructable, so you must record and screenshot the actual live website where all the meaningful visual experience takes place. Recording only the aggregator listing would provide no usable training data about the design itself.</p>
+
+            <br />
+            <h3>Question 2</h3>
+            <p><strong>Scenario:</strong> You are submitting code for a UI Element task. The source website uses React, and you have copied the React component code. In the 'Code Type' field, what should you select?</p>
+            <p><strong>Answer: React, matching the actual code you are submitting.</strong></p>
+            <p><strong>Explanation:</strong> The code type must accurately describe the format of the code you are pasting, not what it compiles or renders to. Even though React ultimately renders to HTML in the browser, the source you captured is a React component. Labeling it as HTML/CSS would be incorrect and misleading — if someone tried to render it in a plain browser without a React build step it would not work as expected. Always match the label to the actual code format.</p>
+
+            <br />
+            <h3>Question 3</h3>
+            <p><strong>Scenario:</strong> You are submitting an SVG Animation task from LottieFiles. You open the code and see it is structured as JSON (with keys like 'v', 'fr', 'ip', 'op', 'layers'). What should you do?</p>
+            <p><strong>Answer: Label it as JSON, which matches the actual format of the code you are submitting.</strong></p>
+            <p><strong>Explanation:</strong> Lottie animations are stored as JSON files, not as raw SVG markup. The presence of keys like <code>v</code>, <code>fr</code>, <code>ip</code>, <code>op</code>, and <code>layers</code> is the standard Lottie JSON schema. Even though the animation renders as a vector graphic, the source code format is JSON, and that is what the code type label must reflect. Do not convert it manually to SVG, and do not paste a URL in place of the code.</p>
+        </section>
+        <br />
+        <br />
+
+        <!-- SECTION 2: Video Capture -->
+        <section class="project-details">
+            <h2>Section 2: Video Capture</h2>
+
+            <h3>Question 4</h3>
+            <p><strong>Scenario:</strong> You are recording a Design Website that has an opening animation and a sidebar menu. When should you start recording and what should you capture?</p>
+            <p><strong>Answer: Start recording before the page loads to capture the opening animation, then scroll through all sections and interact with the sidebar menu.</strong></p>
+            <p><strong>Explanation:</strong> Opening and intro animations play only once on initial load, so the recording must begin before the page finishes loading to capture them. After the page loads, scrolling through every section and triggering all interactive elements (such as sidebar menus) ensures the video contains enough representative information to reconstruct the full visual experience. Starting after load means losing the opening animation entirely, which is often one of the most distinctive design elements.</p>
+
+            <br />
+            <h3>Question 5</h3>
+            <p><strong>Scenario:</strong> You recorded a 4-minute video of a simple UI Element. The first 30 seconds show the relevant interaction. The remaining 3.5 minutes show you navigating away, coming back, and re-recording the same thing. What should you do before submitting?</p>
+            <p><strong>Answer: Trim the video to only the relevant 30 seconds showing the interaction.</strong></p>
+            <p><strong>Explanation:</strong> The core video capture principle is to keep recordings as short as possible while still showing every meaningful state. Submitting 4 minutes of footage when 30 seconds captures everything is wasteful and reduces data quality. Navigation errors, repeated takes, and dead time should be cut. A tight, well-trimmed 30-second clip is always preferred over a long, unedited recording. Re-recording from scratch is unnecessary if editing achieves the same result.</p>
+
+            <br />
+            <h3>Question 6</h3>
+            <p><strong>Scenario:</strong> You are recording a GLSL shader from Shadertoy. The page shows the code editor on the left and the rendered shader canvas on the right. The shader responds to mouse movement. What should your recording capture?</p>
+            <p><strong>Answer: The shader canvas only, cropped to exclude the code editor and browser UI. Move your cursor across the canvas to demonstrate the mouse interaction.</strong></p>
+            <p><strong>Explanation:</strong> GLSL shader recordings must be cropped tightly to the canvas alone. Including the code editor, browser tabs, or URL bar adds irrelevant content and dilutes the training data. Because this shader uses the <code>iMouse</code> uniform, moving the cursor across the canvas during recording demonstrates how the shader responds to input — that visual behavior is part of the content being annotated. Keeping the mouse off-screen would hide a key interactive behavior, and a single screenshot cannot capture an animation or mouse-driven effect.</p>
+        </section>
+        <br />
+        <br />
+
+        <!-- SECTION 3: Screenshots & Descriptions -->
+        <section class="project-details">
+            <h2>Section 3: Screenshots &amp; Descriptions</h2>
+
+            <h3>Question 7</h3>
+            <p><strong>Scenario:</strong> You are capturing screenshots for a multi-section Design Website with a hero, features grid, pricing table, testimonials carousel, and footer. You have taken one screenshot of the hero section. Is this sufficient?</p>
+            <p><strong>Answer: No; you need screenshots covering all major sections so someone could reconstruct the full site from the screenshots alone.</strong></p>
+            <p><strong>Explanation:</strong> A single hero screenshot leaves four entire sections of the website unrepresented. The guiding question for screenshot coverage is: "Could someone reconstruct the entire site from just these screenshots?" With only one image, the answer is clearly no. The video alone cannot substitute for screenshots, because the two are meant to complement each other — screenshots with descriptions provide the precise visual and textual reference needed for reconstruction at each section.</p>
+
+            <br />
+            <h3>Question 8</h3>
+            <p><strong>Scenario:</strong> You are screenshotting an SVG animation that shows an envelope opening, a letter sliding out, then the envelope closing again in a loop. Which screenshot approach is best?</p>
+            <p><strong>Answer: Take screenshots at each key state: envelope closed, envelope opening, letter fully out, letter sliding back in, envelope closing.</strong></p>
+            <p><strong>Explanation:</strong> For animations, screenshots must tell the full temporal story of what happens. Capturing each key state in sequence — closed, opening, fully open, sliding back, closing — gives a complete picture of the animation's progression. A single "most interesting" frame omits the transitions and other states. Random screenshots may miss critical moments. Sequential key-frame captures, paired with descriptions of timing and motion, provide enough information for an LLM to reconstruct the full animation.</p>
+
+            <br />
+            <h3>Question 9</h3>
+            <p><strong>Scenario:</strong> You are writing a screenshot description for a Design Website. The screenshot shows a hero section with a headline that fades in from below, a background video playing on loop, and a CTA button that pulses on hover. Which description is best?</p>
+            <p><strong>Answer: "Hero section with a full-width looping background video. The main headline fades in from below on page load (~0.5s ease-out). A centered CTA button pulses with a subtle scale animation on hover."</strong></p>
+            <p><strong>Explanation:</strong> A good screenshot description specifies what the user sees, how elements move, their timing, and what triggers each effect. This option names the visual elements (looping background video, headline, CTA button), describes their behavior (fades in from below, pulses with scale animation), provides timing (~0.5s ease-out), and notes triggers (page load, hover). Vague phrases like "text and a button" or "nice design" give an LLM nothing to work with. Describing the underlying HTML or CSS instead of the visual experience is also wrong — focus on what the user sees.</p>
+
+            <br />
+            <h3>Question 10</h3>
+            <p><strong>Scenario:</strong> You are filling in the 'Design Style Description' field. Your overall description already says: "A portfolio website with smooth scroll animations and a project grid." Which Design Style entry is best?</p>
+            <p><strong>Answer: "Minimalist aesthetic with a monochrome palette (off-white background, charcoal text). Sans-serif typography (likely Inter or similar). Grid uses generous whitespace with subtle hover-triggered image zoom. Thin 1px borders as section dividers."</strong></p>
+            <p><strong>Explanation:</strong> The Design Style field is distinct from the overall description and must focus on visual and aesthetic details: color palette, typography choices, layout patterns, spacing, and animation style. Repeating the overall description adds no value. Vague phrases like "good design" or "futuristic" are not actionable. The correct answer provides specific, reconstructable details — exact color descriptions, a likely font family, layout spacing, hover behavior, and border styling — all of which help a model understand and replicate the visual language of the site.</p>
+        </section>
+        <br />
+        <br />
+
+        <!-- SECTION 4: Code Capture & Quality Judgment -->
+        <section class="project-details">
+            <h2>Section 4: Code Capture &amp; Quality Judgment</h2>
+
+            <h3>Question 11</h3>
+            <p><strong>Scenario:</strong> You open a Shadertoy shader and notice it has multiple tabs: 'Image', 'Common', 'Buf A', and 'Buf B.' Each contains different GLSL code. How should you capture the code?</p>
+            <p><strong>Answer: Copy the code from each buffer/pass separately (Image, Common, Buf A, Buf B).</strong></p>
+            <p><strong>Explanation:</strong> Multi-buffer Shadertoy shaders require every pass to render correctly. Copying only the Image tab leaves out the Common utilities and any intermediate buffer computations in Buf A and Buf B, making the submitted code non-renderable. Each tab must be captured separately so that the full shader pipeline is preserved. Merging them into one block would break the structure. Skipping multi-buffer shaders is also incorrect — they are valid and often produce the most interesting visual results.</p>
+
+            <br />
+            <h3>Question 12</h3>
+            <p><strong>Scenario:</strong> You are browsing for content to annotate and find two options: Option 1 is a plain white page with a single static heading and no animations. Option 2 is a landing page with scroll-triggered animations, a dynamic navigation bar, and an interactive image carousel. Which should you choose?</p>
+            <p><strong>Answer: Option 2; the content should have meaningful complexity with interesting animations and interactions.</strong></p>
+            <p><strong>Explanation:</strong> The purpose of derendering tasks is to generate high-quality training data for models learning to convert images into code. A plain static heading produces almost no useful signal — there is nothing to reconstruct beyond a single HTML element. Content with scroll-triggered animations, dynamic navigation, and interactive carousels offers rich, diverse visual states and behaviors that produce valuable training examples. Simpler is not better when it comes to training data quality.</p>
+
+            <br />
+            <h3>Question 13</h3>
+            <p><strong>Scenario:</strong> Before submitting a task, you review your work. Your screenshots show a website with a dark theme and animated card grid. But when you check your source URL, it loads a completely different site: a light-themed blog with no animations. What should you do?</p>
+            <p><strong>Answer: Fix the source URL so it points to the exact page shown in your screenshots, then verify they match before submitting.</strong></p>
+            <p><strong>Explanation:</strong> Every submission must be internally consistent — the screenshots, video, description, and source URL must all refer to the same content. A mismatched URL means the submission is internally contradictory and cannot be used as reliable training data. Submitting anyway would corrupt the dataset. Replacing screenshots with whatever the wrong URL shows ignores the actual work done. Deleting the URL is also wrong — it is a required field. The correct fix is to find and paste the URL that matches the content you already captured, then verify before submitting.</p>
+        </section>
+        <br />
+        <br />
+
+        <!-- SECTION 5: Mock Task Scenarios -->
+        <section class="project-details">
+            <h2>Section 5: Mock Task Scenarios</h2>
+
+            <h3>Question 14</h3>
+            <p><strong>Scenario:</strong> You are assigned a Design Website task. The assigned URL is a Framer marketplace template page (framer.com/marketplace/templates/glint). The page has a "Preview" button that opens the live template. What is the correct sequence of steps?</p>
+            <p><strong>Answer: Click "Preview" to open the live template → start recording before the preview loads → scroll through all sections and interact with hover/click states → capture screenshots of each major section with detailed descriptions → submit the preview URL as the source.</strong></p>
+            <p><strong>Explanation:</strong> Like the awwwards scenario in Question 1, the marketplace listing page is just a directory entry. The actual design experience — animations, scroll effects, interactive states — is on the live preview. You must navigate to that live preview, start recording before it loads to capture any opening animation, interact with every section, take detailed screenshots with descriptions, and submit the preview URL (not the marketplace listing URL) as the source. Submitting the marketplace URL would point to the wrong page and make the submission inconsistent.</p>
+
+            <br />
+            <h3>Question 15</h3>
+            <p><strong>Scenario:</strong> You are reviewing a fellow's completed GLSL Shader submission. The video is 45 seconds, nicely cropped, and shows mouse interaction. There are 3 screenshots capturing different visual states. Screenshot descriptions read: "Cool shader with colors" / "Another frame" / "Final look." The code is the full GLSL source, correctly labeled, 312 lines. The source URL points to the correct Shadertoy page. What is the main problem?</p>
+            <p><strong>Answer: The screenshot descriptions are too vague. They need to describe what is visually happening in each frame: colors, shapes, motion patterns, transitions, and how the shader evolves between states.</strong></p>
+            <p><strong>Explanation:</strong> Every other element of this submission is correct — the video is well-trimmed and cropped, the screenshot count is reasonable, the code is complete and correctly labeled, and the source URL is accurate. The only failure is the screenshot descriptions. Phrases like "Cool shader with colors" and "Another frame" give no actionable visual information. A good description for a shader screenshot would specify the dominant colors and their distribution, the shapes or patterns visible, how the visual has changed from the previous frame, and any motion or transition occurring. Without this detail, the screenshots cannot stand on their own as a reconstruction reference.</p>
+
+            <br />
+            <h3>Question 16</h3>
+            <p><strong>Scenario:</strong> You captured a screenshot of a UI Element component: a toggle switch in the "off" position (gray, knob on the left). When clicked, it slides to "on" (blue, knob on the right) with a smooth 0.3s ease transition and a subtle bounce at the end. Which description best matches this screenshot (showing the "off" state)?</p>
+            <p><strong>Answer: "Toggle switch in the 'off' state: rounded-pill track with a light gray (#D1D5DB) background, white circular knob positioned on the left. On click, the knob slides right over ~0.3s with an ease-out curve and a subtle bounce, while the track transitions to blue (#3B82F6)."</strong></p>
+            <p><strong>Explanation:</strong> This description is ideal because it captures both the current visual state and the full interaction behavior. It specifies the component type, its current state label ("off"), precise visual properties (rounded-pill shape, exact hex colors #D1D5DB and #3B82F6, knob position), and the complete animation detail (0.3s duration, ease-out curve, subtle bounce). A description like "a toggle switch component" gives almost no usable information. Describing the CSS implementation instead of what the user sees is also wrong — focus on the visual experience, not the code mechanics.</p>
+        </section>
+        <br />
+        <br />
+
+        <!-- Summary -->
+        <section class="project-details">
+            <h2>Key Takeaways</h2>
+            <ul>
+                <li><strong>Always record and screenshot the live destination site</strong>, not the aggregator listing page (awwwards, Framer marketplace, etc.).</li>
+                <li><strong>Label code by its actual format</strong> — React code is React, Lottie JSON is JSON, never mislabel to match what it renders to.</li>
+                <li><strong>Paste full source code</strong> in the code field; never paste a URL where code belongs.</li>
+                <li><strong>Start recording before page load</strong> to capture opening animations.</li>
+                <li><strong>Trim recordings ruthlessly</strong> — keep only the relevant footage.</li>
+                <li><strong>For GLSL shaders</strong>, crop to the canvas only and demonstrate mouse interaction if <code>iMouse</code> is used.</li>
+                <li><strong>Screenshots must cover all major sections</strong> — ask yourself if the site could be reconstructed from them alone.</li>
+                <li><strong>For animations</strong>, capture each key state in sequential order.</li>
+                <li><strong>Descriptions must be specific and visual</strong>: include what moves, how it moves, timing, triggers, and colors. Avoid vague phrases.</li>
+                <li><strong>Design Style is separate from overall description</strong>: focus on palette, typography, spacing, and aesthetic patterns.</li>
+                <li><strong>For multi-buffer shaders</strong>, copy code from every tab (Image, Common, Buf A, Buf B, etc.).</li>
+                <li><strong>Choose complex content</strong> with meaningful animations and interactions for higher-quality training data.</li>
+                <li><strong>Keep all submission fields consistent</strong>: screenshots, video, description, and source URL must all refer to the same content.</li>
+            </ul>
+        </section>
+    </main>
+</body>
+</html>

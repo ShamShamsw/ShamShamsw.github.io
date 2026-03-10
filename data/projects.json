@@ -337,5 +337,11 @@
     "link": "https://shamshamsw.github.io/student-interview-prep.html",
     "github": "https://github.com/ShamShamsw/student-interview-prep",
     "tags": ["interview prep", "open source", "python", "javascript", "algorithms", "data structures", "ci/cd", "education"]
+  },
+  {
+    "title": "Hedgehog | Derendering Assessment",
+    "description": "Answers and explanations for the Hedgehog Derendering qualification assessment covering submission mechanics, video capture, screenshot descriptions, code quality, and mock task scenarios across Design Websites, SVG Animation, GLSL Shaders, and UI Elements.",
+    "link": "https://shamshamsw.github.io/derendering-assessment.html",
+    "tags": ["derendering", "assessment", "glsl", "svg", "ui elements", "annotation", "notes"]
   }
 ]

@@ -1,0 +1,2825 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>D&D Generative AI Project</title>
+
+  <!-- Site Shell Nav -->
+  <link rel="stylesheet" href="css/site-shell.css" />
+
+  <!-- Tailwind & Icons -->
+  <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+  <script src="https://cdn.jsdelivr.net/npm/lucide@0.263.0/dist/umd/lucide.min.js"></script>
+
+  <!-- D&D Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&family=Crimson+Text:ital,wght@0,400;0,600;0,700;1,400;1,600&family=IM+Fell+English:ital@0;1&display=swap" rel="stylesheet" />
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            parchment: '#f4e8c1',
+            parchDark: '#d4c4a0',
+            inkBrown:  '#3e2723',
+            inkGold:   '#c9a84c',
+            inkRed:    '#8b1a1a',
+            fireSoft:  '#e8a040',
+            deepBg:    '#141008',
+            panelBg:   '#221a0f',
+          },
+          fontFamily: {
+            display: ['"Cinzel Decorative"', 'serif'],
+            body:    ['"IM Fell English"', 'serif'],
+            crimson: ['"Crimson Text"', 'serif'],
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    /* ── Reset ── */
+    html, body { height: 100%; margin: 0; }
+
+    /* ── Scrollbar ── */
+    ::-webkit-scrollbar { width: 8px; }
+    ::-webkit-scrollbar-track { background: #141008; }
+    ::-webkit-scrollbar-thumb { background: #c9a84c44; border-radius: 4px; }
+    ::-webkit-scrollbar-thumb:hover { background: #c9a84c88; }
+
+    /* ── Parchment texture ── */
+    .parchment-bg {
+      background:
+        repeating-linear-gradient(0deg, transparent, transparent 28px, rgba(139,90,43,0.03) 28px, rgba(139,90,43,0.03) 29px),
+        linear-gradient(135deg, #f4e8c1 0%, #e8d5a3 30%, #f0ddb4 60%, #e4cea0 100%);
+    }
+
+    /* ── Animations ── */
+    @keyframes inkReveal {
+      from { clip-path: inset(0 100% 0 0); opacity: 0; }
+      to   { clip-path: inset(0 0% 0 0);   opacity: 1; }
+    }
+    .ink-reveal { animation: inkReveal 1.2s ease-out forwards; }
+
+    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
+    .cursor-blink::after {
+      content: '|';
+      animation: blink 0.8s infinite;
+      color: #c9a84c;
+      font-weight: 100;
+    }
+
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to   { opacity: 1; transform: translateY(0);    }
+    }
+    .fade-in-up { opacity: 0; animation: fadeInUp 0.8s ease-out forwards; }
+    .delay-1 { animation-delay: 0.2s; }
+    .delay-2 { animation-delay: 0.4s; }
+    .delay-3 { animation-delay: 0.6s; }
+    .delay-4 { animation-delay: 0.8s; }
+    .delay-5 { animation-delay: 1s;   }
+
+    @keyframes glowPulse {
+      0%,100% { box-shadow: 0 0 15px rgba(201,168,76,0.2); }
+      50%      { box-shadow: 0 0 35px rgba(201,168,76,0.5); }
+    }
+    .glow-pulse { animation: glowPulse 3s ease-in-out infinite; }
+
+    @keyframes floatUp {
+      0%   { transform: translateY(0) scale(1);   opacity: 0.6; }
+      100% { transform: translateY(-400px) scale(0); opacity: 0; }
+    }
+    .particle {
+      position: absolute;
+      width: 3px; height: 3px;
+      background: #c9a84c;
+      border-radius: 50%;
+      pointer-events: none;
+    }
+
+    @keyframes skillFill { from { width: 0; } }
+    .skill-fill { animation: skillFill 1.5s ease-out forwards; }
+
+    /* ── Burnt edge card ── */
+    .burnt-edge { position: relative; border-radius: 2px; }
+    .burnt-edge::before {
+      content: '';
+      position: absolute;
+      inset: -2px;
+      background:
+        radial-gradient(ellipse at 0%   0%,   rgba(62,39,35,0.6) 0%, transparent 50%),
+        radial-gradient(ellipse at 100% 0%,   rgba(62,39,35,0.5) 0%, transparent 45%),
+        radial-gradient(ellipse at 100% 100%, rgba(62,39,35,0.6) 0%, transparent 50%),
+        radial-gradient(ellipse at 0%   100%, rgba(62,39,35,0.4) 0%, transparent 45%);
+      pointer-events: none;
+      border-radius: 2px;
+      z-index: 1;
+    }
+
+    /* ── Nav link ── */
+    .nav-link { position: relative; transition: color 0.3s; }
+    .nav-link::after {
+      content: '';
+      position: absolute;
+      bottom: -4px; left: 50%; width: 0; height: 2px;
+      background: linear-gradient(90deg, transparent, #c9a84c, transparent);
+      transition: width 0.3s, left 0.3s;
+    }
+    .nav-link:hover::after, .nav-link.active::after { width: 100%; left: 0; }
+
+    /* ── Tooltip ── */
+    .tooltip-trigger { position: relative; cursor: help; }
+    .tooltip-trigger .tooltip-box {
+      position: absolute;
+      bottom: calc(100% + 8px);
+      left: 50%;
+      transform: translateX(-50%) scale(0.9);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.25s, transform 0.25s;
+      z-index: 50;
+      white-space: nowrap;
+    }
+    .tooltip-trigger:hover .tooltip-box {
+      opacity: 1;
+      transform: translateX(-50%) scale(1);
+    }
+
+    /* ── Page sections ── */
+    .page-section { display: none; opacity: 0; transition: opacity 0.5s; }
+    .page-section.active { display: block; opacity: 1; }
+
+    /* ── Accordion ── */
+    .accordion-content {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.5s ease, padding 0.3s ease;
+    }
+    .accordion-content.open {
+      max-height: 3000px;
+      padding-top: 12px;
+      padding-bottom: 12px;
+    }
+
+    /* ── Wax seal ── */
+    .wax-seal {
+      width: 60px; height: 60px;
+      background: radial-gradient(circle, #a82020 0%, #6b1010 70%, #4a0808 100%);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      box-shadow: 2px 4px 12px rgba(0,0,0,0.5), inset 0 -2px 6px rgba(0,0,0,0.4);
+      font-family: 'Cinzel Decorative', serif;
+      color: #d4a040;
+      font-size: 20px;
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+
+    /* ── Search ── */
+    .search-input {
+      background: rgba(244,232,193,0.08);
+      border: 1px solid rgba(201,168,76,0.3);
+      color: #f4e8c1;
+      transition: border-color 0.3s, box-shadow 0.3s;
+    }
+    .search-input:focus {
+      outline: none;
+      border-color: #c9a84c;
+      box-shadow: 0 0 12px rgba(201,168,76,0.2);
+    }
+    .search-input::placeholder { color: rgba(244,232,193,0.4); }
+
+    /* ── NPC tag ── */
+    .npc-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 2px 10px;
+      border-radius: 999px;
+      font-size: 12px;
+      border: 1px solid rgba(201,168,76,0.3);
+      background: rgba(201,168,76,0.1);
+      color: #c9a84c;
+      cursor: help;
+      transition: background 0.2s;
+    }
+    .npc-tag:hover { background: rgba(201,168,76,0.25); }
+
+    /* ── Ornament divider ── */
+    .ornament-divider {
+      display: flex; align-items: center; gap: 12px;
+      margin: 24px 0; color: #c9a84c44;
+    }
+    .ornament-divider::before,
+    .ornament-divider::after {
+      content: '';
+      flex: 1; height: 1px;
+      background: linear-gradient(90deg, transparent, #c9a84c44, transparent);
+    }
+
+    /* ── Card hover ── */
+    .card-hover { transition: transform 0.3s, box-shadow 0.3s; }
+    .card-hover:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 30px rgba(0,0,0,0.4), 0 0 20px rgba(201,168,76,0.1);
+    }
+
+    /* ── Badge ── */
+    .badge-completed { background: #2d5a27; color: #a8e6a1; }
+    .badge-ongoing   { background: #5a4a1a; color: #e8d070; }
+    .badge-upcoming  { background: #3a2040; color: #c8a0e0; }
+    .badge-ai        { background: #1a2a4a; color: #80b4f0; }
+
+    /* ── YouTube embed wrapper ── */
+    .yt-embed {
+      position: relative;
+      padding-bottom: 56.25%;
+      height: 0;
+      overflow: hidden;
+      border-radius: 8px;
+      border: 1px solid rgba(201,168,76,0.2);
+    }
+    .yt-embed iframe {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      border: 0;
+    }
+
+    /* ── AI code block ── */
+    .ai-block {
+      background: #0d1117;
+      border: 1px solid rgba(201,168,76,0.15);
+      border-left: 3px solid #c9a84c;
+      border-radius: 6px;
+      padding: 14px 18px;
+      font-family: 'Courier New', monospace;
+      font-size: 0.8rem;
+      color: #a8c4e0;
+      overflow-x: auto;
+      line-height: 1.6;
+    }
+    .ai-block .keyword  { color: #c9a84c; }
+    .ai-block .string   { color: #a8d8a0; }
+    .ai-block .comment  { color: #666; font-style: italic; }
+    .ai-block .ai-label { color: #e8a040; font-weight: bold; }
+
+    /* ── Ingredient popup ── */
+    .ingredient-card-popup {
+      position: absolute;
+      bottom: calc(100% + 12px);
+      left: 50%;
+      transform: translateX(-50%) scale(0.9);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s, transform 0.3s;
+      z-index: 50;
+      width: 220px;
+    }
+    .ingredient-trigger:hover .ingredient-card-popup {
+      opacity: 1;
+      transform: translateX(-50%) scale(1);
+    }
+
+    .mobile-menu-open { display: flex !important; }
+
+    /* ── Runic border decoration ── */
+    .rune-border {
+      border: 1px solid rgba(201,168,76,0.25);
+      position: relative;
+    }
+    .rune-border::after {
+      content: '᛭';
+      position: absolute;
+      top: -10px; left: 50%;
+      transform: translateX(-50%);
+      background: #1a130a;
+      padding: 0 8px;
+      color: #c9a84c66;
+      font-size: 14px;
+    }
+
+    /* ── Dice roll animation ── */
+    @keyframes rollDice {
+      0%  { transform: rotate(0deg) scale(1);   }
+      25% { transform: rotate(90deg) scale(1.2); }
+      50% { transform: rotate(180deg) scale(1.1); }
+      75% { transform: rotate(270deg) scale(1.2); }
+      100%{ transform: rotate(360deg) scale(1);  }
+    }
+    .dice-roll { animation: rollDice 0.5s ease-out; }
+  </style>
+</head>
+
+<body class="bg-deepBg text-parchment font-body overflow-auto" style="min-height:100vh;">
+
+  <!-- ═══════════════════════════════════════════════════════════ -->
+  <!--  SITE SHELL HEADER (matches rest of portfolio)            -->
+  <!-- ═══════════════════════════════════════════════════════════ -->
+  <header class="site-header site-shell">
+    <div class="shell-inner">
+      <a href="index.html" class="shell-brand">Jacob Haseman</a>
+      <nav class="shell-nav">
+        <a href="index.html">Home</a>
+        <a href="resume.html">Resume</a>
+        <a href="index.html#projects">Projects</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- ═══════════════════════════════════════════════════════════ -->
+  <!--  D&D INNER NAV                                            -->
+  <!-- ═══════════════════════════════════════════════════════════ -->
+  <nav id="dndNav" class="sticky top-0 z-40 bg-deepBg/97 backdrop-blur border-b border-inkGold/20" style="top:0;">
+    <div class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
+
+      <!-- Brand -->
+      <button onclick="navigateTo('home')" class="flex items-center gap-3 group">
+        <div class="wax-seal" style="width:38px;height:38px;font-size:14px;">⚔</div>
+        <span class="font-display text-inkGold text-base hidden sm:block group-hover:text-fireSoft transition-colors">
+          D&D Generative AI Project
+        </span>
+      </button>
+
+      <!-- Desktop links -->
+      <div class="hidden md:flex items-center gap-6">
+        <button onclick="navigateTo('home')"       class="nav-link text-parchment/70 hover:text-inkGold font-crimson text-sm" data-nav="home">Scroll</button>
+        <button onclick="navigateTo('journal')"    class="nav-link text-parchment/70 hover:text-inkGold font-crimson text-sm" data-nav="journal">Session Journal</button>
+        <button onclick="navigateTo('diary')"      class="nav-link text-parchment/70 hover:text-inkGold font-crimson text-sm" data-nav="diary">Ash's Diary</button>
+        <button onclick="navigateTo('campaign')"   class="nav-link text-parchment/70 hover:text-inkGold font-crimson text-sm" data-nav="campaign">Campaign</button>
+        <button onclick="navigateTo('characters')" class="nav-link text-parchment/70 hover:text-inkGold font-crimson text-sm" data-nav="characters">Characters</button>
+        <button onclick="navigateTo('compendium')" class="nav-link text-parchment/70 hover:text-inkGold font-crimson text-sm" data-nav="compendium">AI Compendium</button>
+        <button onclick="navigateTo('bts')"        class="nav-link text-parchment/70 hover:text-inkGold font-crimson text-sm" data-nav="bts">Behind the Scenes</button>
+        <button onclick="navigateTo('recipes')"    class="nav-link text-parchment/70 hover:text-inkGold font-crimson text-sm" data-nav="recipes">Recipes</button>
+        <button onclick="navigateTo('fieldlog')"   class="nav-link text-parchment/70 hover:text-inkGold font-crimson text-sm" data-nav="fieldlog">Field Log</button>
+        <button onclick="navigateTo('explog')"     class="nav-link text-parchment/70 hover:text-inkGold font-crimson text-sm" data-nav="explog">Experiment Log</button>
+        <button onclick="navigateTo('dm')"         class="nav-link text-parchment/70 hover:text-inkGold font-crimson text-sm" data-nav="dm">DM Notes</button>
+      </div>
+
+      <!-- Mobile toggle -->
+      <button id="mobileMenuBtn" class="md:hidden text-inkGold p-2" onclick="toggleMobileMenu()">
+        <i data-lucide="menu" style="width:22px;height:22px;"></i>
+      </button>
+    </div>
+
+    <!-- Mobile menu -->
+    <div id="mobileMenu" class="hidden flex-col md:hidden bg-panelBg border-t border-inkGold/20 px-4 py-2 gap-1">
+      <button onclick="navigateTo('home');toggleMobileMenu()"       class="text-left py-2 text-parchment/70 hover:text-inkGold font-crimson text-sm">📜 Scroll (Home)</button>
+      <button onclick="navigateTo('journal');toggleMobileMenu()"    class="text-left py-2 text-parchment/70 hover:text-inkGold font-crimson text-sm">📖 Session Journal</button>
+      <button onclick="navigateTo('diary');toggleMobileMenu()"      class="text-left py-2 text-parchment/70 hover:text-inkGold font-crimson text-sm">📔 Ash's Diary</button>
+      <button onclick="navigateTo('campaign');toggleMobileMenu()"   class="text-left py-2 text-parchment/70 hover:text-inkGold font-crimson text-sm">⚔ Campaign</button>
+      <button onclick="navigateTo('characters');toggleMobileMenu()" class="text-left py-2 text-parchment/70 hover:text-inkGold font-crimson text-sm">🧙 Characters</button>
+      <button onclick="navigateTo('compendium');toggleMobileMenu()" class="text-left py-2 text-parchment/70 hover:text-inkGold font-crimson text-sm">⚗ AI Compendium</button>
+      <button onclick="navigateTo('bts');toggleMobileMenu()"        class="text-left py-2 text-parchment/70 hover:text-inkGold font-crimson text-sm">🎥 Behind the Scenes</button>
+      <button onclick="navigateTo('recipes');toggleMobileMenu()"    class="text-left py-2 text-parchment/70 hover:text-inkGold font-crimson text-sm">⚗ Recipes</button>
+      <button onclick="navigateTo('fieldlog');toggleMobileMenu()"   class="text-left py-2 text-parchment/70 hover:text-inkGold font-crimson text-sm">🌿 Field Log</button>
+      <button onclick="navigateTo('explog');toggleMobileMenu()"     class="text-left py-2 text-parchment/70 hover:text-inkGold font-crimson text-sm">🧪 Experiment Log</button>
+      <button onclick="navigateTo('dm');toggleMobileMenu()"         class="text-left py-2 text-parchment/70 hover:text-inkGold font-crimson text-sm">📋 DM Notes</button>
+    </div>
+  </nav>
+
+  <!-- ═══════════════════════════════════════════════════════════ -->
+  <!--  MAIN                                                      -->
+  <!-- ═══════════════════════════════════════════════════════════ -->
+  <main id="appMain">
+
+    <!-- ══════════════════════ HOME / SCROLL ══════════════════════ -->
+    <section id="page-home" class="page-section active" style="opacity:1;">
+      <div class="relative w-full" style="min-height:90vh;">
+
+        <!-- Background atmosphere -->
+        <div class="absolute inset-0 pointer-events-none" style="
+          background: radial-gradient(ellipse at 50% 25%, rgba(201,168,76,0.07) 0%, transparent 55%),
+                      radial-gradient(ellipse at 15% 85%, rgba(139,26,26,0.08) 0%, transparent 50%),
+                      #141008;"></div>
+        <div id="particlesContainer" class="absolute inset-0 overflow-hidden pointer-events-none"></div>
+
+        <!-- Hero content -->
+        <div class="relative z-10 flex flex-col items-center justify-center text-center px-4 py-24" style="min-height:70vh;">
+
+          <div class="wax-seal mb-6 fade-in-up glow-pulse" style="width:80px;height:80px;font-size:28px;">⚔</div>
+
+          <h1 class="font-display text-inkGold text-3xl sm:text-5xl fade-in-up delay-1 mb-3" style="line-height:1.25;">
+            The AI Chronicle
+          </h1>
+          <p class="font-crimson italic text-parchment/50 text-base sm:text-lg fade-in-up delay-2 mb-6">
+            A Generative AI Experiment wrapped in Parchment &amp; Peril
+          </p>
+
+          <div class="ornament-divider w-56 fade-in-up delay-2 mx-auto">✦</div>
+
+          <p id="homeQuote" class="font-crimson italic text-parchment/60 text-lg sm:text-xl max-w-2xl mx-auto mb-10 fade-in-up delay-3 cursor-blink leading-relaxed"></p>
+
+          <div class="flex flex-wrap justify-center gap-4 fade-in-up delay-4">
+            <button onclick="navigateTo('journal')" class="group flex items-center gap-2 px-7 py-3 bg-inkGold/10 border border-inkGold/40 rounded-lg hover:bg-inkGold/20 transition-all glow-pulse font-crimson text-inkGold text-sm">
+              <i data-lucide="book-open" style="width:16px;height:16px;"></i> Open the Journal
+              <i data-lucide="chevron-right" style="width:14px;height:14px;" class="group-hover:translate-x-1 transition-transform"></i>
+            </button>
+            <button onclick="navigateTo('bts')" class="group flex items-center gap-2 px-7 py-3 bg-inkRed/10 border border-inkRed/40 rounded-lg hover:bg-inkRed/20 transition-all font-crimson text-parchment/70 text-sm">
+              <i data-lucide="youtube" style="width:16px;height:16px;color:#ff4444;"></i> Watch Behind the Scenes
+            </button>
+          </div>
+
+          <div class="mt-16 fade-in-up delay-5 flex flex-col items-center gap-2 text-parchment/30">
+            <span class="font-crimson text-xs italic">Scroll to reveal more</span>
+            <i data-lucide="chevrons-down" style="width:18px;height:18px;" class="animate-bounce"></i>
+          </div>
+        </div>
+
+        <!-- ── About this project ── -->
+        <div class="relative z-10 max-w-4xl mx-auto px-4 pb-16">
+          <div class="ornament-divider">🤖</div>
+          <h2 class="font-display text-inkGold text-xl text-center mb-8">About This Quest</h2>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div class="bg-panelBg border border-inkGold/20 rounded-lg p-6 card-hover rune-border">
+              <h3 class="font-display text-inkGold text-base mb-3 flex items-center gap-2">
+                <i data-lucide="cpu" style="width:16px;height:16px;"></i> The Premise
+              </h3>
+              <p class="font-crimson text-parchment/70 text-sm leading-relaxed">
+                What happens when you hand a Dungeon Master's toolkit to a generative AI?
+                This project explores AI-assisted D&amp;D storytelling — from NPC generation and session
+                summarization to lore synthesis. Every session is part experiment, part adventure.
+              </p>
+            </div>
+
+            <div class="bg-panelBg border border-inkGold/20 rounded-lg p-6 card-hover rune-border">
+              <h3 class="font-display text-inkGold text-base mb-3 flex items-center gap-2">
+                <i data-lucide="wrench" style="width:16px;height:16px;"></i> Tech Stack
+              </h3>
+              <div class="space-y-2 text-sm font-crimson">
+                <div class="flex items-center gap-2 text-parchment/70">
+                  <span class="text-inkGold">▸</span> LLM: <span class="text-parchment">Unknown — to be determined</span>
+                </div>
+                <div class="flex items-center gap-2 text-parchment/70">
+                  <span class="text-inkGold">▸</span> Backend: <span class="text-parchment">Unknown</span>
+                </div>
+                <div class="flex items-center gap-2 text-parchment/70">
+                  <span class="text-inkGold">▸</span> Frontend: <span class="text-parchment">HTML / Tailwind / JS</span>
+                </div>
+                <div class="flex items-center gap-2 text-parchment/70">
+                  <span class="text-inkGold">▸</span> Hosting: <span class="text-parchment">GitHub Pages</span>
+                </div>
+                <div class="flex items-center gap-2 text-parchment/70">
+                  <span class="text-inkGold">▸</span> Video: <span class="text-parchment">YouTube</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="bg-panelBg border border-inkGold/20 rounded-lg p-6 card-hover rune-border md:col-span-2">
+              <h3 class="font-display text-inkGold text-base mb-3 flex items-center gap-2">
+                <i data-lucide="scroll" style="width:16px;height:16px;"></i> Project Status
+              </h3>
+              <div class="flex flex-wrap gap-3">
+                <span class="badge-ongoing text-xs px-3 py-1 rounded-full font-crimson">🔄 Active Development</span>
+                <span class="badge-ai text-xs px-3 py-1 rounded-full font-crimson">🤖 AI-Assisted</span>
+                <span class="badge-upcoming text-xs px-3 py-1 rounded-full font-crimson">🎲 D&D 5e Rules</span>
+                <span class="badge-completed text-xs px-3 py-1 rounded-full font-crimson">📺 Video Documented</span>
+              </div>
+              <p class="font-crimson text-parchment/50 text-xs mt-3 italic">
+                Last session: Unknown — check the Behind the Scenes page for updates.
+              </p>
+            </div>
+          </div>
+
+          <!-- Quick-links to pages -->
+          <div class="ornament-divider mt-12">⚔</div>
+          <h2 class="font-display text-inkGold text-xl text-center mb-8">Navigate the Tome</h2>
+          <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
+            <button onclick="navigateTo('journal')" class="burnt-edge parchment-bg p-5 card-hover text-left">
+              <div class="relative z-10">
+                <div class="text-2xl mb-2">📖</div>
+                <h3 class="font-display text-inkBrown text-sm mb-1">Session Journal</h3>
+                <p class="font-crimson text-inkBrown/60 text-xs">Play-by-play session logs and AI-generated recaps</p>
+              </div>
+            </button>
+            <button onclick="navigateTo('campaign')" class="burnt-edge parchment-bg p-5 card-hover text-left">
+              <div class="relative z-10">
+                <div class="text-2xl mb-2">🗺️</div>
+                <h3 class="font-display text-inkBrown text-sm mb-1">Campaign</h3>
+                <p class="font-crimson text-inkBrown/60 text-xs">Adventure arcs, chapter summaries &amp; timeline</p>
+              </div>
+            </button>
+            <button onclick="navigateTo('characters')" class="burnt-edge parchment-bg p-5 card-hover text-left">
+              <div class="relative z-10">
+                <div class="text-2xl mb-2">🧙</div>
+                <h3 class="font-display text-inkBrown text-sm mb-1">Characters</h3>
+                <p class="font-crimson text-inkBrown/60 text-xs">AI-built character sheets &amp; party roster</p>
+              </div>
+            </button>
+            <button onclick="navigateTo('compendium')" class="burnt-edge parchment-bg p-5 card-hover text-left">
+              <div class="relative z-10">
+                <div class="text-2xl mb-2">⚗️</div>
+                <h3 class="font-display text-inkBrown text-sm mb-1">AI Compendium</h3>
+                <p class="font-crimson text-inkBrown/60 text-xs">Prompts, tools &amp; techniques used</p>
+              </div>
+            </button>
+            <button onclick="navigateTo('bts')" class="burnt-edge parchment-bg p-5 card-hover text-left col-span-2 md:col-span-1">
+              <div class="relative z-10">
+                <div class="text-2xl mb-2">🎥</div>
+                <h3 class="font-display text-inkBrown text-sm mb-1">Behind the Scenes</h3>
+                <p class="font-crimson text-inkBrown/60 text-xs">YouTube devlog &amp; video recaps</p>
+              </div>
+            </button>
+            <button onclick="window.open('https://github.com/ShamShamsw/D-D-Campaign-Notes-Template','_blank')" class="burnt-edge parchment-bg p-5 card-hover text-left">
+              <div class="relative z-10">
+                <div class="text-2xl mb-2">🐙</div>
+                <h3 class="font-display text-inkBrown text-sm mb-1">GitHub Repo</h3>
+                <p class="font-crimson text-inkBrown/60 text-xs">Source code &amp; campaign notes template</p>
+              </div>
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══════════════════════ SESSION JOURNAL ══════════════════════ -->
+    <section id="page-journal" class="page-section">
+      <div class="max-w-4xl mx-auto px-4 py-12">
+        <div class="text-center mb-10">
+          <h1 class="font-display text-inkGold text-3xl sm:text-4xl mb-2">Session Journal</h1>
+          <p class="font-crimson italic text-parchment/50">AI-generated recaps &amp; player notes from each session</p>
+          <div class="ornament-divider w-48 mx-auto">✦</div>
+        </div>
+
+        <!-- AI badge -->
+        <div class="flex items-center gap-3 bg-panelBg border border-inkGold/20 rounded-lg p-4 mb-8">
+          <div class="w-10 h-10 rounded-full bg-blue-900/40 flex items-center justify-center text-blue-300 flex-shrink-0">🤖</div>
+          <div>
+            <p class="font-crimson text-parchment/80 text-sm">These recaps were generated (or assisted) by a Large Language Model from raw session notes.</p>
+            <p class="font-crimson text-parchment/40 text-xs italic mt-0.5">Quality, accuracy, and dramatic flair may vary.</p>
+          </div>
+        </div>
+
+        <div class="space-y-6" id="journalEntries">
+
+          <!-- Session 1 -->
+          <article class="burnt-edge parchment-bg overflow-hidden card-hover">
+            <div class="relative z-10">
+              <button onclick="toggleAccordion(this)" class="w-full text-left p-6 flex items-start justify-between gap-4">
+                <div>
+                  <div class="flex items-center gap-3 mb-1 flex-wrap">
+                    <span class="font-crimson text-inkBrown/50 text-sm">Session 1 — 2026-02-19</span>
+                    <span class="badge-ai text-xs px-2 py-0.5 rounded-full font-crimson">🤖 AI Recap</span>
+                  </div>
+                  <h3 class="font-display text-inkBrown text-xl">Town of Beginnings — First Foray</h3>
+                </div>
+                <i data-lucide="chevron-down" style="width:20px;height:20px;color:#3e2723;opacity:0.4;" class="flex-shrink-0 mt-1 transition-transform accordion-icon"></i>
+              </button>
+              <div class="accordion-content px-6">
+                <div class="border-t border-inkBrown/10 pt-4 space-y-4">
+                  <p class="font-crimson text-inkBrown/80 text-sm leading-relaxed">
+                    Ash Windbreaker's first day in the Town of Beginnings. Helped Mara at The First Lantern with a stuck cellar keg, earning a room and a mug in trade. Ventured to the Whispering Wood and foraged Riverwort by a river spring and a stubborn Sunthistle. Back at the room, practiced a first infusion on the Riverwort (DC 12 Alchemy — success) and crafted an <strong>Enhanced River Salve</strong>. Brought the salve to the Alchemy Guild; Guildmaster Elowen granted access to the trial bench and awarded a personal journal after Ash identified a rotten batch in guild storage. Later ran the Long-Kept Balm recipe from the Guild Medicine Compendium on the trial bench (roll 18 — success), produced the first tin, and delivered it to Elowen. Visited the guild patch, prepared the eastern raised bed for Sunthistle, then met Farmer Bram at the Market Garden plots and planted three Sunthistle seedlings (establishment check 15 — success). Sold a second Long-Kept Balm tin for <strong>2 silver</strong> at the eastern market. Ended the day with a forage run along the Millstream, collecting Riverwort and Sunthistle.
+                  </p>
+                  <!-- AI prompt used -->
+                  <div>
+                    <p class="font-crimson text-inkBrown/50 text-xs mb-2 flex items-center gap-1">
+                      <i data-lucide="terminal" style="width:12px;height:12px;"></i> AI Prompt Used
+                    </p>
+                    <div class="ai-block">
+                      <span class="comment"># Prompt template for session recap</span><br>
+                      <span class="keyword">system:</span> <span class="string">"You are a dramatic D&D narrator writing a session recap in high fantasy prose."</span><br>
+                      <span class="keyword">user:</span> <span class="string">"Summarize this session: [RAW NOTES HERE]"</span><br>
+                      <span class="ai-label">→ Model:</span> Unknown
+                    </div>
+                  </div>
+                  <div class="flex items-center gap-3 text-xs text-inkBrown/40 font-crimson flex-wrap">
+                    <span>🎲 Notable rolls: 18 (salve batch), 15 (seedling establishment), 16 (forage)</span>
+                    <span>•</span>
+                    <span>⏱ Unknown duration</span>
+                    <span>•</span>
+                    <span>🌱 +15 Farming XP • 💰 2 silver earned</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </article>
+
+          <!-- Session 2 placeholder -->
+          <article class="burnt-edge parchment-bg overflow-hidden card-hover opacity-60">
+            <div class="relative z-10">
+              <div class="p-6">
+                <div class="flex items-center gap-3 mb-1">
+                  <span class="font-crimson text-inkBrown/50 text-sm">Session 2 — Coming Soon</span>
+                  <span class="badge-upcoming text-xs px-2 py-0.5 rounded-full font-crimson">📅 Upcoming</span>
+                </div>
+                <h3 class="font-display text-inkBrown text-xl">Unknown Title</h3>
+                <p class="font-crimson text-inkBrown/50 text-sm italic mt-2">This session hasn't been played yet, or notes haven't been added.</p>
+              </div>
+            </div>
+          </article>
+
+        </div>
+
+        <!-- Add session CTA -->
+        <div class="mt-10 text-center">
+          <p class="font-crimson text-parchment/40 text-sm italic">More sessions will be added as the campaign progresses.</p>
+          <button onclick="navigateTo('bts')" class="mt-4 inline-flex items-center gap-2 text-inkGold/70 hover:text-inkGold font-crimson text-sm transition-colors">
+            <i data-lucide="youtube" style="width:14px;height:14px;"></i>
+            Watch the video recaps on YouTube instead →
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══════════════════════ CAMPAIGN ══════════════════════ -->
+    <section id="page-campaign" class="page-section">
+      <div class="max-w-5xl mx-auto px-4 py-12">
+        <div class="text-center mb-10">
+          <h1 class="font-display text-inkGold text-3xl sm:text-4xl mb-2">The Campaign</h1>
+          <p class="font-crimson italic text-parchment/50">Adventure arcs, story beats &amp; world lore</p>
+          <div class="ornament-divider w-48 mx-auto">⚔</div>
+        </div>
+
+        <!-- Campaign Setting -->
+        <div class="bg-panelBg border border-inkGold/20 rounded-lg p-6 mb-10 rune-border">
+          <h2 class="font-display text-inkGold text-lg mb-4 flex items-center gap-2">
+            <i data-lucide="map" style="width:18px;height:18px;"></i> Campaign Setting
+          </h2>
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 text-sm font-crimson">
+            <div>
+              <span class="text-parchment/40 text-xs font-display block mb-1">WORLD NAME</span>
+              <span class="text-parchment/80">Unknown</span>
+            </div>
+            <div>
+              <span class="text-parchment/40 text-xs font-display block mb-1">SYSTEM</span>
+              <span class="text-parchment/80">D&D 5th Edition</span>
+            </div>
+            <div>
+              <span class="text-parchment/40 text-xs font-display block mb-1">TONE</span>
+              <span class="text-parchment/80">Unknown</span>
+            </div>
+            <div>
+              <span class="text-parchment/40 text-xs font-display block mb-1">DUNGEON MASTER</span>
+              <span class="text-parchment/80">Jacob Haseman + AI Assist</span>
+            </div>
+            <div>
+              <span class="text-parchment/40 text-xs font-display block mb-1">PLAYERS</span>
+              <span class="text-parchment/80">Unknown</span>
+            </div>
+            <div>
+              <span class="text-parchment/40 text-xs font-display block mb-1">STARTED</span>
+              <span class="text-parchment/80">2026-02-19</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Timeline -->
+        <h2 class="font-display text-inkGold text-lg mb-8 text-center">Adventure Arc Timeline</h2>
+        <div class="relative">
+          <div class="absolute left-4 md:left-1/2 top-0 bottom-0 w-px bg-gradient-to-b from-inkGold/40 via-inkGold/20 to-transparent"></div>
+          <div class="space-y-10">
+
+            <!-- Arc 1 -->
+            <div class="relative flex flex-col md:flex-row items-start gap-6">
+              <div class="absolute left-4 md:left-1/2 w-3 h-3 bg-inkGold rounded-full -translate-x-1.5 mt-2 glow-pulse"></div>
+              <div class="md:w-1/2 md:pr-12 md:text-right pl-10 md:pl-0">
+                <span class="badge-ongoing text-xs px-3 py-1 rounded-full font-crimson">Ongoing</span>
+                <h3 class="font-display text-inkGold text-xl mt-2">Arc 1 — Unknown Title</h3>
+                <span class="font-crimson text-parchment/40 text-sm">Sessions 1–?? • Unknown Date Range</span>
+              </div>
+              <div class="md:w-1/2 md:pl-12 pl-10">
+                <div class="bg-panelBg border border-inkGold/20 rounded-lg p-5">
+                  <p class="font-crimson text-parchment/70 text-sm leading-relaxed mb-3">
+                    Unknown — add a description of the first adventure arc here. What is the central conflict? What drove the party together?
+                  </p>
+                  <button onclick="toggleAccordion(this)" class="flex items-center gap-2 text-inkGold/60 hover:text-inkGold text-sm transition-colors">
+                    <i data-lucide="file-text" style="width:14px;height:14px;"></i>
+                    <span class="font-crimson">Session Notes</span>
+                    <i data-lucide="chevron-down" style="width:14px;height:14px;" class="accordion-icon transition-transform"></i>
+                  </button>
+                  <div class="accordion-content">
+                    <div class="space-y-2 text-sm font-crimson text-parchment/60 mt-2">
+                      <p><strong class="text-parchment/80">Session 1:</strong> Unknown — notes to be added.</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Arc 2 placeholder -->
+            <div class="relative flex flex-col md:flex-row items-start gap-6 opacity-50">
+              <div class="absolute left-4 md:left-1/2 w-3 h-3 bg-inkGold/30 rounded-full -translate-x-1.5 mt-2"></div>
+              <div class="md:w-1/2 md:pr-12 md:text-right pl-10 md:pl-0">
+                <span class="badge-upcoming text-xs px-3 py-1 rounded-full font-crimson">Upcoming</span>
+                <h3 class="font-display text-inkGold/50 text-xl mt-2">Arc 2 — Unknown</h3>
+                <span class="font-crimson text-parchment/40 text-sm">Not yet reached</span>
+              </div>
+              <div class="md:w-1/2 md:pl-12 pl-10">
+                <div class="bg-panelBg border border-inkGold/10 rounded-lg p-5">
+                  <p class="font-crimson text-parchment/40 text-sm italic">The story continues beyond this point…</p>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- World Lore box -->
+        <div class="mt-16">
+          <div class="ornament-divider">🏰</div>
+          <h2 class="font-display text-inkGold text-lg mb-6 text-center">World Lore &amp; Factions</h2>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div class="bg-panelBg border border-inkGold/15 rounded-lg p-5 card-hover">
+              <h3 class="font-display text-inkGold text-sm mb-2">📍 Key Locations</h3>
+              <ul class="font-crimson text-parchment/60 text-sm space-y-1">
+                <li><strong class="text-parchment/80">The First Lantern</strong> — inn where Ash lodges; run by Mara.</li>
+                <li><strong class="text-parchment/80">Alchemy Guild</strong> — provides trial bench access, guild patch, and Compendium loans.</li>
+                <li><strong class="text-parchment/80">Whispering Wood</strong> — local foraging area; Riverwort near river springs, Sunthistle on sunny edges.</li>
+                <li><strong class="text-parchment/80">Market Garden Plots</strong> — rentable raised beds behind the eastern market; good for Sunthistle. Farmer Bram operates here.</li>
+                <li><strong class="text-parchment/80">Millstream Allotments</strong> — community plots along the millstream; wet-tolerant plants and Riverwort roots thrive near the water.</li>
+              </ul>
+            </div>
+            <div class="bg-panelBg border border-inkGold/15 rounded-lg p-5 card-hover">
+              <h3 class="font-display text-inkGold text-sm mb-2">⚔ Factions</h3>
+              <ul class="font-crimson text-parchment/60 text-sm space-y-1">
+                <li><strong class="text-parchment/80">Alchemy Guild</strong> — provides trial bench access, field guides, consignment opportunities, and guild patch. Led by Guildmaster Elowen. Constant demand for salves from contracts, the infirmary, and field teams.</li>
+              </ul>
+            </div>
+            <div class="bg-panelBg border border-inkGold/15 rounded-lg p-5 card-hover">
+              <h3 class="font-display text-inkGold text-sm mb-2">👹 Main Antagonist</h3>
+              <p class="font-crimson text-parchment/50 text-sm italic">Unknown — the big bad evil guy (BBEG).</p>
+            </div>
+            <div class="bg-panelBg border border-inkGold/15 rounded-lg p-5 card-hover">
+              <h3 class="font-display text-inkGold text-sm mb-2">🌍 World History</h3>
+              <p class="font-crimson text-parchment/50 text-sm italic">Unknown — the lore that makes your world feel real.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══════════════════════ CHARACTERS ══════════════════════ -->
+    <section id="page-characters" class="page-section">
+      <div class="max-w-5xl mx-auto px-4 py-12">
+        <div class="text-center mb-10">
+          <h1 class="font-display text-inkGold text-3xl sm:text-4xl mb-2">The Party</h1>
+          <p class="font-crimson italic text-parchment/50">Character sheets, backstories &amp; AI-generated portraits</p>
+          <div class="ornament-divider w-48 mx-auto">🜃</div>
+        </div>
+
+        <!-- AI character note -->
+        <div class="flex items-center gap-3 bg-panelBg border border-blue-700/30 rounded-lg p-4 mb-8">
+          <span class="text-2xl">🤖</span>
+          <p class="font-crimson text-parchment/70 text-sm">Character backstories on this page were co-written with a generative AI using player-provided character concepts.</p>
+        </div>
+
+        <!-- Character cards grid -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8" id="characterCards">
+
+          <!-- PC 1 -->
+          <div class="bg-panelBg border-2 border-inkGold/30 rounded-lg overflow-hidden card-hover">
+            <div class="bg-inkGold/10 p-5 border-b border-inkGold/20 flex items-center gap-4">
+              <div class="wax-seal flex-shrink-0" style="width:56px;height:56px;font-size:20px;">A</div>
+              <div>
+                <h2 class="font-display text-inkGold text-xl">Ash Windbreaker</h2>
+                <p class="font-crimson text-parchment/50 text-sm">Unknown Race • Unknown Class • Level 1</p>
+                <p class="font-crimson italic text-parchment/30 text-xs">Aspiring herbalist &amp; alchemist</p>
+              </div>
+            </div>
+            <div class="p-5 space-y-4">
+
+              <!-- Ability scores -->
+              <div class="grid grid-cols-6 gap-2 text-center">
+                <div class="bg-deepBg rounded p-2">
+                  <div class="font-display text-inkGold text-sm">10</div>
+                  <div class="font-crimson text-parchment/30 text-xs">+0</div>
+                  <div class="font-crimson text-parchment/40 text-xs">STR</div>
+                </div>
+                <div class="bg-deepBg rounded p-2">
+                  <div class="font-display text-inkGold text-sm">13</div>
+                  <div class="font-crimson text-parchment/30 text-xs">+1</div>
+                  <div class="font-crimson text-parchment/40 text-xs">DEX</div>
+                </div>
+                <div class="bg-deepBg rounded p-2">
+                  <div class="font-display text-inkGold text-sm">12</div>
+                  <div class="font-crimson text-parchment/30 text-xs">+1</div>
+                  <div class="font-crimson text-parchment/40 text-xs">CON</div>
+                </div>
+                <div class="bg-deepBg rounded p-2 ring-1 ring-inkGold/40">
+                  <div class="font-display text-inkGold text-sm">15</div>
+                  <div class="font-crimson text-inkGold/60 text-xs">+2</div>
+                  <div class="font-crimson text-parchment/40 text-xs">INT</div>
+                </div>
+                <div class="bg-deepBg rounded p-2 ring-1 ring-inkGold/40">
+                  <div class="font-display text-inkGold text-sm">14</div>
+                  <div class="font-crimson text-inkGold/60 text-xs">+2</div>
+                  <div class="font-crimson text-parchment/40 text-xs">WIS</div>
+                </div>
+                <div class="bg-deepBg rounded p-2">
+                  <div class="font-display text-inkGold text-sm">8</div>
+                  <div class="font-crimson text-parchment/30 text-xs">−1</div>
+                  <div class="font-crimson text-parchment/40 text-xs">CHA</div>
+                </div>
+              </div>
+
+              <!-- Combat stats -->
+              <div class="border-t border-inkGold/10 pt-3 grid grid-cols-2 gap-2 text-sm font-crimson text-parchment/60">
+                <div class="flex justify-between"><span>HP</span><span class="text-parchment">?? / ??</span></div>
+                <div class="flex justify-between"><span>AC</span><span class="text-parchment">??</span></div>
+                <div class="flex justify-between"><span>Speed</span><span class="text-parchment">?? ft</span></div>
+                <div class="flex justify-between"><span>Initiative</span><span class="text-parchment">+1</span></div>
+              </div>
+              <div class="flex flex-wrap gap-2 text-xs font-crimson">
+                <span class="px-2 py-0.5 rounded bg-deepBg text-parchment/40 border border-inkGold/10">Guild Favor: 0</span>
+                <span class="px-2 py-0.5 rounded bg-deepBg text-parchment/40 border border-inkGold/10">Last Rest: 2026-02-21</span>
+                <span class="px-2 py-0.5 rounded bg-deepBg text-yellow-300/50 border border-yellow-700/20">⚠ Compendium due 2026-02-26</span>
+              </div>
+
+              <!-- Skills -->
+              <div class="border-t border-inkGold/10 pt-3">
+                <button onclick="toggleAccordion(this)" class="flex items-center gap-2 text-inkGold/60 hover:text-inkGold text-sm transition-colors mb-1 w-full text-left">
+                  <i data-lucide="star" style="width:14px;height:14px;"></i>
+                  <span class="font-crimson">Skills</span>
+                  <i data-lucide="chevron-down" style="width:14px;height:14px;" class="accordion-icon transition-transform ml-auto"></i>
+                </button>
+                <div class="accordion-content">
+                  <div class="space-y-3 pt-1">
+                    <!-- Alchemy -->
+                    <div class="bg-deepBg rounded p-3 border border-inkGold/10">
+                      <div class="flex items-center justify-between mb-1">
+                        <span class="font-crimson text-parchment/80 text-xs font-semibold">Alchemy</span>
+                        <span class="font-crimson text-parchment/30 text-xs italic">Level unknown</span>
+                      </div>
+                      <p class="font-crimson text-parchment/55 text-xs mb-1">Herbology-focused potioncraft: medicines, salves, and basic potions. Not instant miracles.</p>
+                      <div class="grid grid-cols-1 gap-1 text-xs font-crimson text-parchment/40 mt-2">
+                        <div><span class="text-parchment/25">Materials: </span>Common herbs, vials, water, simple reagents.</div>
+                        <div><span class="text-parchment/25">Time: </span>Minutes to hours depending on recipe and complexity.</div>
+                        <div><span class="text-parchment/25">Failure: </span>Potion spoils, weaker effect, or minor side effects (nausea, drowsiness).</div>
+                        <div><span class="text-parchment/25">Growth: </span>Gain recipes, practice, and rare ingredients to improve potency and reliability.</div>
+                      </div>
+                    </div>
+                    <!-- Farming -->
+                    <div class="bg-deepBg rounded p-3 border border-green-800/20">
+                      <div class="flex items-center justify-between mb-1">
+                        <span class="font-crimson text-parchment/80 text-xs font-semibold">Farming</span>
+                        <span class="font-crimson text-parchment/40 text-xs">Level 0 &nbsp;·&nbsp; 15 XP</span>
+                      </div>
+                      <div class="w-full bg-deepBg/80 rounded-full h-1.5 mb-2 border border-inkGold/10">
+                        <div class="bg-green-600/60 h-1.5 rounded-full" style="width:15%"></div>
+                      </div>
+                      <p class="font-crimson text-parchment/55 text-xs mb-2">Small-scale herb cultivation: planting, tending, drying, and basic garden care. Improves herb quality and yields.</p>
+                      <ul class="text-xs font-crimson text-parchment/40 space-y-0.5">
+                        <li>• Modest quality gains at low levels; large improvements require higher levels and investment.</li>
+                        <li>• XP from tending, harvesting, and successful cultivation. Higher-quality yields grant more XP.</li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Inventory -->
+              <div class="border-t border-inkGold/10 pt-3">
+                <button onclick="toggleAccordion(this)" class="flex items-center gap-2 text-inkGold/60 hover:text-inkGold text-sm transition-colors mb-1 w-full text-left">
+                  <i data-lucide="package" style="width:14px;height:14px;"></i>
+                  <span class="font-crimson">Inventory &amp; Items</span>
+                  <i data-lucide="chevron-down" style="width:14px;height:14px;" class="accordion-icon transition-transform ml-auto"></i>
+                </button>
+                <div class="accordion-content">
+                  <div class="space-y-2 pt-1">
+
+                    <!-- Gear (non-item) -->
+                    <div class="bg-deepBg/50 rounded p-3 border border-inkGold/5">
+                      <p class="font-crimson text-parchment/40 text-xs font-display mb-2">CARRIED GEAR</p>
+                      <div class="space-y-1 text-xs font-crimson text-parchment/55">
+                        <div class="flex justify-between"><span>Traveller's Pack</span><span class="text-parchment/30">×1</span></div>
+                        <div class="flex justify-between"><span>Herbalist's Satchel</span><span class="text-parchment/30">×1</span></div>
+                        <div class="flex justify-between"><span>Personal journal (guild-issued)</span><span class="text-parchment/30">×1</span></div>
+                        <div class="flex justify-between"><span>Beeswax tin, labelled jars, mortar &amp; pestle</span><span class="text-parchment/30">—</span></div>
+                        <div class="flex justify-between text-parchment/35"><span class="italic">Oak trunk at The First Lantern: spare cloth sacks, spare vials, folded cloak</span><span>—</span></div>
+                      </div>
+                    </div>
+
+                    <!-- Herbs & raw materials -->
+                    <div class="bg-deepBg/50 rounded p-3 border border-green-900/20">
+                      <p class="font-crimson text-parchment/40 text-xs font-display mb-2">HERBS &amp; RAW MATERIALS</p>
+                      <div class="space-y-1 text-xs font-crimson text-parchment/55">
+                        <div class="flex justify-between"><span>Enhanced Riverwort</span><span class="text-parchment/30">×1</span></div>
+                        <div class="flex justify-between"><span>Riverwort</span><span class="text-parchment/30">×4</span></div>
+                        <div class="flex justify-between"><span>Sunthistle</span><span class="text-parchment/30">×9</span></div>
+                        <div class="flex justify-between text-parchment/30 italic"><span>Sunthistle seedlings (planted — 0 in hand)</span><span>×0</span></div>
+                      </div>
+                    </div>
+
+                    <!-- Drying rack -->
+                    <div class="bg-deepBg/50 rounded p-3 border border-yellow-900/15">
+                      <p class="font-crimson text-parchment/40 text-xs font-display mb-2">DRYING RACK (room)</p>
+                      <div class="space-y-1 text-xs font-crimson text-parchment/55">
+                        <div class="flex justify-between"><span>Sunthistle (started 2026-02-19 07:15)</span><span class="text-parchment/30">×3</span></div>
+                        <div class="flex justify-between"><span>Sunthistle (started 2026-02-19 18:10)</span><span class="text-parchment/30">×2</span></div>
+                        <div class="flex justify-between"><span>Riverwort (started 2026-02-20 20:00)</span><span class="text-parchment/30">×6</span></div>
+                        <div class="flex justify-between"><span>Sunthistle (started 2026-02-20 20:00)</span><span class="text-parchment/30">×4</span></div>
+                      </div>
+                    </div>
+
+                    <!-- Apprentice Alchemy Kit -->
+                    <div class="bg-deepBg rounded p-3 border border-inkGold/10">
+                      <div class="flex items-start justify-between gap-2 mb-1">
+                        <div class="flex items-center gap-2 flex-wrap">
+                          <span class="font-crimson text-parchment/85 text-xs font-semibold">Apprentice Alchemy Kit</span>
+                          <span class="text-xs px-1.5 py-0.5 rounded font-crimson bg-parchment/5 text-parchment/40 border border-parchment/10">Tool</span>
+                          <span class="text-xs px-1.5 py-0.5 rounded font-crimson bg-parchment/5 text-parchment/30 border border-parchment/10">Common</span>
+                        </div>
+                        <span class="font-crimson text-parchment/30 text-xs flex-shrink-0">×1 · 10 sp</span>
+                      </div>
+                      <p class="font-crimson text-parchment/55 text-xs leading-relaxed">Grants <strong class="text-parchment/75">+1</strong> to simple Alchemy checks in the field. Does not replace a proper guild bench for DC 15+ batch work. No attunement.</p>
+                      <p class="font-crimson text-parchment/30 text-xs italic mt-1">A well-worn wooden box with labelled vials and a dented mortar. Reliable for beginners.</p>
+                    </div>
+
+                    <!-- Common Reagents -->
+                    <div class="bg-deepBg rounded p-3 border border-inkGold/10">
+                      <div class="flex items-start justify-between gap-2 mb-1">
+                        <div class="flex items-center gap-2 flex-wrap">
+                          <span class="font-crimson text-parchment/85 text-xs font-semibold">Common Reagents (packet)</span>
+                          <span class="text-xs px-1.5 py-0.5 rounded font-crimson bg-parchment/5 text-parchment/40 border border-parchment/10">Resource</span>
+                          <span class="text-xs px-1.5 py-0.5 rounded font-crimson bg-orange-900/20 text-orange-300/70 border border-orange-700/20">Consumable</span>
+                        </div>
+                        <span class="font-crimson text-parchment/30 text-xs flex-shrink-0">×1 · 1 sp</span>
+                      </div>
+                      <p class="font-crimson text-parchment/55 text-xs leading-relaxed">Single-use. Grants <strong class="text-parchment/75">+1</strong> to one Alchemy check when consumed. No attunement.</p>
+                      <p class="font-crimson text-parchment/30 text-xs italic mt-1">A tightly wrapped cloth packet stamped with the Alchemy Guild mark. Contains powdered stabilisers and binding salts.</p>
+                    </div>
+
+                    <!-- Enhanced River Salve -->
+                    <div class="bg-deepBg rounded p-3 border border-green-800/25">
+                      <div class="flex items-start justify-between gap-2 mb-1">
+                        <div class="flex items-center gap-2 flex-wrap">
+                          <span class="font-crimson text-parchment/50 text-xs font-semibold line-through">Enhanced River Salve</span>
+                          <span class="text-xs px-1.5 py-0.5 rounded font-crimson bg-parchment/5 text-parchment/40 border border-parchment/10">Wondrous / Consumable</span>
+                          <span class="text-xs px-1.5 py-0.5 rounded font-crimson bg-blue-900/20 text-blue-300/70 border border-blue-700/20">Uncommon</span>
+                          <span class="text-xs px-1.5 py-0.5 rounded font-crimson bg-parchment/5 text-parchment/30 border border-parchment/10 italic">Homebrew</span>
+                        </div>
+                        <span class="font-crimson text-red-400/50 text-xs flex-shrink-0">×0 depleted</span>
+                      </div>
+                      <p class="font-crimson text-parchment/40 text-xs leading-relaxed">Restores <strong class="text-parchment/60">1d4+1 HP</strong> on application, or short recovery bonus (DM discretion). No attunement.</p>
+                      <p class="font-crimson text-parchment/25 text-xs italic mt-1">A pale green salve scented of river herbs; stabilised with guild reagents. Useful for field medics.</p>
+                    </div>
+
+                    <!-- Long-Kept Balm -->
+                    <div class="bg-deepBg rounded p-3 border border-green-800/25">
+                      <div class="flex items-start justify-between gap-2 mb-1">
+                        <div class="flex items-center gap-2 flex-wrap">
+                          <span class="font-crimson text-parchment/50 text-xs font-semibold line-through">Long-Kept Balm</span>
+                          <span class="text-xs px-1.5 py-0.5 rounded font-crimson bg-parchment/5 text-parchment/40 border border-parchment/10">Wondrous / Consumable</span>
+                          <span class="text-xs px-1.5 py-0.5 rounded font-crimson bg-blue-900/20 text-blue-300/70 border border-blue-700/20">Uncommon</span>
+                          <span class="text-xs px-1.5 py-0.5 rounded font-crimson bg-parchment/5 text-parchment/30 border border-parchment/10 italic">Homebrew</span>
+                        </div>
+                        <span class="font-crimson text-red-400/50 text-xs flex-shrink-0">×0 depleted</span>
+                      </div>
+                      <p class="font-crimson text-parchment/40 text-xs leading-relaxed">Restores <strong class="text-parchment/60">1d6+1 HP</strong> or grants +1 short recovery (DM discretion). No attunement.</p>
+                      <p class="font-crimson text-parchment/25 text-xs italic mt-1">Pale green smooth emulsion with a clean herbaceous smell. Crafted using Long-Kept Balm recipe from the Guild Medicine Compendium.</p>
+                    </div>
+
+                    <!-- Standard Healing Potion x2 -->
+                    <div class="bg-deepBg rounded p-3 border border-red-900/20">
+                      <div class="flex items-start justify-between gap-2 mb-1">
+                        <div class="flex items-center gap-2 flex-wrap">
+                          <span class="font-crimson text-parchment/85 text-xs font-semibold">Standard Healing Potion</span>
+                          <span class="text-xs px-1.5 py-0.5 rounded font-crimson bg-parchment/5 text-parchment/40 border border-parchment/10">Potion</span>
+                          <span class="text-xs px-1.5 py-0.5 rounded font-crimson bg-parchment/5 text-parchment/30 border border-parchment/10">Common</span>
+                          <span class="text-xs px-1.5 py-0.5 rounded font-crimson bg-parchment/5 text-parchment/30 border border-parchment/10 italic">Homebrew</span>
+                        </div>
+                        <span class="font-crimson text-parchment/30 text-xs flex-shrink-0">×2 · 5 gp ea.</span>
+                      </div>
+                      <p class="font-crimson text-parchment/55 text-xs leading-relaxed">Single-use. When consumed, restores <strong class="text-parchment/75">2d4+2 HP</strong>. No attunement.</p>
+                      <p class="font-crimson text-parchment/30 text-xs italic mt-1">A small glass vial with a warm, faintly sweet scent. A practical remedy carried by many adventurers.</p>
+                    </div>
+
+                    <!-- Sunthistle Seedling (depleted) -->
+                    <div class="bg-deepBg rounded p-3 border border-inkGold/5 opacity-50">
+                      <div class="flex items-start justify-between gap-2 mb-1">
+                        <div class="flex items-center gap-2 flex-wrap">
+                          <span class="font-crimson text-parchment/50 text-xs font-semibold line-through">Sunthistle Seedling</span>
+                          <span class="text-xs px-1.5 py-0.5 rounded font-crimson bg-parchment/5 text-parchment/40 border border-parchment/10">Resource</span>
+                        </div>
+                        <span class="font-crimson text-red-400/50 text-xs flex-shrink-0">×0 planted</span>
+                      </div>
+                      <p class="font-crimson text-parchment/40 text-xs italic">All 3 seedlings planted in the guild patch eastern bed (2026-02-19). Source: Farmer Bram consignment.</p>
+                    </div>
+
+                    <!-- Currency -->
+                    <div class="bg-deepBg/50 rounded p-3 border border-inkGold/10">
+                      <p class="font-crimson text-parchment/40 text-xs font-display mb-1">CURRENCY</p>
+                      <p class="font-crimson text-parchment/60 text-xs">5 sp</p>
+                    </div>
+
+                    <!-- Borrowed Books -->
+                    <div class="bg-deepBg/50 rounded p-3 border border-yellow-900/20">
+                      <p class="font-crimson text-parchment/40 text-xs font-display mb-2">BORROWED BOOKS</p>
+                      <div class="flex items-start justify-between gap-2 text-xs font-crimson">
+                        <div>
+                          <p class="text-parchment/70 font-semibold">Guild Medicine Compendium</p>
+                          <p class="text-parchment/40 italic">Alchemy Guild (loaned)</p>
+                        </div>
+                        <span class="text-yellow-300/60 flex-shrink-0 font-semibold">Due 2026-02-26</span>
+                      </div>
+                    </div>
+
+                  </div>
+                </div>
+              </div>
+
+              <!-- Consignment & Sales -->
+              <div class="border-t border-inkGold/10 pt-3">
+                <button onclick="toggleAccordion(this)" class="flex items-center gap-2 text-inkGold/60 hover:text-inkGold text-sm transition-colors mb-1 w-full text-left">
+                  <i data-lucide="coins" style="width:14px;height:14px;"></i>
+                  <span class="font-crimson">Consignment &amp; Market Sales</span>
+                  <i data-lucide="chevron-down" style="width:14px;height:14px;" class="accordion-icon transition-transform ml-auto"></i>
+                </button>
+                <div class="accordion-content">
+                  <div class="space-y-2 pt-1 text-xs font-crimson">
+                    <div class="bg-deepBg rounded p-3 border border-inkGold/10">
+                      <p class="text-parchment/40 font-display text-xs mb-2">CONSIGNMENT</p>
+                      <div class="flex justify-between text-parchment/60">
+                        <span>Long-Kept Balm ×1 → Alchemy Guild</span>
+                        <span class="text-parchment/30">2026-02-20</span>
+                      </div>
+                    </div>
+                    <div class="bg-deepBg rounded p-3 border border-inkGold/10">
+                      <p class="text-parchment/40 font-display text-xs mb-2">MARKET SALES</p>
+                      <div class="flex justify-between text-parchment/60">
+                        <span>Long-Kept Balm ×1 → artisan merchant</span>
+                        <span class="text-green-400/60">+2 sp · 2026-02-20</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Guild Patch -->
+              <div class="border-t border-inkGold/10 pt-3">
+                <button onclick="toggleAccordion(this)" class="flex items-center gap-2 text-inkGold/60 hover:text-inkGold text-sm transition-colors mb-1 w-full text-left">
+                  <i data-lucide="sprout" style="width:14px;height:14px;"></i>
+                  <span class="font-crimson">Guild Patch</span>
+                  <i data-lucide="chevron-down" style="width:14px;height:14px;" class="accordion-icon transition-transform ml-auto"></i>
+                </button>
+                <div class="accordion-content">
+                  <div class="pt-1 text-xs font-crimson space-y-2">
+                    <div class="bg-deepBg rounded p-3 border border-green-900/20">
+                      <div class="grid grid-cols-2 gap-x-4 gap-y-1 text-parchment/55">
+                        <div><span class="text-parchment/30">Location: </span>Behind Alchemy Guild workshop</div>
+                        <div><span class="text-parchment/30">Soil: </span>Loamy (some compaction, improved)</div>
+                        <div><span class="text-parchment/30">Water: </span>Shared pump</div>
+                        <div><span class="text-parchment/30">Yield modifier: </span>+1</div>
+                        <div><span class="text-parchment/30">Planted: </span>3 Sunthistle (2026-02-19 12:45)</div>
+                        <div><span class="text-parchment/30">Status: </span>Established</div>
+                        <div><span class="text-parchment/30">Last check: </span>2026-02-20 09:00</div>
+                        <div><span class="text-parchment/30">Last tended: </span>2026-02-19 11:30</div>
+                      </div>
+                      <p class="text-parchment/35 mt-2 italic">Seedling checks: healthy at 15:30 on 19th (roll 13+2=15) and healthy at 09:00 on 20th (roll 12+2=14). Continue light morning misting.</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Background Notes -->
+              <div class="border-t border-inkGold/10 pt-3">
+                <button onclick="toggleAccordion(this)" class="flex items-center gap-2 text-inkGold/60 hover:text-inkGold text-sm transition-colors mb-1">
+                  <i data-lucide="scroll" style="width:14px;height:14px;"></i>
+                  <span class="font-crimson">Background Notes</span>
+                  <i data-lucide="chevron-down" style="width:14px;height:14px;" class="accordion-icon transition-transform"></i>
+                </button>
+                <div class="accordion-content">
+                  <div class="space-y-2 pt-1">
+                    <p class="font-crimson text-parchment/60 text-sm italic leading-relaxed">
+                      Ash Windbreaker seeks a unique escape from mundane life; loves learning but becomes frustrated when progress stalls. Arrived in the Town of Beginnings eager to put herbalism knowledge to practical use. On their first day they helped innkeeper Mara with a stuck cellar keg in exchange for lodging at The First Lantern, foraged Riverwort and Sunthistle from the Whispering Wood, and crafted their first Enhanced River Salve. The Alchemy Guild — represented by Guildmaster Elowen — granted trial bench access after Ash identified a rotten batch in guild storage and then delivered a successful Long-Kept Balm. Ash keeps meticulous notes, tends a growing Sunthistle plot in the guild's eastern raised bed, and has already earned 2 silver from a market sale. Farming XP: 15.
+                    </p>
+                    <div class="bg-deepBg rounded p-3 border border-inkGold/10 text-xs font-crimson">
+                      <p class="text-parchment/40 font-display mb-1">RESEARCH NOTES</p>
+                      <p class="text-parchment/55"><strong>2026-02-20 — Field guide: local herb scouting &amp; low-impact harvest.</strong> Began library research on local habitats and low-impact harvest techniques. Focus: mossy runnels for Riverwort, sun pockets for Sunthistle, rotation and micro-harvest practices to avoid root damage, and timing for best yields. Expected to be slow and iterative; notes will accumulate with field trials and careful observation.</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+          <!-- PC 2 placeholder -->
+          <div class="bg-panelBg border border-inkGold/15 rounded-lg overflow-hidden opacity-50 flex items-center justify-center" style="min-height:250px;">
+            <div class="text-center p-8">
+              <div class="text-4xl mb-3">🪑</div>
+              <p class="font-display text-inkGold/50 text-sm">Empty Seat at the Table</p>
+              <p class="font-crimson text-parchment/30 text-xs mt-2 italic">Another character will join the party…</p>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- NPC Roster -->
+        <div class="mt-12">
+          <div class="ornament-divider">👥</div>
+          <h2 class="font-display text-inkGold text-lg mb-6 text-center">NPC Roster</h2>
+
+          <!-- Pronunciation Guide -->
+          <div class="bg-panelBg border border-inkGold/15 rounded-lg p-4 mb-6">
+            <button onclick="toggleAccordion(this)" class="w-full text-left flex items-center justify-between gap-3">
+              <div class="flex items-center gap-2">
+                <span class="text-base">🔊</span>
+                <span class="font-display text-inkGold text-sm">Pronunciation Guide</span>
+              </div>
+              <i data-lucide="chevron-down" style="width:16px;height:16px;color:rgba(201,168,76,0.5);" class="flex-shrink-0 transition-transform accordion-icon"></i>
+            </button>
+            <div class="accordion-content">
+              <div class="border-t border-inkGold/10 pt-3 mt-2">
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-1 text-xs font-crimson">
+                  <div class="py-1 border-b border-inkGold/5 flex gap-3"><span class="text-inkGold/70 w-32 flex-shrink-0">Elowen</span><span class="text-parchment/50 italic">EL-oh-wen</span></div>
+                  <div class="py-1 border-b border-inkGold/5 flex gap-3"><span class="text-inkGold/70 w-32 flex-shrink-0">Joren</span><span class="text-parchment/50 italic">JOR-en</span></div>
+                  <div class="py-1 border-b border-inkGold/5 flex gap-3"><span class="text-inkGold/70 w-32 flex-shrink-0">Mara</span><span class="text-parchment/50 italic">MAH-rah</span></div>
+                  <div class="py-1 border-b border-inkGold/5 flex gap-3"><span class="text-inkGold/70 w-32 flex-shrink-0">Bram</span><span class="text-parchment/50 italic">BRAM (rhymes with "ham")</span></div>
+                  <div class="py-1 border-b border-inkGold/5 flex gap-3"><span class="text-inkGold/70 w-32 flex-shrink-0">Riverwort</span><span class="text-parchment/50 italic">RIV-er-wort</span></div>
+                  <div class="py-1 border-b border-inkGold/5 flex gap-3"><span class="text-inkGold/70 w-32 flex-shrink-0">Sunthistle</span><span class="text-parchment/50 italic">SUN-this-ul</span></div>
+                  <div class="py-1 border-b border-inkGold/5 flex gap-3"><span class="text-inkGold/70 w-32 flex-shrink-0">Alchemy</span><span class="text-parchment/50 italic">AL-kih-mee</span></div>
+                  <div class="py-1 border-b border-inkGold/5 flex gap-3"><span class="text-inkGold/70 w-32 flex-shrink-0">Alchemical</span><span class="text-parchment/50 italic">al-KEM-ih-kul</span></div>
+                  <div class="py-1 border-b border-inkGold/5 flex gap-3"><span class="text-inkGold/70 w-32 flex-shrink-0">Reagent</span><span class="text-parchment/50 italic">ree-AY-jent</span></div>
+                  <div class="py-1 border-b border-inkGold/5 flex gap-3"><span class="text-inkGold/70 w-32 flex-shrink-0">Tincture</span><span class="text-parchment/50 italic">TINK-chur</span></div>
+                  <div class="py-1 border-b border-inkGold/5 flex gap-3"><span class="text-inkGold/70 w-32 flex-shrink-0">Macerate</span><span class="text-parchment/50 italic">MAS-er-ate</span></div>
+                  <div class="py-1 flex gap-3"><span class="text-inkGold/70 w-32 flex-shrink-0">Emulsification</span><span class="text-parchment/50 italic">eh-MUL-sih-fih-KAY-shun</span></div>
+                  <div class="py-1 flex gap-3"><span class="text-inkGold/70 w-32 flex-shrink-0">Compendium</span><span class="text-parchment/50 italic">kom-PEN-dee-um</span></div>
+                  <div class="py-1 flex gap-3"><span class="text-inkGold/70 w-32 flex-shrink-0">Consignment</span><span class="text-parchment/50 italic">kon-SY-nment</span></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- NPC Cards -->
+          <div class="space-y-4">
+
+            <!-- Elowen -->
+            <div class="bg-deepBg rounded-lg border border-inkGold/15 overflow-hidden card-hover">
+              <button onclick="toggleAccordion(this)" class="w-full text-left p-4 flex items-start justify-between gap-4">
+                <div class="flex items-start gap-3 min-w-0">
+                  <div class="w-10 h-10 rounded-full bg-panelBg flex items-center justify-center text-inkGold font-display text-sm border border-inkGold/30 flex-shrink-0 mt-0.5">E</div>
+                  <div class="min-w-0">
+                    <div class="flex flex-wrap items-baseline gap-2 mb-0.5">
+                      <span class="font-crimson text-parchment/90 text-sm font-semibold">Guildmaster Elowen</span>
+                      <span class="font-crimson text-parchment/35 text-xs italic">EL-oh-wen</span>
+                    </div>
+                    <div class="font-crimson text-parchment/40 text-xs mb-1">Head of the Alchemy Guild — Alchemy Guild Hall, Town of Beginnings</div>
+                    <div class="flex flex-wrap gap-1.5">
+                      <span class="text-xs px-2 py-0.5 rounded-full font-crimson bg-green-900/30 text-green-300">● Friendly</span>
+                      <span class="text-xs px-2 py-0.5 rounded-full font-crimson badge-completed">Active</span>
+                      <span class="font-crimson text-parchment/30 text-xs">First met: 2026-02-19</span>
+                    </div>
+                  </div>
+                </div>
+                <i data-lucide="chevron-down" style="width:18px;height:18px;color:rgba(201,168,76,0.4);" class="flex-shrink-0 mt-1 transition-transform accordion-icon"></i>
+              </button>
+              <div class="accordion-content px-4">
+                <div class="border-t border-inkGold/10 pt-3 pb-4 space-y-4 text-xs font-crimson">
+                  <div>
+                    <p class="font-display text-parchment/35 text-xs mb-1.5">EXPERTISE</p>
+                    <ul class="space-y-1 text-parchment/65">
+                      <li>Expert alchemist — potions, salves (<span class="italic text-parchment/40">SAV-ulz</span>), preservation, and reagent (<span class="italic text-parchment/40">ree-AY-jent</span>) sourcing.</li>
+                      <li>Manages guild operations: bench access, apprentice assignments, field contracts, and commissions.</li>
+                      <li>Knowledgeable about local herb habitats, supplier networks, and medicinal demand.</li>
+                      <li>Can evaluate and grade alchemical work; files competence notes in the guild register.</li>
+                    </ul>
+                  </div>
+                  <div>
+                    <p class="font-display text-parchment/35 text-xs mb-1.5">ALLIES &amp; CONNECTIONS</p>
+                    <ul class="space-y-1 text-parchment/65">
+                      <li><strong class="text-parchment/80">Farmer Bram</strong> — seedling trader; Elowen introduced Ash to Bram for consignment (<span class="italic text-parchment/40">kon-SY-nment</span>) / supply deals.</li>
+                      <li><strong class="text-parchment/80">Alchemy Guild members</strong> — unnamed apprentices and journeyfolk staffing the workshop and infirmary.</li>
+                      <li><strong class="text-parchment/80">Reagent merchant</strong> (not yet introduced) — Elowen offered to connect Ash to a supplier of uncommon reagents.</li>
+                      <li><strong class="text-parchment/80">Temple gardens</strong> — occasional trade for medicinal seedlings.</li>
+                    </ul>
+                  </div>
+                  <div>
+                    <p class="font-display text-parchment/35 text-xs mb-1.5">HISTORY WITH ASH</p>
+                    <ul class="space-y-1 text-parchment/65">
+                      <li><span class="text-parchment/40">2026-02-19:</span> Offered three tasks; Ash chose field collection, returned with Riverwort (<span class="italic text-parchment/40">RIV-er-wort</span>) and Sunthistle (<span class="italic text-parchment/40">SUN-this-ul</span>).</li>
+                      <li><span class="text-parchment/40">2026-02-19:</span> Ash delivered Enhanced Riverwort and an Enhanced River Salve; Elowen granted trial bench access and a positive guild register note.</li>
+                      <li><span class="text-parchment/40">2026-02-19:</span> Ash inspected a spoiled herb batch (earned a guild journal) and asked about progression. Elowen outlined guild growth paths (bench tiers, reagent contacts, apprentices, field contracts, research projects).</li>
+                      <li><span class="text-parchment/40">2026-02-19–20:</span> Ash crafted Long-Kept Balm and delivered it; Elowen confirmed steady demand and introduced farming/growing leads (Market Garden, Millstream, guild patch).</li>
+                      <li><span class="text-parchment/40">2026-02-20:</span> Introduced Ash to Farmer Bram; loaned the Guild Medicine Compendium (<span class="italic text-parchment/40">kom-PEN-dee-um</span>) — due 2026-02-26.</li>
+                    </ul>
+                  </div>
+                  <div>
+                    <p class="font-display text-parchment/35 text-xs mb-1.5">OPEN HOOKS</p>
+                    <ul class="space-y-1 text-parchment/65">
+                      <li>📌 Trial bench slot — Ash has approved bench time (suggested Tuesday session).</li>
+                      <li>📌 Reagent merchant introduction — offered but not yet completed.</li>
+                      <li>📌 Failed Sunthistle enhancement — potential follow-up experiment at the bench.</li>
+                      <li>📌 Guild commissions — spoiled batch inspections, field contracts, larger commissioned salve runs.</li>
+                      <li>⚠️ Book return — Guild Medicine Compendium due <strong>2026-02-26</strong>.</li>
+                    </ul>
+                  </div>
+                  <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <div>
+                      <p class="font-display text-parchment/35 text-xs mb-1">SCHEDULE</p>
+                      <p class="text-parchment/55">Alchemy Guild Hall, approx. 08:00–18:00. Closed-door guild meetings may restrict access if events escalate.</p>
+                    </div>
+                    <div>
+                      <p class="font-display text-parchment/35 text-xs mb-1">NOTES</p>
+                      <p class="text-parchment/55">Stern but curious. Rewards practical, documented work over flashy claims. Guild favour is a soft currency — tracked informally.</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Mara -->
+            <div class="bg-deepBg rounded-lg border border-inkGold/15 overflow-hidden card-hover">
+              <button onclick="toggleAccordion(this)" class="w-full text-left p-4 flex items-start justify-between gap-4">
+                <div class="flex items-start gap-3 min-w-0">
+                  <div class="w-10 h-10 rounded-full bg-panelBg flex items-center justify-center text-inkGold font-display text-sm border border-inkGold/30 flex-shrink-0 mt-0.5">M</div>
+                  <div class="min-w-0">
+                    <div class="flex flex-wrap items-baseline gap-2 mb-0.5">
+                      <span class="font-crimson text-parchment/90 text-sm font-semibold">Mara</span>
+                      <span class="font-crimson text-parchment/35 text-xs italic">MAH-rah</span>
+                    </div>
+                    <div class="font-crimson text-parchment/40 text-xs mb-1">Innkeeper — The First Lantern, Town of Beginnings</div>
+                    <div class="flex flex-wrap gap-1.5">
+                      <span class="text-xs px-2 py-0.5 rounded-full font-crimson bg-green-900/30 text-green-300">● Friendly</span>
+                      <span class="text-xs px-2 py-0.5 rounded-full font-crimson badge-completed">Active</span>
+                      <span class="font-crimson text-parchment/30 text-xs">First met: 2026-02-19</span>
+                    </div>
+                  </div>
+                </div>
+                <i data-lucide="chevron-down" style="width:18px;height:18px;color:rgba(201,168,76,0.4);" class="flex-shrink-0 mt-1 transition-transform accordion-icon"></i>
+              </button>
+              <div class="accordion-content px-4">
+                <div class="border-t border-inkGold/10 pt-3 pb-4 space-y-4 text-xs font-crimson">
+                  <div>
+                    <p class="font-display text-parchment/35 text-xs mb-1.5">EXPERTISE</p>
+                    <ul class="space-y-1 text-parchment/65">
+                      <li>Knows most travellers' faces and local gossip — a reliable source for rumours and leads.</li>
+                      <li>Practical and resourceful; runs the inn efficiently.</li>
+                      <li>Familiar with town events, visiting merchants, and courier (<span class="italic text-parchment/40">KUR-ee-er</span>) schedules.</li>
+                    </ul>
+                  </div>
+                  <div>
+                    <p class="font-display text-parchment/35 text-xs mb-1.5">ALLIES &amp; CONNECTIONS</p>
+                    <ul class="space-y-1 text-parchment/65">
+                      <li><strong class="text-parchment/80">Town regulars</strong> — farmers, merchants, and craftsmen who frequent the inn.</li>
+                      <li><strong class="text-parchment/80">Joren</strong> (<span class="italic text-parchment/40">JOR-en</span>) — seen pacing near the inn; Mara is aware of his missing-caravan worry.</li>
+                      <li><strong class="text-parchment/80">Guildmaster Elowen</strong> — known to each other through town proximity; Mara directs herbalist-types to the guild.</li>
+                    </ul>
+                  </div>
+                  <div>
+                    <p class="font-display text-parchment/35 text-xs mb-1.5">HISTORY WITH ASH</p>
+                    <ul class="space-y-1 text-parchment/65">
+                      <li><span class="text-parchment/40">2026-02-19:</span> Ash arrived at The First Lantern. Mara offered a free room in exchange for carrying a keg from the cellar. Ash succeeded (Tinkering/Int check, DC 12, rolled 16). Room secured.</li>
+                    </ul>
+                  </div>
+                  <div>
+                    <p class="font-display text-parchment/35 text-xs mb-1.5">OPEN HOOKS</p>
+                    <ul class="space-y-1 text-parchment/65">
+                      <li>📌 Ash's home base — rented room with drying rack, storage trunk, and small work surface.</li>
+                      <li>📌 Mara may offer further small tasks or share gossip/leads as the story develops.</li>
+                      <li>📌 Possible favour: Ash could ask for a spare cloth line or materials for a secondary drying rack.</li>
+                    </ul>
+                  </div>
+                  <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <div>
+                      <p class="font-display text-parchment/35 text-xs mb-1">SCHEDULE</p>
+                      <p class="text-parchment/55">Present at The First Lantern most hours; busiest during meal times and festival events.</p>
+                    </div>
+                    <div>
+                      <p class="font-display text-parchment/35 text-xs mb-1">NOTES</p>
+                      <p class="text-parchment/55">Warm-hearted and practical; remembers faces and favours. Recognised Ash as a herbalist by smell on first meeting.</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Joren -->
+            <div class="bg-deepBg rounded-lg border border-inkGold/15 overflow-hidden card-hover">
+              <button onclick="toggleAccordion(this)" class="w-full text-left p-4 flex items-start justify-between gap-4">
+                <div class="flex items-start gap-3 min-w-0">
+                  <div class="w-10 h-10 rounded-full bg-panelBg flex items-center justify-center text-inkGold font-display text-sm border border-inkGold/30 flex-shrink-0 mt-0.5">J</div>
+                  <div class="min-w-0">
+                    <div class="flex flex-wrap items-baseline gap-2 mb-0.5">
+                      <span class="font-crimson text-parchment/90 text-sm font-semibold">Joren</span>
+                      <span class="font-crimson text-parchment/35 text-xs italic">JOR-en</span>
+                    </div>
+                    <div class="font-crimson text-parchment/40 text-xs mb-1">Courier — Near the river / The First Lantern area, Town of Beginnings</div>
+                    <div class="flex flex-wrap gap-1.5">
+                      <span class="text-xs px-2 py-0.5 rounded-full font-crimson bg-yellow-900/30 text-yellow-300">● Neutral</span>
+                      <span class="text-xs px-2 py-0.5 rounded-full font-crimson badge-completed">Active</span>
+                      <span class="font-crimson text-parchment/30 text-xs">Observed: 2026-02-19 — not yet engaged</span>
+                    </div>
+                  </div>
+                </div>
+                <i data-lucide="chevron-down" style="width:18px;height:18px;color:rgba(201,168,76,0.4);" class="flex-shrink-0 mt-1 transition-transform accordion-icon"></i>
+              </button>
+              <div class="accordion-content px-4">
+                <div class="border-t border-inkGold/10 pt-3 pb-4 space-y-4 text-xs font-crimson">
+                  <div>
+                    <p class="font-display text-parchment/35 text-xs mb-1.5">EXPERTISE</p>
+                    <ul class="space-y-1 text-parchment/65">
+                      <li>Courier by trade — familiar with regional roads, caravan (<span class="italic text-parchment/40">KAR-uh-van</span>) routes, and delivery schedules.</li>
+                      <li>Knows merchants and supply chains; can identify missing cargo and trace routes.</li>
+                      <li>Currently distressed about a missing caravan carrying medicinal supplies.</li>
+                    </ul>
+                  </div>
+                  <div>
+                    <p class="font-display text-parchment/35 text-xs mb-1.5">ALLIES &amp; CONNECTIONS</p>
+                    <ul class="space-y-1 text-parchment/65">
+                      <li><strong class="text-parchment/80">Caravan merchants</strong> (unnamed) — his employers or associates; the missing caravan is his responsibility.</li>
+                      <li><strong class="text-parchment/80">Mara</strong> — aware of Joren's worry; he has been pacing near the inn.</li>
+                      <li><strong class="text-parchment/80">Guildmaster Elowen</strong> — the missing caravan carried supplies relevant to the guild.</li>
+                    </ul>
+                  </div>
+                  <div>
+                    <p class="font-display text-parchment/35 text-xs mb-1.5">HISTORY WITH ASH</p>
+                    <ul class="space-y-1 text-parchment/65">
+                      <li><span class="text-parchment/40">2026-02-19:</span> Ash observed Joren pacing near the river on arrival. No direct conversation yet. Presented as a DM hook.</li>
+                    </ul>
+                  </div>
+                  <div>
+                    <p class="font-display text-parchment/35 text-xs mb-1.5">OPEN HOOKS</p>
+                    <ul class="space-y-1 text-parchment/65">
+                      <li>⚠️ <strong>Missing caravan</strong> — primary unresolved hook. Caravan carrying medicinal supplies has not arrived. Investigating could involve tracking and potential danger.</li>
+                      <li>📌 Joren may hire Ash or others to search — still on the table.</li>
+                      <li>⏰ <strong>Time-sensitive</strong> — if ignored too long, Joren may hire someone else or the situation may escalate.</li>
+                    </ul>
+                  </div>
+                  <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <div>
+                      <p class="font-display text-parchment/35 text-xs mb-1">SCHEDULE</p>
+                      <p class="text-parchment/55">Lingering near the river and inn area during daylight hours, waiting for news. Increasingly desperate as time passes.</p>
+                    </div>
+                    <div>
+                      <p class="font-display text-parchment/35 text-xs mb-1">NOTES</p>
+                      <p class="text-parchment/55">Worried and anxious. Has not been directly spoken to by Ash yet — engaging him opens the caravan investigation arc.</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Farmer Bram -->
+            <div class="bg-deepBg rounded-lg border border-inkGold/15 overflow-hidden card-hover">
+              <button onclick="toggleAccordion(this)" class="w-full text-left p-4 flex items-start justify-between gap-4">
+                <div class="flex items-start gap-3 min-w-0">
+                  <div class="w-10 h-10 rounded-full bg-panelBg flex items-center justify-center text-inkGold font-display text-sm border border-inkGold/30 flex-shrink-0 mt-0.5">B</div>
+                  <div class="min-w-0">
+                    <div class="flex flex-wrap items-baseline gap-2 mb-0.5">
+                      <span class="font-crimson text-parchment/90 text-sm font-semibold">Farmer Bram</span>
+                      <span class="font-crimson text-parchment/35 text-xs italic">BRAM (rhymes with "ham")</span>
+                    </div>
+                    <div class="font-crimson text-parchment/40 text-xs mb-1">Farmer &amp; Seedling Trader — Market Garden plots, eastern market, Town of Beginnings</div>
+                    <div class="flex flex-wrap gap-1.5">
+                      <span class="text-xs px-2 py-0.5 rounded-full font-crimson bg-green-900/30 text-green-300">● Friendly</span>
+                      <span class="text-xs px-2 py-0.5 rounded-full font-crimson badge-completed">Active</span>
+                      <span class="font-crimson text-parchment/30 text-xs">First met: 2026-02-20</span>
+                    </div>
+                  </div>
+                </div>
+                <i data-lucide="chevron-down" style="width:18px;height:18px;color:rgba(201,168,76,0.4);" class="flex-shrink-0 mt-1 transition-transform accordion-icon"></i>
+              </button>
+              <div class="accordion-content px-4">
+                <div class="border-t border-inkGold/10 pt-3 pb-4 space-y-4 text-xs font-crimson">
+                  <div>
+                    <p class="font-display text-parchment/35 text-xs mb-1.5">EXPERTISE</p>
+                    <ul class="space-y-1 text-parchment/65">
+                      <li>Experienced with small-scale herb and crop cultivation (<span class="italic text-parchment/40">kul-tih-VAY-shun</span>).</li>
+                      <li>Trades seedlings; knowledgeable about soil quality, planting seasons, and local growing conditions.</li>
+                      <li>Practical farmer — not an alchemist (<span class="italic text-parchment/40">AL-kih-mist</span>), but understands which plants thrive where.</li>
+                    </ul>
+                  </div>
+                  <div>
+                    <p class="font-display text-parchment/35 text-xs mb-1.5">ALLIES &amp; CONNECTIONS</p>
+                    <ul class="space-y-1 text-parchment/65">
+                      <li><strong class="text-parchment/80">Guildmaster Elowen</strong> — introduced Ash to Bram; they have an existing trade relationship (seedlings for salves/guild goods).</li>
+                      <li><strong class="text-parchment/80">Market Garden community</strong> — other plot holders and farmers in the eastern market area.</li>
+                    </ul>
+                  </div>
+                  <div>
+                    <p class="font-display text-parchment/35 text-xs mb-1.5">HISTORY WITH ASH</p>
+                    <ul class="space-y-1 text-parchment/65">
+                      <li><span class="text-parchment/40">2026-02-20:</span> Met at Market Garden (introduced by Elowen). Provided 3 Sunthistle (<span class="italic text-parchment/40">SUN-this-ul</span>) seedlings. Consignment (<span class="italic text-parchment/40">kon-SY-nment</span>) terms agreed — Bram trades seedlings for alchemical products or small payments.</li>
+                    </ul>
+                  </div>
+                  <div>
+                    <p class="font-display text-parchment/35 text-xs mb-1.5">OPEN HOOKS</p>
+                    <ul class="space-y-1 text-parchment/65">
+                      <li>📌 Ongoing seedling supply — Ash can return for more seedlings as needs grow.</li>
+                      <li>📌 Consignment relationship — potential for larger trade deals if Ash's production scales.</li>
+                      <li>📌 Could provide advice on expanding cultivation: new beds, different herbs.</li>
+                    </ul>
+                  </div>
+                  <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <div>
+                      <p class="font-display text-parchment/35 text-xs mb-1">SCHEDULE</p>
+                      <p class="text-parchment/55">Market Garden plots, approx. 07:00–14:00. Market days may increase availability and stock variety.</p>
+                    </div>
+                    <div>
+                      <p class="font-display text-parchment/35 text-xs mb-1">NOTES</p>
+                      <p class="text-parchment/55">Straightforward and business-minded. Values steady trade partners.</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Placeholder -->
+            <div class="bg-deepBg rounded-lg p-4 border border-dashed border-inkGold/10 flex items-center justify-center opacity-40" style="min-height:70px;">
+              <span class="font-crimson text-parchment/30 text-xs italic">More NPCs to be added…</span>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══════════════════════ AI COMPENDIUM ══════════════════════ -->
+    <section id="page-compendium" class="page-section">
+      <div class="max-w-5xl mx-auto px-4 py-12">
+        <div class="text-center mb-8">
+          <h1 class="font-display text-inkGold text-3xl sm:text-4xl mb-2">AI Compendium</h1>
+          <p class="font-crimson italic text-parchment/50">Prompts, techniques &amp; tools powering this campaign</p>
+          <div class="ornament-divider w-48 mx-auto">⚗</div>
+        </div>
+
+        <!-- Search -->
+        <div class="max-w-md mx-auto mb-8 relative">
+          <i data-lucide="search" style="width:17px;height:17px;position:absolute;left:13px;top:50%;transform:translateY(-50%);color:rgba(244,232,193,0.35);pointer-events:none;"></i>
+          <input type="text" id="compSearch" placeholder="Search prompts, tools, techniques…" class="search-input w-full pl-10 pr-4 py-3 rounded-lg font-crimson text-sm" oninput="filterComp()">
+        </div>
+
+        <!-- Filter tabs -->
+        <div class="flex justify-center gap-3 mb-8 flex-wrap">
+          <button onclick="setCompFilter('all')"      class="comp-filter active font-crimson text-sm px-4 py-2 rounded-full border border-inkGold/30 bg-inkGold/10 text-inkGold" data-filter="all">All</button>
+          <button onclick="setCompFilter('prompt')"   class="comp-filter font-crimson text-sm px-4 py-2 rounded-full border border-blue-700/30 bg-blue-900/10 text-blue-400/70" data-filter="prompt">💬 Prompts</button>
+          <button onclick="setCompFilter('tool')"     class="comp-filter font-crimson text-sm px-4 py-2 rounded-full border border-purple-700/30 bg-purple-900/10 text-purple-400/70" data-filter="tool">🔧 Tools</button>
+          <button onclick="setCompFilter('technique')" class="comp-filter font-crimson text-sm px-4 py-2 rounded-full border border-green-700/30 bg-green-900/10 text-green-400/70" data-filter="technique">✨ Techniques</button>
+        </div>
+
+        <div id="compGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5"></div>
+        <p id="compEmpty" class="hidden text-center font-crimson text-parchment/40 italic py-12">No entries match your search.</p>
+      </div>
+    </section>
+
+    <!-- ══════════════════════ BEHIND THE SCENES ══════════════════════ -->
+    <section id="page-bts" class="page-section">
+      <div class="max-w-5xl mx-auto px-4 py-12">
+        <div class="text-center mb-10">
+          <h1 class="font-display text-inkGold text-3xl sm:text-4xl mb-2">Behind the Scenes</h1>
+          <p class="font-crimson italic text-parchment/50">Video devlogs &amp; session recaps from the YouTube channel</p>
+          <div class="ornament-divider w-48 mx-auto">🎥</div>
+        </div>
+
+        <!-- Channel header -->
+        <a href="https://www.youtube.com/@jacobhaseman776" target="_blank" rel="noopener noreferrer"
+           class="flex items-center gap-4 bg-panelBg border border-inkGold/20 rounded-xl p-5 mb-10 card-hover group">
+          <div class="w-14 h-14 rounded-full bg-red-900/60 flex items-center justify-center flex-shrink-0 group-hover:bg-red-800/60 transition-colors">
+            <i data-lucide="youtube" style="width:26px;height:26px;color:#ff5555;"></i>
+          </div>
+          <div class="flex-1 min-w-0">
+            <p class="font-display text-inkGold text-base group-hover:text-fireSoft transition-colors">Jacob Haseman</p>
+            <p class="font-crimson text-parchment/50 text-sm">@jacobhaseman776 — YouTube Channel</p>
+            <p class="font-crimson text-parchment/40 text-xs mt-0.5 italic">D&D AI experiments, devlogs, and session recaps</p>
+          </div>
+          <i data-lucide="external-link" style="width:16px;height:16px;color:rgba(201,168,76,0.4);" class="flex-shrink-0 group-hover:text-inkGold transition-colors"></i>
+        </a>
+
+        <!-- Featured video section -->
+        <div class="mb-12">
+          <h2 class="font-display text-inkGold text-lg mb-6 flex items-center gap-2">
+            <i data-lucide="star" style="width:18px;height:18px;"></i> Featured Video
+          </h2>
+          <div class="bg-panelBg border border-inkGold/20 rounded-xl overflow-hidden">
+            <div class="yt-embed">
+              <iframe src="https://www.youtube.com/embed/hhvsjPXTsf8" title="#1 Uncut AI D&amp;D — AI DM Campaign Hub (Quick Tour)" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen class="absolute inset-0 w-full h-full"></iframe>
+            </div>
+            <div class="p-5">
+              <span class="badge-ai text-xs px-2 py-0.5 rounded-full font-crimson mr-2">🎬 Series Premiere</span>
+              <h3 class="font-display text-inkGold text-base mt-3">#1 Uncut AI D&amp;D — AI DM Campaign Hub (Quick Tour)</h3>
+              <p class="font-crimson text-parchment/60 text-sm mt-2 leading-relaxed">A full uncut tour of the AI DM campaign hub — the starting point for the whole adventure.</p>
+              <a href="https://www.youtube.com/watch?v=hhvsjPXTsf8&t=2s" target="_blank" rel="noopener noreferrer"
+                 class="inline-flex items-center gap-1 mt-3 text-xs font-crimson text-inkGold/60 hover:text-inkGold transition-colors">
+                <i data-lucide="external-link" style="width:11px;height:11px;"></i> Watch on YouTube
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Video playlist grid -->
+        <div class="mb-12">
+          <h2 class="font-display text-inkGold text-lg mb-6 flex items-center gap-2">
+            <i data-lucide="list" style="width:18px;height:18px;"></i> Video Series
+          </h2>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6" id="videoGrid">
+
+            <!-- #1 Uncut — English Sub -->
+            <div class="bg-panelBg border border-inkGold/15 rounded-xl overflow-hidden card-hover">
+              <div class="yt-embed"><iframe src="https://www.youtube.com/embed/fTWjGDayEck" title="(English Sub) #1 Uncut AI D&D — AI DM Campaign Hub" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen class="absolute inset-0 w-full h-full"></iframe></div>
+              <div class="p-4">
+                <span class="badge-ai text-xs px-2 py-0.5 rounded-full font-crimson">🗒 English Sub</span>
+                <h3 class="font-display text-inkGold text-sm mt-2 mb-1">(English Sub) #1 Uncut — AI DM Campaign Hub (Quick Tour)</h3>
+                <a href="https://www.youtube.com/watch?v=fTWjGDayEck" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1 mt-2 text-xs font-crimson text-inkGold/60 hover:text-inkGold transition-colors"><i data-lucide="external-link" style="width:11px;height:11px;"></i> Watch on YouTube</a>
+              </div>
+            </div>
+
+            <!-- #3 Overview Town of Beginnings — main -->
+            <div class="bg-panelBg border border-inkGold/15 rounded-xl overflow-hidden card-hover">
+              <div class="yt-embed"><iframe src="https://www.youtube.com/embed/8QtTjCz6BCQ" title="#3 Building the Town of Beginnings" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen class="absolute inset-0 w-full h-full"></iframe></div>
+              <div class="p-4">
+                <span class="badge-ongoing text-xs px-2 py-0.5 rounded-full font-crimson">🏙 World Design</span>
+                <h3 class="font-display text-inkGold text-sm mt-2 mb-1">#3 (Overview) Building the Town of Beginnings — D&amp;D World Design Deep Dive</h3>
+                <a href="https://www.youtube.com/watch?v=8QtTjCz6BCQ" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1 mt-2 text-xs font-crimson text-inkGold/60 hover:text-inkGold transition-colors"><i data-lucide="external-link" style="width:11px;height:11px;"></i> Watch on YouTube</a>
+              </div>
+            </div>
+
+            <!-- #3 Overview Town of Beginnings — alt cut -->
+            <div class="bg-panelBg border border-inkGold/15 rounded-xl overflow-hidden card-hover">
+              <div class="yt-embed"><iframe src="https://www.youtube.com/embed/VVs9jL3Yvgg" title="#3 Building the Town of Beginnings (alt)" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen class="absolute inset-0 w-full h-full"></iframe></div>
+              <div class="p-4">
+                <span class="badge-ongoing text-xs px-2 py-0.5 rounded-full font-crimson">🏙 World Design</span>
+                <h3 class="font-display text-inkGold text-sm mt-2 mb-1">#3 (Overview) Building the Town of Beginnings — Homebrew Campaign Lore</h3>
+                <a href="https://www.youtube.com/watch?v=VVs9jL3Yvgg&t=46s" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1 mt-2 text-xs font-crimson text-inkGold/60 hover:text-inkGold transition-colors"><i data-lucide="external-link" style="width:11px;height:11px;"></i> Watch on YouTube</a>
+              </div>
+            </div>
+
+            <!-- Ash Windbreaker AI Image Generation -->
+            <div class="bg-panelBg border border-inkGold/15 rounded-xl overflow-hidden card-hover">
+              <div class="yt-embed"><iframe src="https://www.youtube.com/embed/jVGYQrRpXow" title="Ash Windbreaker — AI Image Generation" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen class="absolute inset-0 w-full h-full"></iframe></div>
+              <div class="p-4">
+                <span class="badge-completed text-xs px-2 py-0.5 rounded-full font-crimson">🎨 AI Art</span>
+                <h3 class="font-display text-inkGold text-sm mt-2 mb-1">(English Sub) Ash Windbreaker — AI Image Generation</h3>
+                <a href="https://www.youtube.com/watch?v=jVGYQrRpXow" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1 mt-2 text-xs font-crimson text-inkGold/60 hover:text-inkGold transition-colors"><i data-lucide="external-link" style="width:11px;height:11px;"></i> Watch on YouTube</a>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- CTA to channel -->
+          <div class="mt-8 flex flex-col sm:flex-row items-center justify-between gap-4 bg-panelBg/50 border border-inkGold/10 rounded-xl p-6">
+            <div>
+              <p class="font-display text-inkGold text-sm">See everything on YouTube</p>
+              <p class="font-crimson text-parchment/50 text-xs mt-1">Subscribe to catch new devlogs and session recaps as they drop.</p>
+            </div>
+            <a href="https://www.youtube.com/@jacobhaseman776" target="_blank" rel="noopener noreferrer"
+               class="flex items-center gap-2 px-6 py-3 bg-red-900/40 border border-red-700/50 rounded-lg font-crimson text-parchment/80 text-sm hover:bg-red-900/60 hover:border-red-600/60 transition-all whitespace-nowrap">
+              <i data-lucide="youtube" style="width:16px;height:16px;color:#ff5555;"></i>
+              @jacobhaseman776
+            </a>
+          </div>
+        </div>
+
+        <!-- Tech Stack accordion -->
+        <div class="bg-panelBg border border-inkGold/20 rounded-xl overflow-hidden mb-4">
+          <button onclick="toggleAccordion(this)" class="w-full text-left p-5 flex items-center justify-between gap-4">
+            <div class="flex items-center gap-3">
+              <i data-lucide="cpu" style="width:18px;height:18px;color:#c9a84c;"></i>
+              <span class="font-display text-inkGold text-base">Tech Stack &amp; Workflow</span>
+            </div>
+            <i data-lucide="chevron-down" style="width:18px;height:18px;color:rgba(201,168,76,0.4);" class="transition-transform accordion-icon"></i>
+          </button>
+          <div class="accordion-content px-5">
+            <div class="border-t border-inkGold/10 pt-4 pb-5 space-y-4 text-sm font-crimson">
+
+              <!-- AI Agents -->
+              <div class="bg-deepBg rounded p-4 border border-inkGold/10">
+                <div class="flex items-center gap-2 mb-2">
+                  <i data-lucide="bot" style="width:14px;height:14px;" class="text-inkGold/50"></i>
+                  <span class="text-parchment/40 text-xs font-display">AI AGENTS (GITHUB)</span>
+                </div>
+                <p class="text-parchment/70 leading-relaxed">Various AI agents running in GitHub generate scripts based on campaign instructions. Each script is reviewed, edited, and sent back to the model for refinement — iterating toward a more secure and tailored adventure. This process has been refined over time to better suit personal preferences for the story.</p>
+              </div>
+
+              <!-- Graphics -->
+              <div class="bg-deepBg rounded p-4 border border-inkGold/10">
+                <div class="flex items-center gap-2 mb-2">
+                  <i data-lucide="image" style="width:14px;height:14px;" class="text-inkGold/50"></i>
+                  <span class="text-parchment/40 text-xs font-display">GRAPHICS — MICROSOFT COPILOT</span>
+                </div>
+                <p class="text-parchment/70 leading-relaxed">Microsoft Copilot generates backgrounds, character models, and descriptions. Used for visual world-building across the campaign.</p>
+              </div>
+
+              <!-- Canva AI -->
+              <div class="bg-deepBg rounded p-4 border border-inkGold/10">
+                <div class="flex items-center gap-2 mb-2">
+                  <i data-lucide="layout" style="width:14px;height:14px;" class="text-inkGold/50"></i>
+                  <span class="text-parchment/40 text-xs font-display">STORYBOARDING &amp; THEME — CANVA AI</span>
+                </div>
+                <p class="text-parchment/70 leading-relaxed">Canva AI was used for storyboarding and establishing the visual foundations of this website's theme — the parchment aesthetic, layout, and overall look of the campaign hub.</p>
+              </div>
+
+              <!-- Human in the Loop -->
+              <div class="bg-deepBg rounded p-4 border border-inkGold/15 ring-1 ring-inkGold/10">
+                <div class="flex items-center gap-2 mb-2">
+                  <i data-lucide="user" style="width:14px;height:14px;" class="text-inkGold/50"></i>
+                  <span class="text-parchment/40 text-xs font-display">HUMAN IN THE LOOP</span>
+                </div>
+                <p class="text-parchment/70 leading-relaxed">The player provides text examples of how they would act in a given situation, descriptions of conditions, and uses real-world landmarks to anchor scenes. The ongoing challenge is a personal mental block — a tension between writing scenes directly versus letting the AI carry the narrative so the player can simply enjoy the story.</p>
+              </div>
+
+            </div>
+          </div>
+        </div>
+
+        <!-- Production notes accordion -->
+        <div class="bg-panelBg border border-inkGold/20 rounded-xl overflow-hidden">
+          <button onclick="toggleAccordion(this)" class="w-full text-left p-5 flex items-center justify-between gap-4">
+            <div class="flex items-center gap-3">
+              <i data-lucide="film" style="width:18px;height:18px;color:#c9a84c;"></i>
+              <span class="font-display text-inkGold text-base">Production Notes &amp; Equipment</span>
+            </div>
+            <i data-lucide="chevron-down" style="width:18px;height:18px;color:rgba(201,168,76,0.4);" class="transition-transform accordion-icon"></i>
+          </button>
+          <div class="accordion-content px-5">
+            <div class="border-t border-inkGold/10 pt-4 pb-4 grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm font-crimson">
+              <div>
+                <span class="text-parchment/40 text-xs font-display block mb-1">CAMERA / RECORDING</span>
+                <span class="text-parchment/70">Unknown</span>
+              </div>
+              <div>
+                <span class="text-parchment/40 text-xs font-display block mb-1">EDITING SOFTWARE</span>
+                <span class="text-parchment/70">Unknown</span>
+              </div>
+              <div>
+                <span class="text-parchment/40 text-xs font-display block mb-1">MICROPHONE</span>
+                <span class="text-parchment/70">Unknown</span>
+              </div>
+              <div>
+                <span class="text-parchment/40 text-xs font-display block mb-1">UPLOAD SCHEDULE</span>
+                <span class="text-parchment/70">Unknown</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ══════════════════════ ASH'S DIARY ══════════════════════ -->
+    <section id="page-diary" class="page-section">
+      <div class="max-w-4xl mx-auto px-4 py-12">
+
+        <!-- Header -->
+        <div class="text-center mb-10">
+          <div class="wax-seal mx-auto mb-4 glow-pulse" style="width:64px;height:64px;font-size:22px;">A</div>
+          <h1 class="font-display text-inkGold text-3xl sm:text-4xl mb-2">Ash's Journal</h1>
+          <p class="font-crimson italic text-parchment/50">The personal field journal of Ash Windbreaker</p>
+          <div class="ornament-divider w-48 mx-auto">🌿</div>
+        </div>
+
+        <!-- Entry 1 front-matter -->
+        <div class="burnt-edge parchment-bg p-5 mb-8">
+          <div class="relative z-10 grid grid-cols-2 sm:grid-cols-4 gap-3 text-sm font-crimson text-inkBrown">
+            <div><span class="text-inkBrown/40 text-xs font-display block mb-0.5">OWNER</span><span>Ash Windbreaker</span></div>
+            <div><span class="text-inkBrown/40 text-xs font-display block mb-0.5">DATE</span><span>2026-02-19</span></div>
+            <div><span class="text-inkBrown/40 text-xs font-display block mb-0.5">ENTRY</span><span>#1</span></div>
+            <div><span class="text-inkBrown/40 text-xs font-display block mb-0.5">TIME</span><span>12:45</span></div>
+          </div>
+          <div class="relative z-10 mt-3 border-t border-inkBrown/10 pt-3">
+            <p class="font-crimson text-inkBrown/50 text-sm italic">"First field runs and first salve — learned a little, burnt a little, and found a journal."</p>
+          </div>
+        </div>
+
+        <div class="space-y-5">
+
+          <!-- Diary Narrative -->
+          <article class="burnt-edge parchment-bg overflow-hidden card-hover">
+            <div class="relative z-10">
+              <button onclick="toggleAccordion(this)" class="w-full text-left p-5 flex items-start justify-between gap-4">
+                <div class="flex items-center gap-3"><span class="text-xl">📝</span><h3 class="font-display text-inkBrown text-lg">Diary Entry</h3></div>
+                <i data-lucide="chevron-down" style="width:20px;height:20px;color:#3e2723;opacity:0.4;" class="flex-shrink-0 transition-transform accordion-icon"></i>
+              </button>
+              <div class="accordion-content open px-6">
+                <div class="border-t border-inkBrown/10 pt-4 pb-4">
+                  <p class="font-crimson text-inkBrown/80 text-sm leading-relaxed">
+                    Oh! Where to start — my hands still smell like damp soil and that ridiculous weasel kept twitching at my boots. Today felt like a hundred small discoveries stitched together: I helped Mara with a sticky keg (who knew cellars had opinions), wandered to the Whispering Wood, and came back with Riverwort and a stubborn Sunthistle. I practiced a tiny infusion on the Riverwort (fussy little stem, but it took the tincture) and—would you believe it—turned it into something that actually helps. I made a salve. I carried it into the guild like some proud, messy apprentice and Elowen smiled like I'd given them a secret. They let me use the trial bench and—get this—they gave me a journal after I sniffed out a rotten batch in storage. I promised myself I'd write properly in it, so here we are.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </article>
+
+          <!-- Herbs Notes -->
+          <article class="burnt-edge parchment-bg overflow-hidden card-hover">
+            <div class="relative z-10">
+              <button onclick="toggleAccordion(this)" class="w-full text-left p-5 flex items-start justify-between gap-4">
+                <div class="flex items-center gap-3"><span class="text-xl">🌿</span><h3 class="font-display text-inkBrown text-lg">Herbs (Field Notes)</h3></div>
+                <i data-lucide="chevron-down" style="width:20px;height:20px;color:#3e2723;opacity:0.4;" class="flex-shrink-0 transition-transform accordion-icon"></i>
+              </button>
+              <div class="accordion-content px-6">
+                <div class="border-t border-inkBrown/10 pt-4 pb-4 space-y-4 text-sm font-crimson text-inkBrown/80">
+                  <div class="border-l-4 border-green-700/40 pl-4">
+                    <p class="font-display text-inkBrown text-xs mb-1">RIVERWORT (ENHANCED)</p>
+                    <p>Found by a river spring; responds well to stabilizing tinctures that reduce watery spoiling. Enhancement result: stabilizes active compounds. Suggested mechanical note: <strong>+1 potency to a single-use medicine</strong> (DM-adjudicated).</p>
+                    <p class="mt-1 text-inkBrown/50 text-xs italic">Harvest tip: leave the root nodes intact. Storage: cool, breathable cloth.</p>
+                  </div>
+                  <div class="border-l-4 border-yellow-700/40 pl-4">
+                    <p class="font-display text-inkBrown text-xs mb-1">SUNTHISTLE (NORMAL)</p>
+                    <p>Sun-dwelling, bitter when forced; resisted refinement today. If pressed into a weak brew it may add a bitter tang and minor focus penalty in delicate tests. Consider drying slowly in shaded air to reduce bitterness.</p>
+                    <p class="mt-1 text-inkBrown/50 text-xs italic">Storage: low-humidity with airflow.</p>
+                  </div>
+                  <div class="bg-inkBrown/5 rounded p-3 text-xs text-inkBrown/60"><strong>Storage reminder:</strong> Mold shows as a dark fringed fuzz near sack bottoms — check lower sacks first.</div>
+                </div>
+              </div>
+            </div>
+          </article>
+
+          <!-- Potion & Salve Notes -->
+          <article class="burnt-edge parchment-bg overflow-hidden card-hover">
+            <div class="relative z-10">
+              <button onclick="toggleAccordion(this)" class="w-full text-left p-5 flex items-start justify-between gap-4">
+                <div class="flex items-center gap-3"><span class="text-xl">⚗️</span><h3 class="font-display text-inkBrown text-lg">Potion &amp; Salve Notes</h3></div>
+                <i data-lucide="chevron-down" style="width:20px;height:20px;color:#3e2723;opacity:0.4;" class="flex-shrink-0 transition-transform accordion-icon"></i>
+              </button>
+              <div class="accordion-content px-6">
+                <div class="border-t border-inkBrown/10 pt-4 pb-4 space-y-4 text-sm font-crimson text-inkBrown/80">
+                  <div>
+                    <p class="font-display text-inkBrown text-xs mb-2">ENHANCED RIVER SALVE (BASIC)</p>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
+                      <div><span class="text-inkBrown/40 font-display block mb-1">INGREDIENTS</span>Enhanced Riverwort (x1), common reagents (small packet), clean water, beeswax (pinch).</div>
+                      <div><span class="text-inkBrown/40 font-display block mb-1">TOOLS</span>Small mortar &amp; pestle, heat source, glass vial or tin pot.</div>
+                      <div class="sm:col-span-2"><span class="text-inkBrown/40 font-display block mb-1">STEPS</span>Carefully macerate Riverwort; infuse in warm water with reagents for 10–20 minutes; strain, reduce to thickened tincture; blend with melted beeswax; pour and cool.</div>
+                      <div class="sm:col-span-2 bg-inkBrown/5 rounded p-2"><span class="text-inkBrown/40 font-display block mb-1">EFFECT</span>Heals 1d4+1 HP on application, or short recovery bonus (DM discretion). <em>Do not overheat — active compounds degrade above a steady simmer.</em></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </article>
+
+          <!-- Experiments & Techniques -->
+          <article class="burnt-edge parchment-bg overflow-hidden card-hover">
+            <div class="relative z-10">
+              <button onclick="toggleAccordion(this)" class="w-full text-left p-5 flex items-start justify-between gap-4">
+                <div class="flex items-center gap-3"><span class="text-xl">🔬</span><h3 class="font-display text-inkBrown text-lg">Experiments &amp; Techniques</h3></div>
+                <i data-lucide="chevron-down" style="width:20px;height:20px;color:#3e2723;opacity:0.4;" class="flex-shrink-0 transition-transform accordion-icon"></i>
+              </button>
+              <div class="accordion-content px-6">
+                <div class="border-t border-inkBrown/10 pt-4 pb-4 space-y-3 text-sm font-crimson text-inkBrown/80">
+                  <p><strong>Per-herb enhancement:</strong> simple infusion (DC 12 Alchemy) is repeatable for single herbs. Guild reagents helped (+1). Batch processes need a better bench setup (DC 15 suggested) and more reagents/time.</p>
+                  <p><strong>Tool note:</strong> a proper bench and improved kit reduce stress and the tendency to scorch things. Apprentice help would be glorious (+1 to checks, less time wasted). Ask Elowen about a modest upgrade.</p>
+                </div>
+              </div>
+            </div>
+          </article>
+
+          <!-- Character Observations -->
+          <article class="burnt-edge parchment-bg overflow-hidden card-hover">
+            <div class="relative z-10">
+              <button onclick="toggleAccordion(this)" class="w-full text-left p-5 flex items-start justify-between gap-4">
+                <div class="flex items-center gap-3"><span class="text-xl">👥</span><h3 class="font-display text-inkBrown text-lg">Character Observations</h3></div>
+                <i data-lucide="chevron-down" style="width:20px;height:20px;color:#3e2723;opacity:0.4;" class="flex-shrink-0 transition-transform accordion-icon"></i>
+              </button>
+              <div class="accordion-content px-6">
+                <div class="border-t border-inkBrown/10 pt-4 pb-4 space-y-3 text-sm font-crimson text-inkBrown/80">
+                  <div class="flex gap-3"><span class="text-inkGold/60 font-display text-xs flex-shrink-0 w-28 mt-0.5">ELOWEN</span><p>Stern but curious. Likes notes; will reward practical fixes. Trial bench access seems sincere.</p></div>
+                  <div class="flex gap-3"><span class="text-inkGold/60 font-display text-xs flex-shrink-0 w-28 mt-0.5">MARA (INN)</span><p>Warm-hearted, practical — gave a room and a mug for hauling the keg. Remembers faces and small favors.</p></div>
+                  <div class="flex gap-3"><span class="text-inkGold/60 font-display text-xs flex-shrink-0 w-28 mt-0.5">JOREN</span><p>Worried about a caravan. Might be worth talking to later; his anxiety could be a hook.</p></div>
+                </div>
+              </div>
+            </div>
+          </article>
+
+          <!-- To-Do / Research Goals -->
+          <article class="burnt-edge parchment-bg overflow-hidden card-hover">
+            <div class="relative z-10">
+              <button onclick="toggleAccordion(this)" class="w-full text-left p-5 flex items-start justify-between gap-4">
+                <div class="flex items-center gap-3"><span class="text-xl">📋</span><h3 class="font-display text-inkBrown text-lg">To-Do / Research Goals</h3></div>
+                <i data-lucide="chevron-down" style="width:20px;height:20px;color:#3e2723;opacity:0.4;" class="flex-shrink-0 transition-transform accordion-icon"></i>
+              </button>
+              <div class="accordion-content px-6">
+                <div class="border-t border-inkBrown/10 pt-4 pb-4 space-y-2 text-sm font-crimson text-inkBrown/80">
+                  <p>1) Run a controlled batch at the trial bench (Tuesday, 1 hour) — test multi-herb enhancement (DC 15 batch process).</p>
+                  <p>2) Find better reagents — speak to guild merchant contact Elowen offered.</p>
+                  <p>3) Train or recruit an apprentice (save or offer small favor) to speed batch work.</p>
+                  <p>4) Keep a running log of failed vs. successful tweaks — chart temperature, time, and reagent ratios.</p>
+                </div>
+              </div>
+            </div>
+          </article>
+
+          <!-- Room at The First Lantern -->
+          <article class="burnt-edge parchment-bg overflow-hidden card-hover">
+            <div class="relative z-10">
+              <button onclick="toggleAccordion(this)" class="w-full text-left p-5 flex items-start justify-between gap-4">
+                <div class="flex items-center gap-3"><span class="text-xl">🏠</span><h3 class="font-display text-inkBrown text-lg">Room at The First Lantern</h3></div>
+                <i data-lucide="chevron-down" style="width:20px;height:20px;color:#3e2723;opacity:0.4;" class="flex-shrink-0 transition-transform accordion-icon"></i>
+              </button>
+              <div class="accordion-content px-6">
+                <div class="border-t border-inkBrown/10 pt-4 pb-4 text-sm font-crimson text-inkBrown/80 space-y-2">
+                  <p><strong>Location:</strong> Small rented room above The First Lantern — provided by Mara in exchange for help with the keg.</p>
+                  <p>A narrow wooden bed with a wool blanket, a small window onto the lane, an oak trunk at the foot of the bed, a low table with a chipped inkpot, a single candle and a pocket-sized lantern, and a simple drying rack hung near the window. A small shelf holds the alchemy kit, a tin of beeswax, a ceramic mortar and pestle, and a tin tray with labelled jars. The air smells faintly of river and resin.</p>
+                  <p class="text-inkBrown/50 text-xs italic">The trunk holds extra cloth sacks, spare vials, and a folded cloak. Breathable sacks on the table keep fresh herbs from crushing.</p>
+                </div>
+              </div>
+            </div>
+          </article>
+
+          <!-- Reading Notes -->
+          <article class="burnt-edge parchment-bg overflow-hidden card-hover">
+            <div class="relative z-10">
+              <button onclick="toggleAccordion(this)" class="w-full text-left p-5 flex items-start justify-between gap-4">
+                <div class="flex items-center gap-3"><span class="text-xl">📚</span><h3 class="font-display text-inkBrown text-lg">Reading Notes — Guild Medicine Compendium</h3></div>
+                <i data-lucide="chevron-down" style="width:20px;height:20px;color:#3e2723;opacity:0.4;" class="flex-shrink-0 transition-transform accordion-icon"></i>
+              </button>
+              <div class="accordion-content px-6">
+                <div class="border-t border-inkBrown/10 pt-4 pb-4 space-y-4 text-sm font-crimson text-inkBrown/80">
+                  <p class="text-inkBrown/50 text-xs italic">Source: "Guild Medicine Compendium" (loaned by the Alchemy Guild; week-long borrow). Elowen's note: "For methodical minds and steady hands — test, record, and improve."</p>
+                  <div>
+                    <p class="font-display text-inkBrown text-xs mb-1">PRESERVATION &amp; DRYING</p>
+                    <p>Dry herbs in shaded air with gentle breeze; avoid high heat which collapses volatile oils. Slow drying at ~20–25°C preserves bitter compounds while reducing water content. Store roots separate from leaves; use breathable cloth + labelled sacks with desiccant (rice or clean ash) for damp climates.</p>
+                  </div>
+                  <div>
+                    <p class="font-display text-inkBrown text-xs mb-1">SALVES &amp; EMULSIONS</p>
+                    <p>Slowly blend cooled tincture into warmed beeswax while stirring in one direction; avoid rapid heating. Use a double-boiler to keep steady temperatures. <strong>Long-Kept Balm:</strong> 2x Enhanced Riverwort tincture, 1 part melted beeswax, 1 tsp clarified fat — simmer + cool slowly. Preserves active compounds better than raw infusion.</p>
+                  </div>
+                  <div>
+                    <p class="font-display text-inkBrown text-xs mb-1">REAGENT PAIRINGS</p>
+                    <p>Stabilizers: guild reagents reduce water activity and slow spoilage (recommended for river-harvested plants). Bitterness reducers: a small pinch of powdered charcoal or astringent herb can mask Sunthistle bitter notes when paired carefully.</p>
+                  </div>
+                  <div>
+                    <p class="font-display text-inkBrown text-xs mb-1">BENCH NOTES</p>
+                    <p>Small batches need low, steady heat for extended times rather than brief high heat. Bench setups improve yield and consistency (+1 to technique when correctly rigged). Note time, temp, reagent qty, and visible color changes every 5–10 minutes during reductions.</p>
+                  </div>
+                  <div class="bg-inkBrown/5 rounded p-3 text-xs text-inkBrown/60 space-y-1">
+                    <p><strong>Personal tasks from reading:</strong></p>
+                    <p>• Transcribe full Long-Kept Balm recipe and test a 1-batch run on trial bench.</p>
+                    <p>• Fashion a secondary drying rack — ask Mara for a spare cloth line.</p>
+                    <p>• Ask Elowen about desiccant suppliers and small jars for tinctures.</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </article>
+
+          <!-- Drying Log -->
+          <article class="burnt-edge parchment-bg overflow-hidden card-hover">
+            <div class="relative z-10">
+              <button onclick="toggleAccordion(this)" class="w-full text-left p-5 flex items-start justify-between gap-4">
+                <div class="flex items-center gap-3"><span class="text-xl">🌬️</span><h3 class="font-display text-inkBrown text-lg">Drying Log</h3></div>
+                <i data-lucide="chevron-down" style="width:20px;height:20px;color:#3e2723;opacity:0.4;" class="flex-shrink-0 transition-transform accordion-icon"></i>
+              </button>
+              <div class="accordion-content px-6">
+                <div class="border-t border-inkBrown/10 pt-4 pb-4 text-sm font-crimson text-inkBrown/80">
+                  <div class="flex gap-3"><span class="text-inkBrown/40 font-display text-xs w-14 flex-shrink-0">[07:15]</span><p>Began drying Sunthistle (x3) on the room rack. Placed sprigs with roots trimmed and spaced evenly; kept in shade with gentle airflow from the window. Will check in 8–12 hours; transfer to labelled jars when papery and brittle.</p></div>
+                </div>
+              </div>
+            </div>
+          </article>
+
+          <!-- Experiment Log — Long-Kept Balm -->
+          <article class="burnt-edge parchment-bg overflow-hidden card-hover">
+            <div class="relative z-10">
+              <button onclick="toggleAccordion(this)" class="w-full text-left p-5 flex items-start justify-between gap-4">
+                <div class="flex items-center gap-3"><span class="text-xl">🧪</span><h3 class="font-display text-inkBrown text-lg">Experiment Log — Long-Kept Balm</h3></div>
+                <i data-lucide="chevron-down" style="width:20px;height:20px;color:#3e2723;opacity:0.4;" class="flex-shrink-0 transition-transform accordion-icon"></i>
+              </button>
+              <div class="accordion-content px-6">
+                <div class="border-t border-inkBrown/10 pt-4 pb-4 space-y-3 text-sm font-crimson text-inkBrown/80">
+                  <div class="flex gap-3"><span class="text-inkBrown/40 font-display text-xs w-14 flex-shrink-0">[09:30]</span><p>Trial bench test: followed the Long-Kept Balm recipe using 2x Enhanced Riverwort tincture, melted beeswax, and a dash of clarified fat. Bench reagents and setup provided by the guild.</p></div>
+                  <div class="bg-green-900/10 border border-green-700/20 rounded p-3 text-xs">
+                    <p class="font-display text-inkBrown text-xs mb-1">RESULT: SUCCESS</p>
+                    <p>Balm formed a smooth emulsion, pale green with a clean herbaceous smell. Texture is thick but spreadable; cooled into a small tin. Suggested effect: <strong>restores 1d6+1 HP</strong> or grants +1 short recovery (DM discretion).</p>
+                  </div>
+                  <p><strong>Key observation:</strong> emulsification worked best when the tincture was only slightly warm before adding to beeswax. Rapid addition caused partial separation. Stirring in a single direction kept the emulsion stable.</p>
+                  <p class="text-inkBrown/60 text-xs italic">Plan: label the tin, record exact times and temperatures on next run, and test a small application the next day.</p>
+                </div>
+              </div>
+            </div>
+          </article>
+
+          <!-- Delivery & Guild Notes -->
+          <article class="burnt-edge parchment-bg overflow-hidden card-hover">
+            <div class="relative z-10">
+              <button onclick="toggleAccordion(this)" class="w-full text-left p-5 flex items-start justify-between gap-4">
+                <div class="flex items-center gap-3"><span class="text-xl">🏛️</span><h3 class="font-display text-inkBrown text-lg">Delivery &amp; Guild Notes</h3></div>
+                <i data-lucide="chevron-down" style="width:20px;height:20px;color:#3e2723;opacity:0.4;" class="flex-shrink-0 transition-transform accordion-icon"></i>
+              </button>
+              <div class="accordion-content px-6">
+                <div class="border-t border-inkBrown/10 pt-4 pb-4 space-y-3 text-sm font-crimson text-inkBrown/80">
+                  <div class="flex gap-3"><span class="text-inkBrown/40 font-display text-xs w-14 flex-shrink-0">[10:00]</span><p>Delivered the Long-Kept Balm to Guildmaster Elowen with a small tin and trial notes.</p></div>
+                  <p><em>Elowen's response:</em> the guild uses salves constantly for contracts, the infirmary, and field teams. Steady local demand and occasional larger commissioned runs; consistent, stable salves will find buyers.</p>
+                  <div class="bg-inkBrown/5 rounded p-3 text-xs text-inkBrown/60 space-y-1">
+                    <p class="font-display text-inkBrown text-xs mb-1">WHERE TO GROW / LOCAL LEADS (Elowen's guidance)</p>
+                    <p>• Market Garden Plots: rentable beds behind the eastern market — sunny, good for Sunthistle.</p>
+                    <p>• Millstream Allotments: community plots along the millstream — wet-tolerant plants and roots.</p>
+                    <p>• Riverbank for Riverwort: best near springs and slow-moving streams; ask landholder for permission.</p>
+                    <p>• Temple gardens: sometimes carry medicinal seedlings, trade for favors.</p>
+                    <p>• Guild contact: Elowen offered to introduce a farmer who trades seedlings for salves.</p>
+                  </div>
+                  <p class="text-inkBrown/50 text-xs italic">Note: the guild didn't pay for the sample — it stings a little — but the satisfaction that it helps people is real. Build reputation, record everything, keep the pots full.</p>
+                </div>
+              </div>
+            </div>
+          </article>
+
+          <!-- Farming & Planting Log -->
+          <article class="burnt-edge parchment-bg overflow-hidden card-hover">
+            <div class="relative z-10">
+              <button onclick="toggleAccordion(this)" class="w-full text-left p-5 flex items-start justify-between gap-4">
+                <div class="flex items-center gap-3"><span class="text-xl">🌱</span><h3 class="font-display text-inkBrown text-lg">Farming &amp; Planting Log</h3></div>
+                <i data-lucide="chevron-down" style="width:20px;height:20px;color:#3e2723;opacity:0.4;" class="flex-shrink-0 transition-transform accordion-icon"></i>
+              </button>
+              <div class="accordion-content px-6">
+                <div class="border-t border-inkBrown/10 pt-4 pb-4 space-y-3 text-sm font-crimson text-inkBrown/80">
+                  <div class="flex gap-3"><span class="text-inkBrown/40 font-display text-xs w-14 flex-shrink-0">[10:20]</span><p>Visited the guild patch. Eastern raised bed: full sun, well-drained — best for Sunthistle. Cleared surface weeds, forked and loosened compacted sections, mixed in two shovelfuls of compost, levelled the bed, staked out rows for Sunthistle spacing, laid shallow mulch.</p></div>
+                  <div class="flex gap-3"><span class="text-inkBrown/40 font-display text-xs w-14 flex-shrink-0">[11:30]</span><p>Returned to tend soil structure. Basic tending check DC 10 — success. Soil texture feels looser and richer. <strong>+5 Farming XP.</strong></p></div>
+                  <div class="flex gap-3"><span class="text-inkBrown/40 font-display text-xs w-14 flex-shrink-0">[12:45]</span>
+                    <div>
+                      <p>Met Farmer Bram at Market Garden plots; Bram provided three Sunthistle seedlings in exchange for a small consignment arrangement. Planted three seedlings in the eastern bed.</p>
+                      <div class="bg-green-900/10 border border-green-700/20 rounded p-2 text-xs mt-2">
+                        Establishment check: d20 = 13 + WIS 2 = 15 (DC 12) — <strong>Success.</strong> All three seedlings established. Rows labelled "Sunthistle — Ash (2026-02-19)". <strong>+10 Farming XP. Total Farming XP: 15.</strong>
+                      </div>
+                    </div>
+                  </div>
+                  <p class="text-inkBrown/50 text-xs italic">Monitor moisture daily for the first week; check root collar in 3 days; log any pests (weasel remains nosy).</p>
+                </div>
+              </div>
+            </div>
+          </article>
+
+          <!-- Night Close & Salve Prep -->
+          <article class="burnt-edge parchment-bg overflow-hidden card-hover">
+            <div class="relative z-10">
+              <button onclick="toggleAccordion(this)" class="w-full text-left p-5 flex items-start justify-between gap-4">
+                <div class="flex items-center gap-3"><span class="text-xl">🕯️</span><h3 class="font-display text-inkBrown text-lg">Night Close &amp; Salve-Prep Checklist</h3></div>
+                <i data-lucide="chevron-down" style="width:20px;height:20px;color:#3e2723;opacity:0.4;" class="flex-shrink-0 transition-transform accordion-icon"></i>
+              </button>
+              <div class="accordion-content px-6">
+                <div class="border-t border-inkBrown/10 pt-4 pb-4 space-y-3 text-sm font-crimson text-inkBrown/80">
+                  <div class="flex gap-3"><span class="text-inkBrown/40 font-display text-xs w-14 flex-shrink-0">[22:45]</span><p>Cleaned the mortar, wiped bench bits, capped jars, stowed the kit in the trunk. Labelled new drying sprigs and the two fresh tins in the cupboard.</p></div>
+                  <p><strong>Rest plan:</strong> long rest scheduled; wake at 07:00 to check the drying rack and seedlings.</p>
+                  <div class="bg-inkBrown/5 rounded p-3 text-xs text-inkBrown/60 space-y-1">
+                    <p class="font-display text-inkBrown text-xs mb-1">SALVE-PREP CHECKLIST (POST-REST)</p>
+                    <p>Goal: up to 2 Long-Kept Balm tins (2x Enhanced Riverwort each) on the guild trial bench. Fallback: 1–2 Enhanced River Salves on the room kit.</p>
+                    <p class="mt-1">Inventory to ready: Enhanced Riverwort (x5), beeswax tin, clarified fat, labelled tins, sterilized jar, mortar &amp; pestle, measuring spoon, small double-boiler.</p>
+                  </div>
+                  <p class="text-inkBrown/50 text-xs italic">Journal stowed in satchel near drying rack — sleep now, let the herbs settle. — Ash</p>
+                </div>
+              </div>
+            </div>
+          </article>
+
+          <!-- Continuation marker -->
+          <div class="ornament-divider">🌅</div>
+          <div class="text-center mb-2">
+            <span class="font-crimson text-parchment/30 text-sm italic">— continuing into morning, 2026-02-20 —</span>
+          </div>
+
+          <!-- Morning & Salve Production -->
+          <article class="burnt-edge parchment-bg overflow-hidden card-hover">
+            <div class="relative z-10">
+              <button onclick="toggleAccordion(this)" class="w-full text-left p-5 flex items-start justify-between gap-4">
+                <div class="flex items-center gap-3"><span class="text-xl">☀️</span><h3 class="font-display text-inkBrown text-lg">Morning — 07:00 &amp; Salve Production (2026-02-20)</h3></div>
+                <i data-lucide="chevron-down" style="width:20px;height:20px;color:#3e2723;opacity:0.4;" class="flex-shrink-0 transition-transform accordion-icon"></i>
+              </button>
+              <div class="accordion-content px-6">
+                <div class="border-t border-inkBrown/10 pt-4 pb-4 space-y-3 text-sm font-crimson text-inkBrown/80">
+                  <p>Long rest complete. Woke refreshed; last long rest logged as 2026-02-20T07:00.</p>
+                  <div class="flex gap-3"><span class="text-inkBrown/40 font-display text-xs w-14 flex-shrink-0">[07:30]</span>
+                    <div>
+                      <p>Guild trial bench. Bench +1, reagents +1, Int +2 = +4 bonus. Roll: d20 = 14 + 4 = <strong>18 — Success.</strong></p>
+                      <div class="bg-green-900/10 border border-green-700/20 rounded p-2 text-xs mt-2">
+                        Produced two tins of Long-Kept Balm (consumed 4x Enhanced Riverwort, 1 packet common reagents). Labelled "Long-Kept Balm — Ash — batch 2026-02-20".
+                      </div>
+                    </div>
+                  </div>
+                  <div class="flex gap-3"><span class="text-inkBrown/40 font-display text-xs w-14 flex-shrink-0">[09:00]</span><p>Garden check: seedling inspection (d20 = 12 + 2 = 14) — success. All seedlings healthy with slight new leaf growth. Adjusted to a light morning mist; re-placed mulch where shallow slumping occurred.</p></div>
+                  <div class="flex gap-3"><span class="text-inkBrown/40 font-display text-xs w-14 flex-shrink-0">[10:00]</span><p>Consigned one labelled tin of Long-Kept Balm to the Alchemy Guild. Guild clerk logged it under Ash's file.</p></div>
+                  <div class="flex gap-3"><span class="text-inkBrown/40 font-display text-xs w-14 flex-shrink-0">[10:15]</span><p>Sold the extra tin to an artisan merchant at the eastern market. <strong>Received 2 silver.</strong> Sale recorded in ledger.</p></div>
+                  <div class="flex gap-3"><span class="text-inkBrown/40 font-display text-xs w-14 flex-shrink-0">[11:00]</span><p>Guild library: read pamphlets and a merchant's log about Riverwort moss-runner spots and Sunthistle ridge pockets. Copied a short checklist for low-impact harvest and rotation: pick from alternating microplots, preserve root collars, note early morning moisture windows.</p></div>
+                  <div class="flex gap-3"><span class="text-inkBrown/40 font-display text-xs w-14 flex-shrink-0">[12:00]</span><p>Applied guild field-guide notes; searched targeted microplots along the Millstream and ridge pockets. Forage success. Collected <strong>4 Riverwort sprigs</strong> and <strong>3 Sunthistle rosettes</strong> using micro-harvest cuts to preserve roots. Tagged microplots for rotation.</p></div>
+                  <div class="flex gap-3"><span class="text-inkBrown/40 font-display text-xs w-14 flex-shrink-0">[15:30]</span><p>Seedling check: all three look healthy and settled. Establishment check succeeded. Keep light morning watering; avoid mid-day soaking.</p></div>
+                  <div class="flex gap-3"><span class="text-inkBrown/40 font-display text-xs w-14 flex-shrink-0">[15:45]</span><p>Short forage at Millstream edges and lower Whispering Wood. Roll d20 = 14 + 2 = <strong>16 — success.</strong> Found <strong>two Riverwort sprigs</strong> and <strong>one small Sunthistle</strong>. Bought a small packet of common reagents from a trader.</p></div>
+                </div>
+              </div>
+            </div>
+          </article>
+
+          <!-- Ramble Close -->
+          <div class="burnt-edge parchment-bg p-5 text-center">
+            <div class="relative z-10">
+              <p class="font-crimson italic text-inkBrown/60 text-sm leading-relaxed">
+                I am endlessly thrilled that something I made from a muddy spring helped someone. Also, the weasel owes me a stare-off. More soon — <strong>Ash.</strong>
+              </p>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════════════ -->
+    <!--  RECIPES PAGE                                              -->
+    <!-- ═══════════════════════════════════════════════════════════ -->
+    <section id="page-recipes" class="page-section">
+      <div class="max-w-3xl mx-auto px-4 py-10">
+        <div class="mb-8">
+          <h1 class="font-display text-inkGold text-3xl mb-1">Recipes &amp; Notes</h1>
+          <p class="font-crimson italic text-parchment/40 text-sm">Owner: Ash Windbreaker &nbsp;·&nbsp; Personal recipe record</p>
+        </div>
+        <div class="space-y-4">
+
+          <!-- Enhanced River Salve -->
+          <div class="bg-panelBg border border-inkGold/20 rounded-lg overflow-hidden">
+            <button onclick="toggleAccordion(this)" class="w-full flex items-center justify-between gap-3 px-5 py-4 text-left">
+              <div class="flex items-center gap-3">
+                <i data-lucide="flask-conical" style="width:16px;height:16px;" class="text-inkGold/60"></i>
+                <span class="font-display text-inkGold text-base">Enhanced River Salve</span>
+                <span class="text-xs px-2 py-0.5 rounded font-crimson bg-parchment/5 text-parchment/40 border border-parchment/10">basic</span>
+                <span class="text-xs px-2 py-0.5 rounded font-crimson bg-green-900/20 text-green-300/60 border border-green-700/20">heals 1d4+1 HP</span>
+              </div>
+              <i data-lucide="chevron-down" style="width:16px;height:16px;" class="accordion-icon text-inkGold/40 transition-transform flex-shrink-0"></i>
+            </button>
+            <div class="accordion-content">
+              <div class="px-5 pb-5 space-y-4 border-t border-inkGold/10 pt-4">
+                <div class="grid md:grid-cols-2 gap-4">
+                  <div class="bg-deepBg rounded p-3 border border-inkGold/10">
+                    <p class="font-crimson text-parchment/40 text-xs font-display mb-2">INGREDIENTS</p>
+                    <ul class="font-crimson text-parchment/65 text-sm space-y-1">
+                      <li>• Enhanced Riverwort ×1</li>
+                      <li>• Common reagents (small packet)</li>
+                      <li>• Clean water</li>
+                      <li>• Beeswax (pinch)</li>
+                    </ul>
+                  </div>
+                  <div class="bg-deepBg rounded p-3 border border-inkGold/10">
+                    <p class="font-crimson text-parchment/40 text-xs font-display mb-2">TOOLS</p>
+                    <ul class="font-crimson text-parchment/65 text-sm space-y-1">
+                      <li>• Mortar &amp; pestle</li>
+                      <li>• Heat source</li>
+                      <li>• Glass vial or tin pot</li>
+                    </ul>
+                  </div>
+                </div>
+                <div class="bg-deepBg rounded p-3 border border-inkGold/10">
+                  <p class="font-crimson text-parchment/40 text-xs font-display mb-2">STEPS</p>
+                  <ol class="font-crimson text-parchment/65 text-sm space-y-1 list-decimal list-inside">
+                    <li>Macerate Riverwort.</li>
+                    <li>Infuse with warm water and reagents 10–20 min.</li>
+                    <li>Strain.</li>
+                    <li>Reduce.</li>
+                    <li>Blend with melted beeswax.</li>
+                    <li>Cool.</li>
+                  </ol>
+                </div>
+                <div class="flex items-center gap-2 text-sm font-crimson">
+                  <i data-lucide="zap" style="width:14px;height:14px;" class="text-inkGold/50"></i>
+                  <span class="text-parchment/60"><strong class="text-parchment/80">Effect:</strong> Heals <strong>1d4+1 HP</strong> on application (suggested).</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Long-Kept Balm -->
+          <div class="bg-panelBg border border-inkGold/20 rounded-lg overflow-hidden">
+            <button onclick="toggleAccordion(this)" class="w-full flex items-center justify-between gap-3 px-5 py-4 text-left">
+              <div class="flex items-center gap-3">
+                <i data-lucide="flask-conical" style="width:16px;height:16px;" class="text-inkGold/60"></i>
+                <span class="font-display text-inkGold text-base">Long-Kept Balm</span>
+                <span class="text-xs px-2 py-0.5 rounded font-crimson bg-parchment/5 text-parchment/40 border border-parchment/10">trial</span>
+                <span class="text-xs px-2 py-0.5 rounded font-crimson bg-blue-900/20 text-blue-300/60 border border-blue-700/20">heals 1d6+1 HP</span>
+              </div>
+              <i data-lucide="chevron-down" style="width:16px;height:16px;" class="accordion-icon text-inkGold/40 transition-transform flex-shrink-0"></i>
+            </button>
+            <div class="accordion-content">
+              <div class="px-5 pb-5 space-y-4 border-t border-inkGold/10 pt-4">
+                <div class="bg-deepBg rounded p-3 border border-inkGold/10">
+                  <p class="font-crimson text-parchment/40 text-xs font-display mb-2">INGREDIENTS</p>
+                  <ul class="font-crimson text-parchment/65 text-sm space-y-1">
+                    <li>• Enhanced Riverwort tincture ×2</li>
+                    <li>• Beeswax</li>
+                    <li>• Clarified fat</li>
+                    <li>• Bench reagents</li>
+                  </ul>
+                </div>
+                <div class="bg-deepBg rounded p-3 border border-yellow-900/20">
+                  <p class="font-crimson text-parchment/40 text-xs font-display mb-2">BENCH NOTES</p>
+                  <ul class="font-crimson text-parchment/65 text-sm space-y-1">
+                    <li>• Slow, steady reduction — do not rush.</li>
+                    <li>• Emulsify when tincture is only <em>slightly warm</em>.</li>
+                    <li>• Stir consistently throughout.</li>
+                  </ul>
+                </div>
+                <div class="flex items-center gap-2 text-sm font-crimson">
+                  <i data-lucide="zap" style="width:14px;height:14px;" class="text-inkGold/50"></i>
+                  <span class="text-parchment/60"><strong class="text-parchment/80">Effect:</strong> Heals <strong>1d6+1 HP</strong> or +1 short recovery (DM discretion).</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- General notes -->
+          <div class="burnt-edge parchment-bg p-5">
+            <div class="relative z-10">
+              <p class="font-crimson text-inkBrown/60 text-xs font-display mb-1">NOTES</p>
+              <p class="font-crimson italic text-inkBrown/70 text-sm">Label each batch with date, reagents used, and bench modifiers.</p>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════════════ -->
+    <!--  FIELD LOG PAGE                                            -->
+    <!-- ═══════════════════════════════════════════════════════════ -->
+    <section id="page-fieldlog" class="page-section">
+      <div class="max-w-3xl mx-auto px-4 py-10">
+        <div class="mb-8">
+          <h1 class="font-display text-inkGold text-3xl mb-1">Field Log</h1>
+          <p class="font-crimson italic text-parchment/40 text-sm">Owner: Ash Windbreaker &nbsp;·&nbsp; Microplot mapping, forage logs, and harvest rotation notes</p>
+        </div>
+        <div class="space-y-4">
+
+          <!-- Microplot Map -->
+          <div class="bg-panelBg border border-inkGold/20 rounded-lg overflow-hidden">
+            <button onclick="toggleAccordion(this)" class="w-full flex items-center justify-between gap-3 px-5 py-4 text-left">
+              <div class="flex items-center gap-3">
+                <i data-lucide="map" style="width:16px;height:16px;" class="text-inkGold/60"></i>
+                <span class="font-display text-inkGold text-base">Microplot Map &amp; Rotation Plan</span>
+              </div>
+              <i data-lucide="chevron-down" style="width:16px;height:16px;" class="accordion-icon text-inkGold/40 transition-transform flex-shrink-0"></i>
+            </button>
+            <div class="accordion-content">
+              <div class="px-5 pb-5 space-y-3 border-t border-inkGold/10 pt-4">
+                <!-- Millstream-1 -->
+                <div class="bg-deepBg rounded p-3 border border-blue-900/20">
+                  <div class="flex items-center gap-2 mb-2">
+                    <span class="font-crimson text-parchment/70 text-xs font-semibold">Millstream-1</span>
+                    <span class="text-xs px-1.5 py-0.5 rounded font-crimson bg-blue-900/20 text-blue-300/60 border border-blue-700/20">mossy runnel · slow spring</span>
+                  </div>
+                  <p class="font-crimson text-parchment/55 text-xs">Riverwort patches. Mark plots with harmless stone piles. Rotate harvest quadrant weekly.</p>
+                </div>
+                <!-- Ridge-Alpha -->
+                <div class="bg-deepBg rounded p-3 border border-yellow-900/20">
+                  <div class="flex items-center gap-2 mb-2">
+                    <span class="font-crimson text-parchment/70 text-xs font-semibold">Ridge-Alpha</span>
+                    <span class="text-xs px-1.5 py-0.5 rounded font-crimson bg-yellow-900/20 text-yellow-300/60 border border-yellow-700/20">sun pockets</span>
+                  </div>
+                  <p class="font-crimson text-parchment/55 text-xs">Sunthistle clusters. Harvest outer rosettes only — leave crown and root collar intact.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Forage Entries -->
+          <div class="bg-panelBg border border-inkGold/20 rounded-lg overflow-hidden">
+            <button onclick="toggleAccordion(this)" class="w-full flex items-center justify-between gap-3 px-5 py-4 text-left">
+              <div class="flex items-center gap-3">
+                <i data-lucide="leaf" style="width:16px;height:16px;" class="text-inkGold/60"></i>
+                <span class="font-display text-inkGold text-base">Forage Entries</span>
+                <span class="text-xs px-2 py-0.5 rounded font-crimson bg-parchment/5 text-parchment/40 border border-parchment/10">4 entries</span>
+              </div>
+              <i data-lucide="chevron-down" style="width:16px;height:16px;" class="accordion-icon text-inkGold/40 transition-transform flex-shrink-0"></i>
+            </button>
+            <div class="accordion-content">
+              <div class="px-5 pb-5 border-t border-inkGold/10 pt-4">
+                <div class="space-y-2">
+                  <div class="bg-deepBg rounded p-3 border border-green-900/15 text-xs font-crimson">
+                    <div class="flex items-start justify-between gap-2 mb-1">
+                      <span class="text-parchment/35">[2026-02-19 14:10]</span>
+                      <span class="text-parchment/40 italic">pack-fill</span>
+                    </div>
+                    <p class="text-parchment/70">Field collection. Found <strong>Riverwort ×2</strong>, <strong>Sunthistle ×2</strong>.</p>
+                  </div>
+                  <div class="bg-deepBg rounded p-3 border border-green-900/15 text-xs font-crimson">
+                    <div class="flex items-start justify-between gap-2 mb-1">
+                      <span class="text-parchment/35">[2026-02-19 18:00]</span>
+                      <span class="text-parchment/40 italic">extended forage · 2h</span>
+                    </div>
+                    <p class="text-parchment/70">Found <strong>Riverwort ×3</strong>, <strong>Sunthistle ×2</strong>.</p>
+                  </div>
+                  <div class="bg-deepBg rounded p-3 border border-green-900/25 text-xs font-crimson">
+                    <div class="flex items-start justify-between gap-2 mb-1">
+                      <span class="text-parchment/35">[2026-02-20 12:00]</span>
+                      <span class="text-parchment/40 italic">research-informed</span>
+                    </div>
+                    <p class="text-parchment/70">Found <strong>Riverwort ×4</strong>, <strong>Sunthistle ×3</strong>. Micro-harvest cuts. Marked microplots for rotation.</p>
+                  </div>
+                  <div class="bg-deepBg rounded p-3 border border-inkGold/15 text-xs font-crimson">
+                    <div class="flex items-start justify-between gap-2 mb-1">
+                      <span class="text-parchment/35">[2026-02-20 19:00]</span>
+                      <span class="text-parchment/40 italic">long search · 7h · research-informed</span>
+                    </div>
+                    <p class="text-parchment/70">Careful harvest across mapped microplots. Found <strong>Riverwort ×6</strong>, <strong>Sunthistle ×4</strong>. Marked new microplots and updated rotation map.</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Planned Checks -->
+          <div class="bg-panelBg border border-inkGold/20 rounded-lg overflow-hidden">
+            <button onclick="toggleAccordion(this)" class="w-full flex items-center justify-between gap-3 px-5 py-4 text-left">
+              <div class="flex items-center gap-3">
+                <i data-lucide="calendar-clock" style="width:16px;height:16px;" class="text-inkGold/60"></i>
+                <span class="font-display text-inkGold text-base">Planned Checks</span>
+              </div>
+              <i data-lucide="chevron-down" style="width:16px;height:16px;" class="accordion-icon text-inkGold/40 transition-transform flex-shrink-0"></i>
+            </button>
+            <div class="accordion-content">
+              <div class="px-5 pb-5 border-t border-inkGold/10 pt-4">
+                <div class="bg-deepBg rounded p-3 border border-yellow-900/20 text-xs font-crimson">
+                  <div class="flex items-center justify-between gap-2 mb-1">
+                    <span class="text-parchment/70 font-semibold">Seedling / root follow-up</span>
+                    <span class="text-yellow-300/60">2026-02-23</span>
+                  </div>
+                  <p class="text-parchment/55">Check root collars and early leaf set. Record moisture, pests, and any weed encroachment.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Observational Checklist -->
+          <div class="bg-panelBg border border-inkGold/20 rounded-lg overflow-hidden">
+            <button onclick="toggleAccordion(this)" class="w-full flex items-center justify-between gap-3 px-5 py-4 text-left">
+              <div class="flex items-center gap-3">
+                <i data-lucide="clipboard-list" style="width:16px;height:16px;" class="text-inkGold/60"></i>
+                <span class="font-display text-inkGold text-base">Observational Checklist</span>
+              </div>
+              <i data-lucide="chevron-down" style="width:16px;height:16px;" class="accordion-icon text-inkGold/40 transition-transform flex-shrink-0"></i>
+            </button>
+            <div class="accordion-content">
+              <div class="px-5 pb-5 border-t border-inkGold/10 pt-4">
+                <ul class="space-y-1.5 font-crimson text-parchment/65 text-sm">
+                  <li class="flex items-center gap-2"><i data-lucide="check" style="width:12px;height:12px;" class="text-inkGold/40 flex-shrink-0"></i>Time of day</li>
+                  <li class="flex items-center gap-2"><i data-lucide="check" style="width:12px;height:12px;" class="text-inkGold/40 flex-shrink-0"></i>Soil moisture (dry / moist / wet)</li>
+                  <li class="flex items-center gap-2"><i data-lucide="check" style="width:12px;height:12px;" class="text-inkGold/40 flex-shrink-0"></i>Visible moss / lichen</li>
+                  <li class="flex items-center gap-2"><i data-lucide="check" style="width:12px;height:12px;" class="text-inkGold/40 flex-shrink-0"></i>Nearby water flow (spring rate)</li>
+                  <li class="flex items-center gap-2"><i data-lucide="check" style="width:12px;height:12px;" class="text-inkGold/40 flex-shrink-0"></i>Pests or grazing signs</li>
+                  <li class="flex items-center gap-2"><i data-lucide="check" style="width:12px;height:12px;" class="text-inkGold/40 flex-shrink-0"></i>Sample quadrant ID</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════════════ -->
+    <!--  EXPERIMENT LOG PAGE                                       -->
+    <!-- ═══════════════════════════════════════════════════════════ -->
+    <section id="page-explog" class="page-section">
+      <div class="max-w-3xl mx-auto px-4 py-10">
+        <div class="mb-8">
+          <h1 class="font-display text-inkGold text-3xl mb-1">Experiment Log</h1>
+          <p class="font-crimson italic text-parchment/40 text-sm">Owner: Ash Windbreaker &nbsp;·&nbsp; Bench experiments and notes</p>
+        </div>
+        <div class="space-y-4">
+
+          <!-- Experiment entries -->
+          <div class="bg-panelBg border border-inkGold/20 rounded-lg overflow-hidden">
+            <button onclick="toggleAccordion(this)" class="w-full flex items-center justify-between gap-3 px-5 py-4 text-left">
+              <div class="flex items-center gap-3">
+                <i data-lucide="flask-conical" style="width:16px;height:16px;" class="text-inkGold/60"></i>
+                <span class="font-display text-inkGold text-base">Bench Entries</span>
+                <span class="text-xs px-2 py-0.5 rounded font-crimson bg-parchment/5 text-parchment/40 border border-parchment/10">3 entries</span>
+              </div>
+              <i data-lucide="chevron-down" style="width:16px;height:16px;" class="accordion-icon text-inkGold/40 transition-transform flex-shrink-0"></i>
+            </button>
+            <div class="accordion-content open">
+              <div class="px-5 pb-5 border-t border-inkGold/10 pt-4 space-y-2">
+                <div class="bg-deepBg rounded p-3 border border-green-900/25 text-xs font-crimson">
+                  <div class="flex items-center justify-between gap-2 mb-1">
+                    <span class="text-parchment/35">[2026-02-19 09:30]</span>
+                    <span class="text-green-400/60 font-semibold">✓ success</span>
+                  </div>
+                  <p class="text-parchment/75 font-semibold mb-1">Long-Kept Balm — trial bench test</p>
+                  <p class="text-parchment/55">Notes: keep reduction low and steady; emulsify at slightly-warm tincture temp.</p>
+                </div>
+                <div class="bg-deepBg rounded p-3 border border-inkGold/10 text-xs font-crimson">
+                  <div class="flex items-start justify-between gap-2 mb-1">
+                    <span class="text-parchment/35">[2026-02-19 16:00]</span>
+                    <span class="text-parchment/40 italic">bench +1 · reagents used</span>
+                  </div>
+                  <p class="text-parchment/75 font-semibold mb-1">Batch Enhancement</p>
+                  <p class="text-parchment/55">Riverwort ×2 → Enhanced Riverwort ×2.</p>
+                </div>
+                <div class="bg-deepBg rounded p-3 border border-inkGold/10 text-xs font-crimson">
+                  <div class="flex items-start justify-between gap-2 mb-1">
+                    <span class="text-parchment/35">[2026-02-20 07:30]</span>
+                    <span class="text-parchment/40 italic">bench +1 · reagents consumed</span>
+                  </div>
+                  <p class="text-parchment/75 font-semibold mb-1">Salve Production</p>
+                  <p class="text-parchment/55">Produced Long-Kept Balm ×2. Consumed Enhanced Riverwort ×4.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Notes & Techniques -->
+          <div class="bg-panelBg border border-inkGold/20 rounded-lg overflow-hidden">
+            <button onclick="toggleAccordion(this)" class="w-full flex items-center justify-between gap-3 px-5 py-4 text-left">
+              <div class="flex items-center gap-3">
+                <i data-lucide="notebook-pen" style="width:16px;height:16px;" class="text-inkGold/60"></i>
+                <span class="font-display text-inkGold text-base">Notes &amp; Techniques</span>
+              </div>
+              <i data-lucide="chevron-down" style="width:16px;height:16px;" class="accordion-icon text-inkGold/40 transition-transform flex-shrink-0"></i>
+            </button>
+            <div class="accordion-content">
+              <div class="px-5 pb-5 border-t border-inkGold/10 pt-4 space-y-2">
+                <div class="bg-deepBg rounded p-3 border border-inkGold/10 text-xs font-crimson">
+                  <p class="text-parchment/75 font-semibold mb-1">Rake-strain technique</p>
+                  <p class="text-parchment/55">Use fine cloth and gentle pressure to reduce particulate. Prevents bitter compounds from transferring to the final product.</p>
+                </div>
+                <div class="bg-deepBg rounded p-3 border border-yellow-900/15 text-xs font-crimson">
+                  <p class="text-parchment/55 italic">Record exact times and temperature on the next run.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════════════ -->
+    <!--  DM NOTES PAGE                                             -->
+    <!-- ═══════════════════════════════════════════════════════════ -->
+    <section id="page-dm" class="page-section">
+      <div class="max-w-4xl mx-auto px-4 py-10">
+        <div class="mb-8">
+          <h1 class="font-display text-inkGold text-3xl mb-1">DM Notes</h1>
+          <p class="font-crimson italic text-parchment/40 text-sm">AI Dungeon Master reference — rules, pacing, systems</p>
+        </div>
+        <div class="space-y-4">
+
+          <!-- Core Philosophy -->
+          <div class="bg-panelBg border border-inkGold/20 rounded-lg overflow-hidden">
+            <button onclick="toggleAccordion(this)" class="w-full flex items-center justify-between gap-3 px-5 py-4 text-left">
+              <div class="flex items-center gap-3"><i data-lucide="book-open" style="width:16px;height:16px;" class="text-inkGold/60"></i><span class="font-display text-inkGold text-base">Core Philosophy</span></div>
+              <i data-lucide="chevron-down" style="width:16px;height:16px;" class="accordion-icon text-inkGold/40 transition-transform flex-shrink-0"></i>
+            </button>
+            <div class="accordion-content">
+              <div class="px-5 pb-5 border-t border-inkGold/10 pt-4 text-sm font-crimson text-parchment/65 space-y-2">
+                <p>The story is a partnership. The <strong class="text-parchment/80">player</strong> chooses direction, methods, and personality. The <strong class="text-parchment/80">AI DM</strong> ensures the world remains coherent, challenging, and fair.</p>
+                <p>The world reacts realistically. It never bends purely to convenience. The DM must prevent narrative-breaking actions while always offering grounded alternatives.</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Player Agency -->
+          <div class="bg-panelBg border border-inkGold/20 rounded-lg overflow-hidden">
+            <button onclick="toggleAccordion(this)" class="w-full flex items-center justify-between gap-3 px-5 py-4 text-left">
+              <div class="flex items-center gap-3"><i data-lucide="user-check" style="width:16px;height:16px;" class="text-inkGold/60"></i><span class="font-display text-inkGold text-base">Player Agency (With Limits)</span></div>
+              <i data-lucide="chevron-down" style="width:16px;height:16px;" class="accordion-icon text-inkGold/40 transition-transform flex-shrink-0"></i>
+            </button>
+            <div class="accordion-content">
+              <div class="px-5 pb-5 border-t border-inkGold/10 pt-4 text-sm font-crimson space-y-3">
+                <div class="grid md:grid-cols-2 gap-3">
+                  <div class="bg-deepBg rounded p-3 border border-green-900/20">
+                    <p class="text-parchment/40 text-xs font-display mb-2">PLAYERS MAY</p>
+                    <ul class="text-parchment/65 space-y-1">
+                      <li>• Choose goals, tactics, dialogue, and exploration paths.</li>
+                      <li>• Attempt creative solutions.</li>
+                      <li>• Influence how encounters unfold.</li>
+                      <li>• Define personal flavor, training, and growth.</li>
+                    </ul>
+                  </div>
+                  <div class="bg-deepBg rounded p-3 border border-red-900/20">
+                    <p class="text-parchment/40 text-xs font-display mb-2">PLAYERS MAY NOT</p>
+                    <ul class="text-parchment/65 space-y-1">
+                      <li>• Declare automatic success.</li>
+                      <li>• Invent powerful items or outcomes not earned.</li>
+                      <li>• Bypass challenge through narration alone.</li>
+                      <li>• Retcon reality.</li>
+                      <li>• Create legendary objects or instant victories.</li>
+                    </ul>
+                  </div>
+                </div>
+                <div class="bg-deepBg rounded p-3 border border-inkGold/10 text-xs">
+                  <p class="text-parchment/40 font-display mb-1">REDIRECTION RULE</p>
+                  <p class="text-parchment/55 italic">If a player attempts a disallowed action, translate their intent into a valid attempt — never shut it down, always redirect.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Chapter System -->
+          <div class="bg-panelBg border border-inkGold/20 rounded-lg overflow-hidden">
+            <button onclick="toggleAccordion(this)" class="w-full flex items-center justify-between gap-3 px-5 py-4 text-left">
+              <div class="flex items-center gap-3"><i data-lucide="layers" style="width:16px;height:16px;" class="text-inkGold/60"></i><span class="font-display text-inkGold text-base">Chapter System</span></div>
+              <i data-lucide="chevron-down" style="width:16px;height:16px;" class="accordion-icon text-inkGold/40 transition-transform flex-shrink-0"></i>
+            </button>
+            <div class="accordion-content">
+              <div class="px-5 pb-5 border-t border-inkGold/10 pt-4 text-sm font-crimson space-y-3">
+                <p class="text-parchment/65">Chapters are <em>story markers</em>, not loot milestones. A new chapter is declared when the story reaches a significant new phase. Leveling and rare items are DM-adjudicated based on what the character has <strong class="text-parchment/80">earned</strong> — NOT automatically granted at chapter ends.</p>
+                <div class="bg-deepBg rounded overflow-hidden border border-inkGold/10">
+                  <table class="w-full text-xs font-crimson">
+                    <thead><tr class="border-b border-inkGold/10">
+                      <th class="text-left px-3 py-2 text-parchment/40 font-display">#</th>
+                      <th class="text-left px-3 py-2 text-parchment/40 font-display">TITLE</th>
+                      <th class="text-left px-3 py-2 text-parchment/40 font-display">STATUS</th>
+                      <th class="text-left px-3 py-2 text-parchment/40 font-display">SESSIONS</th>
+                    </tr></thead>
+                    <tbody>
+                      <tr class="border-b border-inkGold/5">
+                        <td class="px-3 py-2 text-parchment/40">1</td>
+                        <td class="px-3 py-2 text-parchment/70">Character Creation</td>
+                        <td class="px-3 py-2"><span class="badge-completed text-xs px-1.5 py-0.5 rounded">Complete</span></td>
+                        <td class="px-3 py-2 text-parchment/40">01</td>
+                      </tr>
+                      <tr>
+                        <td class="px-3 py-2 text-parchment/40">2</td>
+                        <td class="px-3 py-2 text-parchment/70">Town of Beginnings</td>
+                        <td class="px-3 py-2"><span class="badge-ongoing text-xs px-1.5 py-0.5 rounded">In progress</span></td>
+                        <td class="px-3 py-2 text-parchment/40">02</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Timeline & Scheduling -->
+          <div class="bg-panelBg border border-inkGold/20 rounded-lg overflow-hidden">
+            <button onclick="toggleAccordion(this)" class="w-full flex items-center justify-between gap-3 px-5 py-4 text-left">
+              <div class="flex items-center gap-3"><i data-lucide="calendar" style="width:16px;height:16px;" class="text-inkGold/60"></i><span class="font-display text-inkGold text-base">Timeline &amp; Event Scheduling</span></div>
+              <i data-lucide="chevron-down" style="width:16px;height:16px;" class="accordion-icon text-inkGold/40 transition-transform flex-shrink-0"></i>
+            </button>
+            <div class="accordion-content">
+              <div class="px-5 pb-5 border-t border-inkGold/10 pt-4 text-sm font-crimson space-y-3">
+                <ul class="text-parchment/65 space-y-1">
+                  <li>• Each session log must note the in-game date and approximate time of day for key actions.</li>
+                  <li>• NPCs, shops, and locations follow daily schedules.</li>
+                  <li>• If a player skips time (long rest, travel), advance scheduled events — the world does not pause.</li>
+                </ul>
+                <div class="bg-deepBg rounded p-3 border border-yellow-900/20">
+                  <p class="text-parchment/40 text-xs font-display mb-2">CONSEQUENCES OF IGNORING TIME</p>
+                  <ul class="text-parchment/55 text-xs space-y-1">
+                    <li>• Missed appointments lower NPC trust or guild favor.</li>
+                    <li>• Unattended plots / drying herbs may spoil.</li>
+                    <li>• Time-sensitive hooks escalate or expire.</li>
+                  </ul>
+                </div>
+                <div class="bg-deepBg rounded overflow-hidden border border-inkGold/10">
+                  <p class="text-parchment/40 text-xs font-display px-3 pt-2 pb-1">SCHEDULED EVENTS</p>
+                  <table class="w-full text-xs font-crimson">
+                    <thead><tr class="border-y border-inkGold/10">
+                      <th class="text-left px-3 py-1.5 text-parchment/30">Date</th>
+                      <th class="text-left px-3 py-1.5 text-parchment/30">Time</th>
+                      <th class="text-left px-3 py-1.5 text-parchment/30">Event</th>
+                      <th class="text-left px-3 py-1.5 text-parchment/30">Location</th>
+                    </tr></thead>
+                    <tbody class="text-parchment/55">
+                      <tr class="border-b border-inkGold/5"><td class="px-3 py-1.5">2026-02-22</td><td class="px-3 py-1.5">09:00</td><td class="px-3 py-1.5">Guild bench slot (Ash)</td><td class="px-3 py-1.5">Alchemy Guild</td></tr>
+                      <tr class="border-b border-inkGold/5"><td class="px-3 py-1.5">2026-02-23</td><td class="px-3 py-1.5">15:30</td><td class="px-3 py-1.5">Seedling root check</td><td class="px-3 py-1.5">Guild patch</td></tr>
+                      <tr><td class="px-3 py-1.5">2026-02-25</td><td class="px-3 py-1.5">—</td><td class="px-3 py-1.5">Book return due</td><td class="px-3 py-1.5">Alchemy Guild</td></tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Death & Rebirth -->
+          <div class="bg-panelBg border border-inkGold/20 rounded-lg overflow-hidden">
+            <button onclick="toggleAccordion(this)" class="w-full flex items-center justify-between gap-3 px-5 py-4 text-left">
+              <div class="flex items-center gap-3"><i data-lucide="skull" style="width:16px;height:16px;" class="text-inkGold/60"></i><span class="font-display text-inkGold text-base">Death &amp; Rebirth System</span></div>
+              <i data-lucide="chevron-down" style="width:16px;height:16px;" class="accordion-icon text-inkGold/40 transition-transform flex-shrink-0"></i>
+            </button>
+            <div class="accordion-content">
+              <div class="px-5 pb-5 border-t border-inkGold/10 pt-4 text-sm font-crimson space-y-3">
+                <p class="text-parchment/65">Death is not a campaign reset. It is a setback with consequences.</p>
+                <div class="bg-deepBg rounded p-3 border border-inkGold/10">
+                  <p class="text-parchment/40 text-xs font-display mb-2">ON DEATH</p>
+                  <ol class="text-parchment/65 text-sm space-y-1 list-decimal list-inside">
+                    <li>Respawn in the starting town.</li>
+                    <li>Stats, level, and learned skills remain unchanged.</li>
+                    <li>Inventory dropped at the death location.</li>
+                    <li>Magically bound items remain with the character.</li>
+                    <li>General worn equipment stays unless explicitly destroyed.</li>
+                    <li>The world continues — enemies do not reset.</li>
+                    <li>Recovering dropped gear becomes a potential objective.</li>
+                  </ol>
+                </div>
+                <div class="bg-deepBg rounded p-3 border border-inkGold/10">
+                  <p class="text-parchment/40 text-xs font-display mb-2">RESPEC / REBIRTH (at milestones only)</p>
+                  <ul class="text-parchment/65 text-sm space-y-1">
+                    <li>• Reallocate stats, skills, or build choices.</li>
+                    <li>• Swap trained disciplines.</li>
+                    <li>• Gain a small experience bonus.</li>
+                    <li>• Maintain narrative memory and reputation.</li>
+                  </ul>
+                  <p class="text-parchment/35 text-xs mt-2 italic">Chapter completion alone does not entitle the player to a rebirth — the DM decides.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Pacing & Custom Skills -->
+          <div class="bg-panelBg border border-inkGold/20 rounded-lg overflow-hidden">
+            <button onclick="toggleAccordion(this)" class="w-full flex items-center justify-between gap-3 px-5 py-4 text-left">
+              <div class="flex items-center gap-3"><i data-lucide="activity" style="width:16px;height:16px;" class="text-inkGold/60"></i><span class="font-display text-inkGold text-base">Pacing, Custom Skills &amp; Fairness</span></div>
+              <i data-lucide="chevron-down" style="width:16px;height:16px;" class="accordion-icon text-inkGold/40 transition-transform flex-shrink-0"></i>
+            </button>
+            <div class="accordion-content">
+              <div class="px-5 pb-5 border-t border-inkGold/10 pt-4 text-sm font-crimson space-y-3">
+                <div class="bg-deepBg rounded p-3 border border-inkGold/10">
+                  <p class="text-parchment/40 text-xs font-display mb-2">PROACTIVE PACING</p>
+                  <p class="text-parchment/65 text-xs">Every response must include at least one: a new detail, a change in the environment, a consequence unfolding, or a decision opportunity. Never leave the player in a vacuum.</p>
+                </div>
+                <div class="bg-deepBg rounded p-3 border border-inkGold/10">
+                  <p class="text-parchment/40 text-xs font-display mb-2">CUSTOM SKILLS</p>
+                  <p class="text-parchment/65 text-xs">When a custom skill is introduced: define its scope clearly, treat it like a proficiency with growth potential, require materials/time/experimentation, allow failure and refinement, and never allow it to instantly solve major conflicts.</p>
+                </div>
+                <div class="bg-deepBg rounded p-3 border border-inkGold/10">
+                  <p class="text-parchment/40 text-xs font-display mb-1">FAIRNESS RULE</p>
+                  <p class="text-parchment/55 text-xs italic">Instead of "You can't do that" — say "That would require rare materials or deeper knowledge — but you could begin researching it."</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Reference Files -->
+          <div class="bg-panelBg border border-inkGold/20 rounded-lg overflow-hidden">
+            <button onclick="toggleAccordion(this)" class="w-full flex items-center justify-between gap-3 px-5 py-4 text-left">
+              <div class="flex items-center gap-3"><i data-lucide="folder-open" style="width:16px;height:16px;" class="text-inkGold/60"></i><span class="font-display text-inkGold text-base">Reference Files &amp; Items</span></div>
+              <i data-lucide="chevron-down" style="width:16px;height:16px;" class="accordion-icon text-inkGold/40 transition-transform flex-shrink-0"></i>
+            </button>
+            <div class="accordion-content">
+              <div class="px-5 pb-5 border-t border-inkGold/10 pt-4 text-sm font-crimson space-y-3">
+                <div class="bg-deepBg rounded overflow-hidden border border-inkGold/10">
+                  <table class="w-full text-xs font-crimson">
+                    <thead><tr class="border-b border-inkGold/10">
+                      <th class="text-left px-3 py-2 text-parchment/40 font-display">PATH</th>
+                      <th class="text-left px-3 py-2 text-parchment/40 font-display">PURPOSE</th>
+                    </tr></thead>
+                    <tbody class="text-parchment/55">
+                      <tr class="border-b border-inkGold/5"><td class="px-3 py-1.5 font-mono text-parchment/40">DM_INSTRUCTIONS.md</td><td class="px-3 py-1.5">Rules, pacing, systems</td></tr>
+                      <tr class="border-b border-inkGold/5"><td class="px-3 py-1.5 font-mono text-parchment/40">npcs/</td><td class="px-3 py-1.5">Recurring NPC profiles</td></tr>
+                      <tr class="border-b border-inkGold/5"><td class="px-3 py-1.5 font-mono text-parchment/40">characters/</td><td class="px-3 py-1.5">Player character sheets and journals</td></tr>
+                      <tr class="border-b border-inkGold/5"><td class="px-3 py-1.5 font-mono text-parchment/40">sessions/</td><td class="px-3 py-1.5">Session plans, live logs, summaries</td></tr>
+                      <tr><td class="px-3 py-1.5 font-mono text-parchment/40">items/</td><td class="px-3 py-1.5">Item schema, examples, and vault</td></tr>
+                    </tbody>
+                  </table>
+                </div>
+                <div class="bg-deepBg rounded p-3 border border-inkGold/10">
+                  <p class="text-parchment/40 text-xs font-display mb-2">ITEMS GUIDELINES</p>
+                  <ul class="text-parchment/55 text-xs space-y-1">
+                    <li>• Required fields: <span class="font-mono text-parchment/40">name, type, rarity, attunement, mechanical_effects, value</span>.</li>
+                    <li>• Consumables: <span class="font-mono text-parchment/40">kept_on_death: false</span> unless magically bound.</li>
+                    <li>• Magically bound items: <span class="font-mono text-parchment/40">kept_on_death: true</span>.</li>
+                    <li>• Validate new items with <span class="font-mono text-parchment/40">tools/validate_item.py</span> before adding to vault.</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Golden Rule -->
+          <div class="burnt-edge parchment-bg p-5 text-center">
+            <div class="relative z-10">
+              <p class="font-crimson italic text-inkBrown/70 text-sm leading-relaxed">"Player choices shape the path. World logic shapes the outcome. Together, they create the story."</p>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ═══════════════════════════════════════════════════════════ -->
+  <!--  FOOTER                                                    -->
+  <!-- ═══════════════════════════════════════════════════════════ -->
+  <footer class="border-t border-inkGold/10 mt-16 py-8 px-4 text-center">
+    <div class="flex justify-center gap-6 mb-4">
+      <a href="index.html" class="font-crimson text-parchment/40 hover:text-inkGold text-sm transition-colors">← Portfolio Home</a>
+      <a href="dnd-campaign-notes.html" class="font-crimson text-parchment/40 hover:text-inkGold text-sm transition-colors">D&amp;D Campaign Notes</a>
+      <a href="https://www.youtube.com/@jacobhaseman776" target="_blank" rel="noopener noreferrer" class="font-crimson text-parchment/40 hover:text-inkGold text-sm transition-colors">YouTube</a>
+    </div>
+    <p class="font-crimson text-parchment/20 text-xs italic">
+      The AI Chronicle — A Generative AI D&amp;D Project by Jacob Haseman
+    </p>
+  </footer>
+
+  <!-- ═══════════════════════════════════════════════════════════ -->
+  <!--  SCRIPTS                                                   -->
+  <!-- ═══════════════════════════════════════════════════════════ -->
+  <script>
+    // ── Navigation ──
+    let currentPage = 'home';
+
+    function navigateTo(page) {
+      document.querySelectorAll('.page-section').forEach(s => {
+        s.classList.remove('active');
+        s.style.opacity = '0';
+      });
+      const target = document.getElementById('page-' + page);
+      if (target) {
+        setTimeout(() => {
+          target.classList.add('active');
+          requestAnimationFrame(() => { target.style.opacity = '1'; });
+        }, 80);
+      }
+      document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+      const navBtn = document.querySelector(`[data-nav="${page}"]`);
+      if (navBtn) navBtn.classList.add('active');
+      currentPage = page;
+      window.scrollTo(0, 0);
+    }
+
+    function toggleMobileMenu() {
+      document.getElementById('mobileMenu').classList.toggle('mobile-menu-open');
+    }
+
+    // ── Accordion ──
+    function toggleAccordion(btn) {
+      let target = btn.nextElementSibling;
+      if (!target || !target.classList.contains('accordion-content')) return;
+      target.classList.toggle('open');
+      const icon = btn.querySelector('.accordion-icon');
+      if (icon) icon.style.transform = target.classList.contains('open') ? 'rotate(180deg)' : 'rotate(0deg)';
+    }
+
+    // ── Typewriter ──
+    let twTimer = null;
+    function typewriter(text, elId) {
+      const el = document.getElementById(elId);
+      if (!el) return;
+      if (twTimer) clearInterval(twTimer);
+      el.textContent = '';
+      el.classList.add('cursor-blink');
+      let i = 0;
+      twTimer = setInterval(() => {
+        if (i < text.length) { el.textContent += text[i++]; }
+        else { clearInterval(twTimer); setTimeout(() => el.classList.remove('cursor-blink'), 2500); }
+      }, 50);
+    }
+
+    // ── Particles ──
+    function spawnParticle() {
+      const c = document.getElementById('particlesContainer');
+      if (!c || currentPage !== 'home') return;
+      const p = document.createElement('div');
+      p.className = 'particle';
+      p.style.left   = Math.random() * 100 + '%';
+      p.style.bottom = '0';
+      p.style.animation = `floatUp ${4 + Math.random() * 4}s ease-out forwards`;
+      p.style.opacity   = (0.15 + Math.random() * 0.35).toString();
+      p.style.width = p.style.height = (2 + Math.random() * 3) + 'px';
+      c.appendChild(p);
+      setTimeout(() => p.remove(), 8000);
+    }
+    setInterval(spawnParticle, 450);
+
+    // ── AI Compendium Data ──
+    const compData = [
+      {
+        name: 'Session Recap Prompt',
+        type: 'prompt',
+        emoji: '💬',
+        desc: 'Generates a dramatic narrative recap from raw bullet-point session notes.',
+        detail: 'System: "You are a D&D narrator writing in high fantasy prose." User: "Summarize this session: [NOTES]"',
+        model: 'Unknown',
+        quality: 'High — produces vivid, character-accurate summaries'
+      },
+      {
+        name: 'NPC Generator Prompt',
+        type: 'prompt',
+        emoji: '💬',
+        desc: 'Creates a unique NPC with personality, motivation, appearance, and a secret.',
+        detail: '"Generate a D&D NPC for a [SETTING] town. Include name, race, personality, motivation, and one secret."',
+        model: 'Unknown',
+        quality: 'High — strong with specific setting context'
+      },
+      {
+        name: 'Backstory Co-writer',
+        type: 'prompt',
+        emoji: '💬',
+        desc: 'Co-writes a character backstory from a player summary, in first-person journal style.',
+        detail: '"Write a 2-paragraph first-person backstory for a [RACE] [CLASS] named [NAME] who [CONCEPT]."',
+        model: 'Unknown',
+        quality: 'Medium — requires player review for accuracy'
+      },
+      {
+        name: 'ChatGPT / GPT-4',
+        type: 'tool',
+        emoji: '🔧',
+        desc: 'Primary LLM used for story generation, NPC creation, and session recaps.',
+        detail: 'Used via web interface and API. Best for long-form narrative tasks.',
+        model: 'GPT-4 / Unknown version',
+        quality: 'Production-ready for creative writing tasks'
+      },
+      {
+        name: 'DALL-E / Midjourney',
+        type: 'tool',
+        emoji: '🔧',
+        desc: 'Image generation for character portraits and scene illustrations.',
+        detail: 'Unknown — image generation tooling TBD based on project needs.',
+        model: 'Unknown',
+        quality: 'Unknown'
+      },
+      {
+        name: 'GitHub Pages',
+        type: 'tool',
+        emoji: '🔧',
+        desc: 'Static hosting for this project page and campaign notes.',
+        detail: 'Free static hosting via GitHub. No backend required for the frontend journal.',
+        model: 'N/A',
+        quality: 'Excellent for static content'
+      },
+      {
+        name: 'Chain-of-Thought Prompting',
+        type: 'technique',
+        emoji: '✨',
+        desc: 'Asking the model to reason step-by-step before producing the final output.',
+        detail: 'Prepend "Let\'s think step by step:" to complex prompts like encounter design or plot hole detection.',
+        model: 'Any LLM',
+        quality: 'Significant quality improvement on complex tasks'
+      },
+      {
+        name: 'Few-Shot Examples',
+        type: 'technique',
+        emoji: '✨',
+        desc: 'Providing 2–3 example outputs in the prompt to guide the model\'s style.',
+        detail: 'Include 2-3 example session recaps before asking for a new one. Dramatically improves tone consistency.',
+        model: 'Any LLM',
+        quality: 'High — critical for consistent voice'
+      },
+      {
+        name: 'Persona + System Prompt',
+        type: 'technique',
+        emoji: '✨',
+        desc: 'Setting a persistent persona in the system prompt to maintain campaign voice.',
+        detail: '"You are the chronicler of [CAMPAIGN NAME]. Write everything in archaic, dramatic fantasy prose. Never break character."',
+        model: 'Any instruction-tuned LLM',
+        quality: 'High — essential for consistent tone across sessions'
+      },
+    ];
+
+    let compFilter = 'all';
+
+    function renderComp() {
+      const grid = document.getElementById('compGrid');
+      const search = (document.getElementById('compSearch').value || '').toLowerCase();
+      const empty = document.getElementById('compEmpty');
+      grid.innerHTML = '';
+
+      const filtered = compData.filter(item => {
+        const matchType = compFilter === 'all' || item.type === compFilter;
+        const matchSearch = !search ||
+          item.name.toLowerCase().includes(search) ||
+          item.desc.toLowerCase().includes(search) ||
+          item.detail.toLowerCase().includes(search);
+        return matchType && matchSearch;
+      });
+
+      if (filtered.length === 0) { empty.classList.remove('hidden'); return; }
+      empty.classList.add('hidden');
+
+      const borderMap = { prompt: 'border-l-blue-500', tool: 'border-l-purple-500', technique: 'border-l-green-500' };
+
+      filtered.forEach((item, i) => {
+        const card = document.createElement('div');
+        card.className = `bg-panelBg border border-inkGold/15 rounded-lg overflow-hidden card-hover border-l-4 ${borderMap[item.type] || ''} fade-in-up`;
+        card.style.animationDelay = (i * 0.07) + 's';
+        card.innerHTML = `
+          <div class="p-5">
+            <div class="flex items-start justify-between mb-2 gap-2">
+              <div class="flex items-center gap-2 min-w-0">
+                <span class="text-xl flex-shrink-0">${item.emoji}</span>
+                <h3 class="font-display text-inkGold text-sm leading-snug">${item.name}</h3>
+              </div>
+              <span class="text-xs px-2 py-0.5 rounded-full font-crimson flex-shrink-0 ${
+                item.type === 'prompt'    ? 'bg-blue-900/30 text-blue-300'   :
+                item.type === 'tool'      ? 'bg-purple-900/30 text-purple-300' :
+                'bg-green-900/30 text-green-300'
+              }">${item.type}</span>
+            </div>
+            <p class="font-crimson text-parchment/60 text-xs leading-relaxed mb-3">${item.desc}</p>
+            <div class="ai-block text-xs mb-3 break-words">${item.detail}</div>
+            <div class="space-y-1 text-xs font-crimson text-parchment/40">
+              <div><span class="text-parchment/25">Model: </span>${item.model}</div>
+              <div><span class="text-parchment/25">Quality: </span>${item.quality}</div>
+            </div>
+          </div>`;
+        grid.appendChild(card);
+      });
+    }
+
+    function filterComp() { renderComp(); }
+
+    function setCompFilter(type) {
+      compFilter = type;
+      document.querySelectorAll('.comp-filter').forEach(b => {
+        b.style.opacity = b.dataset.filter === type ? '1' : '0.6';
+        if (b.dataset.filter === type) b.classList.add('active');
+        else b.classList.remove('active');
+      });
+      renderComp();
+    }
+
+    // ── Init ──
+    document.addEventListener('DOMContentLoaded', () => {
+      lucide.createIcons();
+      typewriter(
+        "The dice don't lie — but an AI might add a little drama. Welcome to my campaign.",
+        'homeQuote'
+      );
+      renderComp();
+      navigateTo('home');
+    });
+  </script>
+
+</body>
+</html>

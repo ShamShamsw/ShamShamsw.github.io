@@ -1,5 +1,11 @@
 [
   {
+    "title": "The AI Chronicle — D&D Generative AI Project",
+    "description": "A creative D&D campaign powered by generative AI. Features session journals with AI-generated recaps, a character roster, campaign timeline, AI prompt compendium, and behind-the-scenes video content from the YouTube channel.",
+    "link": "https://shamshamsw.github.io/dnd-ai-chronicle.html",
+    "tags": ["dnd", "generative ai", "llm", "creative", "tabletop", "youtube", "storytelling"]
+  },
+  {
     "title": "The best wait for it ... singing game made by the coolest person ever 🎤",
     "description": "An interactive musical party game where players sing lyrics containing random words. Features 6 themed decks, multiplayer support, and live scoring.",
     "link": "https://shamshamsw.github.io/best-mic.html",

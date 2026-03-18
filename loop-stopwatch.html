@@ -1,0 +1,889 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Loop Stopwatch – Repeating Timer with Sounds</title>
+
+  <link rel="stylesheet" href="css/project.css" />
+  <link rel="stylesheet" href="css/site-shell.css" />
+
+  <!-- Tailwind (widget only) & Lucide icons -->
+  <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+  <script src="https://cdn.jsdelivr.net/npm/lucide@0.263.0/dist/umd/lucide.min.js"></script>
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Outfit:wght@400;600;700&display=swap" rel="stylesheet" />
+
+  <style>
+    /* ── Widget animations ──────────────────────────────────────── */
+    @keyframes pulseRing {
+      0%   { transform: scale(1);   opacity: 0.6; }
+      100% { transform: scale(2.5); opacity: 0;   }
+    }
+    @keyframes shakeIt {
+      0%,100%                       { transform: translateX(0);   }
+      10%,30%,50%,70%,90%           { transform: translateX(-6px);}
+      20%,40%,60%,80%               { transform: translateX(6px); }
+    }
+    .flash-one   { animation: shakeIt 0.5s ease-in-out;       }
+    .flash-final { animation: shakeIt 0.4s ease-in-out 3;     }
+    .pulse-ring  { animation: pulseRing 0.8s ease-out forwards;}
+
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0);    }
+    }
+    .anim-in    { animation: fadeInUp 0.6s ease-out       both; }
+    .anim-in-d1 { animation: fadeInUp 0.6s ease-out 0.1s both; }
+    .anim-in-d2 { animation: fadeInUp 0.6s ease-out 0.2s both; }
+    .anim-in-d3 { animation: fadeInUp 0.6s ease-out 0.35s both;}
+
+    .timer-digit {
+      font-family: 'JetBrains Mono', monospace;
+      font-variant-numeric: tabular-nums;
+    }
+
+    /* ── Demo section wrapper ───────────────────────────────────── */
+    #demo-section {
+      background: #0f1117;
+      padding: 3rem 1rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    #demo-section h2 {
+      color: #6e6a7a;
+      font-family: 'Outfit', sans-serif;
+      font-size: 0.8rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      margin-bottom: 1.5rem;
+    }
+
+    /* ── Documentation code blocks ──────────────────────────────── */
+    pre.code-block {
+      background: #1a1d27;
+      border: 1px solid #2d3147;
+      border-radius: 8px;
+      padding: 1.2rem 1.4rem;
+      overflow-x: auto;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.82rem;
+      line-height: 1.7;
+      color: #c9d1e0;
+      margin: 0.75rem 0 1.5rem;
+    }
+    pre.code-block .kw  { color: #818cf8; }   /* keyword  */
+    pre.code-block .nm  { color: #f472b6; }   /* name     */
+    pre.code-block .nu  { color: #34d399; }   /* number   */
+    pre.code-block .cm  { color: #4a4660; font-style: italic; } /* comment */
+    pre.code-block .st  { color: #f9a04e; }   /* string   */
+
+    /* ── Callout boxes ──────────────────────────────────────────── */
+    .callout {
+      border-left: 4px solid #818cf8;
+      background: #f0f4ff;
+      padding: 0.85rem 1.1rem;
+      border-radius: 0 6px 6px 0;
+      margin: 1rem 0 1.5rem;
+      font-size: 0.93rem;
+      color: #333;
+    }
+    .callout.green  { border-color: #34d399; background: #f0fff8; }
+    .callout.pink   { border-color: #f472b6; background: #fff0f7; }
+    .callout.yellow { border-color: #f59e0b; background: #fffbeb; }
+
+    /* ── Use-case grid ──────────────────────────────────────────── */
+    .use-case-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1rem;
+      margin: 1rem 0 1.5rem;
+    }
+    .use-case-card {
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      padding: 1rem 1.1rem;
+      background: #fafafa;
+    }
+    .use-case-card h4 { margin-bottom: 0.35rem; color: #333; font-size: 0.95rem; }
+    .use-case-card p  { margin: 0; font-size: 0.85rem; color: #666; }
+
+    /* ── Misc ───────────────────────────────────────────────────── */
+    .section-tag {
+      display: inline-block;
+      background: #818cf8;
+      color: white;
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      padding: 0.2rem 0.55rem;
+      border-radius: 4px;
+      text-transform: uppercase;
+      margin-bottom: 0.4rem;
+    }
+    .section-tag.green  { background: #34d399; color: #0f1117; }
+    .section-tag.pink   { background: #f472b6; color: #0f1117; }
+    .section-tag.yellow { background: #f59e0b; color: #0f1117; }
+
+    .content { max-width: 860px; }
+
+    table.config-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.85rem;
+      margin: 0.75rem 0 1.5rem;
+    }
+    table.config-table th {
+      background: #f0f0f0;
+      padding: 0.55rem 0.8rem;
+      text-align: left;
+      border-bottom: 2px solid #ddd;
+    }
+    table.config-table td {
+      padding: 0.5rem 0.8rem;
+      border-bottom: 1px solid #eee;
+      vertical-align: top;
+    }
+    table.config-table td code {
+      background: #f4f4f4;
+      padding: 0.1em 0.35em;
+      border-radius: 3px;
+      font-size: 0.8rem;
+      font-family: 'JetBrains Mono', monospace;
+    }
+    table.config-table tr:last-child td { border-bottom: none; }
+  </style>
+</head>
+<body>
+  <!-- site-shell.js injects the top nav automatically -->
+
+  <!-- ── Hero ─────────────────────────────────────────────────────────── -->
+  <header class="hero">
+    <div class="hero-content">
+      <h1>Loop Stopwatch</h1>
+      <p>A self-resetting repeating timer with audio alerts — built entirely with vanilla JavaScript &amp; Web Audio API.</p>
+    </div>
+  </header>
+
+  <!-- ── Description ───────────────────────────────────────────────────── -->
+  <main class="content">
+    <section class="project-details">
+      <h2>Description</h2>
+      <p>
+        The Loop Stopwatch is a lightweight, dependency-free browser timer that counts up to a configurable duration,
+        fires a mid-point audio alert, then automatically resets and restarts — incrementing a loop counter each cycle.
+        It demonstrates the Web Audio API for programmatic sound generation, <code>requestAnimationFrame</code> for
+        smooth 60 fps rendering, SVG progress arcs, and a clean JSON-driven configuration system.
+        No server, no build step, no audio files — everything runs in a single HTML file.
+      </p>
+
+      <h2>Objectives Completed</h2>
+      <ul>
+        <li>Implemented a smooth, frame-accurate timer using <code>performance.now()</code> and <code>requestAnimationFrame</code>.</li>
+        <li>Added programmatic sound alerts via the <strong>Web Audio API</strong> — no external audio files required.</li>
+        <li>Built a mid-point chime (1:00) and a loop-reset triple-beep (1:30) with distinct tones.</li>
+        <li>Animated SVG progress ring that transitions color from indigo → pink as the deadline approaches.</li>
+        <li>Mute toggle so users can silence alerts without stopping the timer.</li>
+        <li>Fully documented customization guide: change durations, add checkpoints, retheme, and extend with new features.</li>
+        <li>JSON configuration schema covering all tuneable parameters.</li>
+      </ul>
+
+      <div class="links">
+        <a href="index.html" class="btn">Back to Home</a>
+        <a href="#live-demo" class="btn">Jump to Live Demo</a>
+      </div>
+    </section>
+  </main>
+
+  <!-- ── Live Demo ─────────────────────────────────────────────────────── -->
+  <section id="live-demo">
+    <div id="demo-section">
+      <h2>&#9654; Live Demo — interact below</h2>
+
+      <div id="app-wrapper" class="h-full w-full flex flex-col items-center justify-center relative"
+           style="font-family: 'Outfit', sans-serif; min-height: 480px;">
+
+        <!-- Flash overlay -->
+        <div id="flash-overlay" class="fixed inset-0 pointer-events-none z-50 opacity-0 transition-opacity duration-150"></div>
+
+        <!-- Pulse rings -->
+        <div id="pulse-container" class="absolute inset-0 flex items-center justify-center pointer-events-none z-10 overflow-hidden"></div>
+
+        <!-- Main content -->
+        <div class="relative z-20 flex flex-col items-center gap-6 px-4 w-full max-w-md">
+
+          <!-- Title -->
+          <h1 id="app-title" class="text-lg font-semibold tracking-widest uppercase anim-in"
+              style="color: #6e6a7a;">Loop Stopwatch</h1>
+
+          <!-- Timer display -->
+          <div id="timer-container" class="relative anim-in-d1">
+            <div class="rounded-full flex items-center justify-center"
+                 style="width:260px;height:260px;
+                        background:linear-gradient(145deg,#181a24,#12131a);
+                        box-shadow:0 0 60px rgba(99,102,241,0.08),inset 0 2px 4px rgba(255,255,255,0.03);">
+              <div class="rounded-full flex items-center justify-center"
+                   style="width:220px;height:220px;border:2px solid #252837;">
+                <div class="text-center">
+                  <span id="timer-display" class="timer-digit text-6xl font-bold" style="color:#e2e0ec;">00:00</span>
+                  <span id="timer-ms"      class="timer-digit block text-xl mt-1"  style="color:#4a4660;">.00</span>
+                </div>
+              </div>
+            </div>
+            <!-- SVG progress ring -->
+            <svg id="progress-ring" class="absolute top-0 left-0" width="260" height="260"
+                 style="transform:rotate(-90deg);">
+              <circle cx="130" cy="130" r="120" fill="none" stroke="#252837" stroke-width="3"/>
+              <circle id="progress-arc" cx="130" cy="130" r="120" fill="none"
+                      stroke="#818cf8" stroke-width="3" stroke-linecap="round"
+                      stroke-dasharray="753.98" stroke-dashoffset="753.98"
+                      style="transition:stroke-dashoffset 0.1s linear;"/>
+            </svg>
+          </div>
+
+          <!-- Loop counter + mute toggle -->
+          <div class="flex items-center gap-4 anim-in-d2">
+            <div class="flex items-center gap-2">
+              <i data-lucide="repeat" style="width:16px;height:16px;color:#6e6a7a;"></i>
+              <span id="loop-count" class="text-sm tracking-wide" style="color:#6e6a7a;">Loop: 0</span>
+            </div>
+            <button id="btn-mute" onclick="toggleMute()"
+                    class="flex items-center gap-1 px-3 py-1 rounded-full text-xs font-medium transition-all duration-200 hover:scale-105"
+                    title="Toggle sound"
+                    style="background:#252837;color:#6e6a7a;">
+              <i id="mute-icon" data-lucide="volume-2" style="width:14px;height:14px;"></i>
+              <span id="mute-label">Sound On</span>
+            </button>
+          </div>
+
+          <!-- Alerts legend -->
+          <div class="flex gap-4 text-xs anim-in-d2" style="color:#4a4660;">
+            <div class="flex items-center gap-1.5">
+              <span class="inline-block w-2.5 h-2.5 rounded-full" style="background:#34d399;"></span>
+              <span>1:00 chime</span>
+            </div>
+            <div class="flex items-center gap-1.5">
+              <span class="inline-block w-2.5 h-2.5 rounded-full" style="background:#f472b6;"></span>
+              <span>1:30 reset beep</span>
+            </div>
+          </div>
+
+          <!-- Controls -->
+          <div class="flex gap-4 anim-in-d3">
+            <button id="btn-toggle" onclick="toggleTimer()"
+                    class="flex items-center gap-2 px-8 py-3 rounded-full text-base font-semibold
+                           transition-all duration-200 hover:scale-105 active:scale-95"
+                    style="background:#818cf8;color:#0f1117;">
+              <i data-lucide="play" style="width:20px;height:20px;"></i>
+              <span id="btn-label">Start</span>
+            </button>
+            <button id="btn-reset" onclick="resetTimer()"
+                    class="flex items-center gap-2 px-5 py-3 rounded-full text-base font-semibold
+                           transition-all duration-200 hover:scale-105 active:scale-95"
+                    style="background:#252837;color:#6e6a7a;">
+              <i data-lucide="rotate-ccw" style="width:18px;height:18px;"></i>
+            </button>
+          </div>
+
+        </div><!-- /main content -->
+      </div><!-- /app-wrapper -->
+    </div><!-- /demo-section -->
+  </section>
+
+  <!-- ── Documentation ─────────────────────────────────────────────────── -->
+  <main class="content">
+    <section class="project-details">
+
+      <!-- ── How It Works ── -->
+      <span class="section-tag">How It Works</span>
+      <h2>Code Architecture</h2>
+      <p>
+        The stopwatch is built from four cooperating pieces, all living inside one script block.
+        Understanding each piece makes it easy to extend or repurpose the timer.
+      </p>
+
+      <h3 style="margin-top:1.2rem; margin-bottom:0.3rem;">1 — Frame-accurate timing</h3>
+      <p>
+        Instead of drifting <code>setInterval</code>, the timer anchors every frame to a <em>wall-clock snapshot</em>
+        captured when the user presses Start. Each animation frame recomputes elapsed time as
+        <code>performance.now() − startTime</code>. This means pausing and resuming never accumulates error,
+        and re-tabbing won't cause the display to jump.
+      </p>
+<pre class="code-block"><span class="kw">function</span> <span class="nm">tick</span>() {
+  <span class="kw">if</span> (!running) <span class="kw">return</span>;
+  <span class="kw">const</span> now = performance.now();
+  elapsed = now - startTime;          <span class="cm">// always accurate to the wall clock</span>
+
+  <span class="kw">if</span> (elapsed >= TOTAL_MS) {          <span class="cm">// loop boundary reached</span>
+    loopCount++;
+    startTime = performance.now();    <span class="cm">// reset anchor for next loop</span>
+    elapsed   = <span class="nu">0</span>;
+    firedOneMin = <span class="kw">false</span>;
+  }
+
+  updateDisplay(elapsed);
+  rafId = requestAnimationFrame(tick); <span class="cm">// schedule next frame (~16 ms)</span>
+}</pre>
+
+      <h3 style="margin-bottom:0.3rem;">2 — Alert checkpoints</h3>
+      <p>
+        Boolean flags (<code>firedOneMin</code>) guard each checkpoint so the callback fires exactly once per loop.
+        The flag resets alongside <code>elapsed</code> when the loop restarts.
+      </p>
+<pre class="code-block"><span class="cm">// Fires once when the timer crosses the 1-minute mark</span>
+<span class="kw">if</span> (elapsed >= ONE_MIN_MS && !firedOneMin) {
+  firedOneMin = <span class="kw">true</span>;
+  fireFlash(<span class="st">'#34d399'</span>, <span class="st">'flash-one'</span>);
+  playOneMinAlert();                   <span class="cm">// ← your custom sound here</span>
+}</pre>
+
+      <h3 style="margin-bottom:0.3rem;">3 — SVG progress ring</h3>
+      <p>
+        The ring uses a single SVG <code>&lt;circle&gt;</code> whose <code>stroke-dashoffset</code> shrinks from
+        the full circumference (753.98 px for r = 120) down to 0 as the loop progresses.
+        CSS <code>transition: stroke-dashoffset 0.1s linear</code> keeps it visually smooth.
+      </p>
+<pre class="code-block"><span class="kw">const</span> CIRCUMFERENCE = <span class="nu">2</span> * Math.PI * <span class="nu">120</span>; <span class="cm">// 753.98 px</span>
+
+<span class="kw">function</span> <span class="nm">updateDisplay</span>(ms) {
+  <span class="kw">const</span> progress = Math.min(ms / TOTAL_MS, <span class="nu">1</span>);
+  arc.style.strokeDashoffset = CIRCUMFERENCE * (<span class="nu">1</span> - progress);
+  arc.style.stroke = ms >= ONE_MIN_MS ? <span class="st">'#f472b6'</span> : <span class="st">'#818cf8'</span>;
+}</pre>
+
+      <h3 style="margin-bottom:0.3rem;">4 — Web Audio API sounds</h3>
+      <p>
+        All audio is synthesized on-the-fly — no files to host. A shared <code>AudioContext</code> is created
+        lazily on the first user interaction (browsers block audio until a gesture occurs).
+        Each tone is an <code>OscillatorNode</code> routed through a <code>GainNode</code> for fade-out.
+      </p>
+<pre class="code-block"><span class="kw">function</span> <span class="nm">playTone</span>(freq, startOffset, duration, type = <span class="st">'sine'</span>, vol = <span class="nu">0.3</span>) {
+  <span class="kw">const</span> ctx = getAudioCtx();
+  <span class="kw">const</span> osc  = ctx.createOscillator();
+  <span class="kw">const</span> gain = ctx.createGain();
+  osc.connect(gain);
+  gain.connect(ctx.destination);
+  osc.type            = type;
+  osc.frequency.value = freq;
+  gain.gain.setValueAtTime(vol, ctx.currentTime + startOffset);
+  gain.gain.exponentialRampToValueAtTime(<span class="nu">0.001</span>,
+      ctx.currentTime + startOffset + duration);
+  osc.start(ctx.currentTime + startOffset);
+  osc.stop(ctx.currentTime  + startOffset + duration + <span class="nu">0.05</span>);
+}
+
+<span class="cm">// 1-minute chime: C5 → E5 ascending</span>
+<span class="kw">function</span> <span class="nm">playOneMinAlert</span>() {
+  playTone(<span class="nu">523.25</span>, <span class="nu">0</span>,   <span class="nu">0.28</span>, <span class="st">'sine'</span>, <span class="nu">0.25</span>);
+  playTone(<span class="nu">659.25</span>, <span class="nu">0.2</span>, <span class="nu">0.35</span>, <span class="st">'sine'</span>, <span class="nu">0.2</span>);
+}
+
+<span class="cm">// Loop-reset beep: A4 · A4 · A5 triple</span>
+<span class="kw">function</span> <span class="nm">playResetAlert</span>() {
+  playTone(<span class="nu">440</span>, <span class="nu">0</span>,    <span class="nu">0.1</span>, <span class="st">'square'</span>, <span class="nu">0.2</span>);
+  playTone(<span class="nu">440</span>, <span class="nu">0.18</span>, <span class="nu">0.1</span>, <span class="st">'square'</span>, <span class="nu">0.2</span>);
+  playTone(<span class="nu">880</span>, <span class="nu">0.36</span>, <span class="nu">0.22</span>, <span class="st">'sine'</span>,   <span class="nu">0.3</span>);
+}</pre>
+
+      <!-- ── How to Customize ── -->
+      <span class="section-tag green">Customization</span>
+      <h2>How to Make Changes</h2>
+
+      <div class="callout yellow">
+        <strong>Tip:</strong> All tuneable numbers live near the top of the <code>&lt;script&gt;</code> block under
+        a <em>Configuration</em> comment. You should never need to touch the rendering or sound engine
+        to change timing or colours.
+      </div>
+
+      <h3 style="margin-bottom:0.3rem;">Change the loop duration</h3>
+      <p>
+        <code>TOTAL_MS</code> controls how long each loop runs in milliseconds.
+        <code>ONE_MIN_MS</code> is the mid-point alert trigger.
+        Both are plain numbers — easy to swap for any interval.
+      </p>
+<pre class="code-block"><span class="cm">// ── Configuration ────────────────────────────────────────
+// Change these two numbers to match your use-case</span>
+<span class="kw">const</span> TOTAL_MS   = <span class="nu">90000</span>;  <span class="cm">// 1 min 30 sec  → 90 000 ms</span>
+<span class="kw">const</span> ONE_MIN_MS = <span class="nu">60000</span>;  <span class="cm">// alert at 1 min → 60 000 ms</span>
+
+<span class="cm">// ── Examples ─────────────────────────────────────────────
+// 25-minute Pomodoro with 20-minute warning</span>
+<span class="kw">const</span> TOTAL_MS   = <span class="nu">1500000</span>; <span class="cm">// 25 min</span>
+<span class="kw">const</span> ONE_MIN_MS =  <span class="nu">1200000</span>; <span class="cm">// warn at 20 min</span>
+
+<span class="cm">// 3-minute round, warn at 2 minutes (boxing / HIIT)</span>
+<span class="kw">const</span> TOTAL_MS   = <span class="nu">180000</span>;
+<span class="kw">const</span> ONE_MIN_MS = <span class="nu">120000</span>;</pre>
+
+      <h3 style="margin-top:1rem; margin-bottom:0.3rem;">Add extra checkpoints</h3>
+      <p>
+        Every checkpoint is just an <code>if</code> block in <code>tick()</code> guarded by a boolean flag.
+        Add as many as you like — they all reset with the loop.
+      </p>
+<pre class="code-block"><span class="cm">// Declare flags alongside the other state variables</span>
+<span class="kw">let</span> firedHalfway = <span class="kw">false</span>;
+
+<span class="cm">// Inside tick() — add before the loop-reset block</span>
+<span class="kw">if</span> (elapsed >= TOTAL_MS / <span class="nu">2</span> && !firedHalfway) {
+  firedHalfway = <span class="kw">true</span>;
+  fireFlash(<span class="st">'#f59e0b'</span>, <span class="st">'flash-one'</span>);
+  playTone(<span class="nu">784</span>, <span class="nu">0</span>, <span class="nu">0.2</span>, <span class="st">'sine'</span>, <span class="nu">0.2</span>);  <span class="cm">// single G5 note</span>
+}
+
+<span class="cm">// Reset it alongside the other flags</span>
+firedHalfway = <span class="kw">false</span>;</pre>
+
+      <h3 style="margin-top:1rem; margin-bottom:0.3rem;">Customise the sounds</h3>
+      <p>
+        <code>playTone(freq, startOffset, duration, oscillatorType, volume)</code> accepts any
+        <a href="https://developer.mozilla.org/en-US/docs/Web/API/OscillatorNode/type" target="_blank">oscillator type</a>
+        (<code>sine</code>, <code>square</code>, <code>sawtooth</code>, <code>triangle</code>).
+        Pitch is in Hz — use a piano frequency chart to pick notes.
+      </p>
+<pre class="code-block"><span class="cm">// Gentle descending lullaby chord (E5 → C5 → G4)</span>
+<span class="kw">function</span> <span class="nm">playOneMinAlert</span>() {
+  <span class="kw">if</span> (!soundEnabled) <span class="kw">return</span>;
+  playTone(<span class="nu">659.25</span>, <span class="nu">0</span>,   <span class="nu">0.3</span>, <span class="st">'sine'</span>, <span class="nu">0.22</span>);
+  playTone(<span class="nu">523.25</span>, <span class="nu">0.25</span>,<span class="nu">0.3</span>, <span class="st">'sine'</span>, <span class="nu">0.18</span>);
+  playTone(<span class="nu">392</span>,    <span class="nu">0.5</span>, <span class="nu">0.4</span>, <span class="st">'sine'</span>, <span class="nu">0.14</span>);
+}
+
+<span class="cm">// Aggressive buzzer (sawtooth low tones)</span>
+<span class="kw">function</span> <span class="nm">playResetAlert</span>() {
+  <span class="kw">if</span> (!soundEnabled) <span class="kw">return</span>;
+  playTone(<span class="nu">110</span>, <span class="nu">0</span>,   <span class="nu">0.15</span>, <span class="st">'sawtooth'</span>, <span class="nu">0.35</span>);
+  playTone(<span class="nu">110</span>, <span class="nu">0.2</span>, <span class="nu">0.15</span>, <span class="st">'sawtooth'</span>, <span class="nu">0.35</span>);
+  playTone(<span class="nu">110</span>, <span class="nu">0.4</span>, <span class="nu">0.3</span>,  <span class="st">'sawtooth'</span>, <span class="nu">0.5</span>);
+}</pre>
+
+      <h3 style="margin-top:1rem; margin-bottom:0.3rem;">Change the colour theme</h3>
+      <p>
+        Colours are hex strings in two places: the inline <code>style</code> attributes of the initial HTML,
+        and the <code>applyConfig()</code> function. If you use the JSON config (below), update the config object
+        and call <code>applyConfig(config)</code> on page load — the function handles the rest.
+      </p>
+<pre class="code-block"><span class="kw">const</span> defaultConfig = {
+  background_color:      <span class="st">'#0f1117'</span>,  <span class="cm">// page background</span>
+  surface_color:         <span class="st">'#252837'</span>,  <span class="cm">// ring border, button bg</span>
+  text_color:            <span class="st">'#e2e0ec'</span>,  <span class="cm">// main timer digits</span>
+  primary_action_color:  <span class="st">'#818cf8'</span>,  <span class="cm">// start button + arc colour</span>
+  secondary_action_color:<span class="st">'#6e6a7a'</span>,  <span class="cm">// labels, muted text</span>
+};</pre>
+
+      <h3 style="margin-top:1rem; margin-bottom:0.3rem;">Track lap history</h3>
+      <p>
+        Extend the loop callback to push a timestamp to an array and render a lap table. This turns the
+        tool into a lap-timer for athletics, reaction-time practice, or process benchmarking.
+      </p>
+<pre class="code-block"><span class="kw">const</span> laps = [];
+
+<span class="cm">// Inside the TOTAL_MS block in tick():</span>
+<span class="kw">const</span> lapTime = performance.now() - loopStartWall;
+laps.push({ loop: loopCount, ms: lapTime });
+renderLapTable(laps);           <span class="cm">// append a &lt;tr&gt; to a nearby &lt;table&gt;</span></pre>
+
+      <!-- ── JSON Config ── -->
+      <span class="section-tag pink">JSON Config</span>
+      <h2>Configuration Schema</h2>
+      <p>
+        The configuration lives in <a href="json/loop-stopwatch.json" target="_blank">json/loop-stopwatch.json</a>.
+        Load it with a <code>fetch()</code> call at startup and pass it to <code>applyConfig()</code>.
+        This lets a CMS, a settings panel, or a URL parameter swap the entire stopwatch personality
+        without touching any JavaScript.
+      </p>
+
+      <table class="config-table">
+        <thead>
+          <tr>
+            <th>Key</th>
+            <th>Type</th>
+            <th>Default</th>
+            <th>Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td><code>title_text</code></td>           <td>string</td>  <td><code>"Loop Stopwatch"</code></td> <td>Heading shown above the timer ring.</td></tr>
+          <tr><td><code>loop_duration_ms</code></td>     <td>number</td>  <td><code>90000</code></td>           <td>Full loop length in milliseconds.</td></tr>
+          <tr><td><code>alert_one_ms</code></td>         <td>number</td>  <td><code>60000</code></td>           <td>When the mid-point alert fires (ms into loop).</td></tr>
+          <tr><td><code>alert_one_color</code></td>      <td>string</td>  <td><code>"#34d399"</code></td>       <td>Flash colour for the mid-point alert.</td></tr>
+          <tr><td><code>loop_reset_color</code></td>     <td>string</td>  <td><code>"#f472b6"</code></td>       <td>Flash colour when the loop resets.</td></tr>
+          <tr><td><code>background_color</code></td>     <td>string</td>  <td><code>"#0f1117"</code></td>       <td>Widget background.</td></tr>
+          <tr><td><code>surface_color</code></td>        <td>string</td>  <td><code>"#252837"</code></td>       <td>Ring border, button backgrounds.</td></tr>
+          <tr><td><code>text_color</code></td>            <td>string</td>  <td><code>"#e2e0ec"</code></td>       <td>Timer digit colour.</td></tr>
+          <tr><td><code>primary_action_color</code></td> <td>string</td>  <td><code>"#818cf8"</code></td>       <td>Start button and arc stroke colour.</td></tr>
+          <tr><td><code>secondary_action_color</code></td><td>string</td> <td><code>"#6e6a7a"</code></td>       <td>Labels and muted text.</td></tr>
+          <tr><td><code>font_family</code></td>           <td>string</td>  <td><code>"Outfit"</code></td>        <td>UI font; any Google Font name works.</td></tr>
+          <tr><td><code>font_size</code></td>             <td>number</td>  <td><code>16</code></td>              <td>Base font size in px (other sizes scale from this).</td></tr>
+          <tr><td><code>sound_enabled</code></td>         <td>boolean</td> <td><code>true</code></td>            <td>Master switch for all audio.</td></tr>
+          <tr><td><code>alert_one_sound</code></td>       <td>string</td>  <td><code>"chime"</code></td>         <td>Sound preset for mid-point: <code>"chime"</code> or <code>"beep"</code>.</td></tr>
+          <tr><td><code>loop_reset_sound</code></td>      <td>string</td>  <td><code>"triple_beep"</code></td>   <td>Sound preset for loop reset: <code>"triple_beep"</code> or <code>"buzz"</code>.</td></tr>
+        </tbody>
+      </table>
+
+<pre class="code-block"><span class="cm">// Loading the config from JSON at page-start</span>
+fetch(<span class="st">'json/loop-stopwatch.json'</span>)
+  .then(r => r.json())
+  .then(cfg => {
+    <span class="cm">// Merge with defaults so missing keys never cause errors</span>
+    <span class="kw">const</span> config = Object.assign({}, defaultConfig, cfg);
+    applyConfig(config);
+    <span class="cm">// Override timing constants if the JSON specifies them</span>
+    <span class="kw">if</span> (config.loop_duration_ms) TOTAL_MS   = config.loop_duration_ms;
+    <span class="kw">if</span> (config.alert_one_ms)     ONE_MIN_MS = config.alert_one_ms;
+  });</pre>
+
+      <div class="callout">
+        <strong>Full JSON file:</strong> see <a href="json/loop-stopwatch.json" target="_blank">json/loop-stopwatch.json</a>
+        for the complete schema with inline comments.
+      </div>
+
+      <!-- ── Use Cases ── -->
+      <span class="section-tag yellow">Why It's Useful</span>
+      <h2>Real-World Use Cases</h2>
+      <p>
+        The stopwatch's power comes from its simplicity. Because every behaviour is controlled by a handful of
+        constants and two callback functions, you can adapt it to a surprising range of domains — each needing
+        only a few lines changed.
+      </p>
+
+      <div class="use-case-grid">
+        <div class="use-case-card">
+          <h4>&#129335; Pomodoro / Study Blocks</h4>
+          <p>Set <code>TOTAL_MS = 1500000</code> (25 min) and <code>ONE_MIN_MS = 1200000</code> (20 min warning).
+             The loop counter tracks completed sessions automatically.</p>
+        </div>
+        <div class="use-case-card">
+          <h4>&#127947; HIIT / Boxing Rounds</h4>
+          <p>3-minute rounds with a 10-second warning: <code>TOTAL_MS = 180000</code>,
+             <code>ONE_MIN_MS = 170000</code>. Distinct buzzer tone on reset signals rest time.</p>
+        </div>
+        <div class="use-case-card">
+          <h4>&#127918; Game Show / Quiz Timer</h4>
+          <p>60-second question rounds. The mid-point chime cues players that time is half up;
+             the reset beep ends the round. No server required — runs from a static page.</p>
+        </div>
+        <div class="use-case-card">
+          <h4>&#128736; Manufacturing / Process Check</h4>
+          <p>Quality-check intervals on a factory floor. The visual flash is visible across a room;
+             the audio alert works even without looking at the screen.</p>
+        </div>
+        <div class="use-case-card">
+          <h4>&#127775; Meditation / Breathing</h4>
+          <p>4-second inhale, 4-second hold, 8-second exhale — set three checkpoints with soft sine
+             tones. The loop counter tracks completed breath cycles.</p>
+        </div>
+        <div class="use-case-card">
+          <h4>&#128203; Presentation Pacing</h4>
+          <p>Per-slide time limits. The mid-point chime is a private signal to the speaker;
+             the reset beep means move on. Embed it in a presenter overlay page.</p>
+        </div>
+      </div>
+
+      <div class="callout green">
+        <strong>Key flexibility point:</strong> because the timer drives behaviour through <em>constants and callbacks</em>
+        rather than hard-coded logic, swapping from a Pomodoro to a boxing timer to a breathing guide is a 2-line
+        config change — not a rewrite. The JSON schema means even non-developers can configure it through a settings UI
+        backed by a simple form that writes the JSON file.
+      </div>
+
+      <div class="links" style="margin-top:2rem;">
+        <a href="index.html" class="btn">Back to Home</a>
+        <a href="#live-demo" class="btn">Back to Demo</a>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p>&copy; 2026 Jacob T. Haseman. All rights reserved.</p>
+  </footer>
+
+  <!-- ── Stopwatch Script ───────────────────────────────────────────────── -->
+  <script>
+    // ── Configuration ─────────────────────────────────────────────────────
+    let TOTAL_MS   = 90000;   // full loop: 1 min 30 sec
+    let ONE_MIN_MS = 60000;   // mid-point alert: 1 min
+
+    const CIRCUMFERENCE = 2 * Math.PI * 120; // ~753.98
+
+    const defaultConfig = {
+      title_text:             'Loop Stopwatch',
+      background_color:       '#0f1117',
+      surface_color:          '#252837',
+      text_color:             '#e2e0ec',
+      primary_action_color:   '#818cf8',
+      secondary_action_color: '#6e6a7a',
+      font_family:            'Outfit',
+      font_size:              16,
+      sound_enabled:          true,
+      alert_one_sound:        'chime',
+      loop_reset_sound:       'triple_beep'
+    };
+
+    // ── State ──────────────────────────────────────────────────────────────
+    let running    = false;
+    let startTime  = 0;
+    let elapsed    = 0;
+    let rafId      = null;
+    let loopCount  = 0;
+    let firedOneMin = false;
+    let soundEnabled = true;
+    let audioCtx   = null;
+
+    // ── DOM refs ───────────────────────────────────────────────────────────
+    const display        = document.getElementById('timer-display');
+    const displayMs      = document.getElementById('timer-ms');
+    const btnLabel       = document.getElementById('btn-label');
+    const btnToggle      = document.getElementById('btn-toggle');
+    const loopEl         = document.getElementById('loop-count');
+    const arc            = document.getElementById('progress-arc');
+    const flashOverlay   = document.getElementById('flash-overlay');
+    const timerContainer = document.getElementById('timer-container');
+    const pulseContainer = document.getElementById('pulse-container');
+
+    // ── Web Audio API ──────────────────────────────────────────────────────
+    function getAudioCtx() {
+      if (!audioCtx) {
+        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      }
+      if (audioCtx.state === 'suspended') {
+        audioCtx.resume();
+      }
+      return audioCtx;
+    }
+
+    /**
+     * playTone(freq, startOffset, duration, type, volume)
+     *   freq        — pitch in Hz (440 = A4, 523 = C5, 880 = A5)
+     *   startOffset — seconds from now to start the tone
+     *   duration    — tone length in seconds
+     *   type        — 'sine' | 'square' | 'sawtooth' | 'triangle'
+     *   volume      — 0.0–1.0
+     */
+    function playTone(freq, startOffset, duration, type, vol) {
+      type = type || 'sine';
+      vol  = vol  || 0.3;
+      const ctx  = getAudioCtx();
+      const osc  = ctx.createOscillator();
+      const gain = ctx.createGain();
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+      osc.type            = type;
+      osc.frequency.value = freq;
+      gain.gain.setValueAtTime(vol, ctx.currentTime + startOffset);
+      gain.gain.exponentialRampToValueAtTime(
+        0.001, ctx.currentTime + startOffset + duration
+      );
+      osc.start(ctx.currentTime + startOffset);
+      osc.stop(ctx.currentTime  + startOffset + duration + 0.05);
+    }
+
+    // 1-minute chime: ascending C5 → E5
+    function playOneMinAlert() {
+      if (!soundEnabled) return;
+      playTone(523.25, 0,   0.28, 'sine', 0.25);
+      playTone(659.25, 0.2, 0.35, 'sine', 0.20);
+    }
+
+    // Loop-reset triple beep: A4 · A4 · A5
+    function playResetAlert() {
+      if (!soundEnabled) return;
+      playTone(440, 0,    0.10, 'square', 0.20);
+      playTone(440, 0.18, 0.10, 'square', 0.20);
+      playTone(880, 0.36, 0.22, 'sine',   0.30);
+    }
+
+    // ── Display helpers ────────────────────────────────────────────────────
+    function formatTime(ms) {
+      const totalSec = Math.floor(ms / 1000);
+      const m        = Math.floor(totalSec / 60);
+      const s        = totalSec % 60;
+      const centis   = Math.floor((ms % 1000) / 10);
+      return {
+        main: String(m).padStart(2, '0') + ':' + String(s).padStart(2, '0'),
+        ms:   '.' + String(centis).padStart(2, '0')
+      };
+    }
+
+    function updateDisplay(ms) {
+      const t = formatTime(ms);
+      display.textContent   = t.main;
+      displayMs.textContent = t.ms;
+
+      const progress = Math.min(ms / TOTAL_MS, 1);
+      arc.style.strokeDashoffset = CIRCUMFERENCE * (1 - progress);
+      arc.style.stroke = (ms >= ONE_MIN_MS) ? '#f472b6' : '#818cf8';
+    }
+
+    function fireFlash(color, className) {
+      // Screen flash
+      flashOverlay.style.background = color;
+      flashOverlay.style.opacity    = '0.35';
+      setTimeout(function() { flashOverlay.style.opacity = '0'; }, 300);
+
+      // Shake the ring
+      timerContainer.classList.remove('flash-one', 'flash-final');
+      void timerContainer.offsetWidth; // force reflow to restart animation
+      timerContainer.classList.add(className);
+
+      // Expanding pulse rings
+      for (var i = 0; i < 3; i++) {
+        (function(delay) {
+          setTimeout(function() {
+            var ring = document.createElement('div');
+            ring.className = 'pulse-ring';
+            ring.style.cssText =
+              'position:absolute;width:260px;height:260px;border-radius:50%;border:3px solid ' + color + ';';
+            pulseContainer.appendChild(ring);
+            setTimeout(function() { ring.remove(); }, 900);
+          }, delay * 200);
+        })(i);
+      }
+    }
+
+    // ── Core timer loop ────────────────────────────────────────────────────
+    function tick() {
+      if (!running) return;
+      var now = performance.now();
+      elapsed = now - startTime;
+
+      // Mid-point alert
+      if (elapsed >= ONE_MIN_MS && !firedOneMin) {
+        firedOneMin = true;
+        fireFlash('#34d399', 'flash-one');
+        playOneMinAlert();
+      }
+
+      // Loop boundary — reset and continue
+      if (elapsed >= TOTAL_MS) {
+        fireFlash('#f472b6', 'flash-final');
+        playResetAlert();
+        loopCount++;
+        loopEl.textContent = 'Loop: ' + loopCount;
+        startTime   = performance.now();
+        elapsed     = 0;
+        firedOneMin = false;
+      }
+
+      updateDisplay(elapsed);
+      rafId = requestAnimationFrame(tick);
+    }
+
+    // ── Controls ───────────────────────────────────────────────────────────
+    function toggleTimer() {
+      if (running) {
+        running = false;
+        cancelAnimationFrame(rafId);
+        btnLabel.textContent      = 'Resume';
+        btnToggle.style.background = '#818cf8';
+        updateButtonIcon('play');
+      } else {
+        running    = true;
+        startTime  = performance.now() - elapsed;
+        btnLabel.textContent      = 'Stop';
+        btnToggle.style.background = '#ef4444';
+        updateButtonIcon('pause');
+        tick();
+      }
+    }
+
+    function resetTimer() {
+      running    = false;
+      cancelAnimationFrame(rafId);
+      elapsed    = 0;
+      loopCount  = 0;
+      firedOneMin = false;
+      updateDisplay(0);
+      loopEl.textContent         = 'Loop: 0';
+      btnLabel.textContent       = 'Start';
+      btnToggle.style.background  = '#818cf8';
+      arc.style.stroke            = '#818cf8';
+      updateButtonIcon('play');
+    }
+
+    function toggleMute() {
+      soundEnabled = !soundEnabled;
+      var muteIcon  = document.getElementById('mute-icon');
+      var muteLabel = document.getElementById('mute-label');
+      var muteBtn   = document.getElementById('btn-mute');
+      if (soundEnabled) {
+        muteIcon.setAttribute('data-lucide', 'volume-2');
+        muteLabel.textContent     = 'Sound On';
+        muteBtn.style.color       = '#6e6a7a';
+      } else {
+        muteIcon.setAttribute('data-lucide', 'volume-x');
+        muteLabel.textContent     = 'Muted';
+        muteBtn.style.color       = '#f472b6';
+      }
+      lucide.createIcons();
+    }
+
+    function updateButtonIcon(name) {
+      var icon = btnToggle.querySelector('i[data-lucide]');
+      if (icon) {
+        icon.setAttribute('data-lucide', name);
+        lucide.createIcons();
+      }
+    }
+
+    // ── Config application ─────────────────────────────────────────────────
+    function applyConfig(config) {
+      var bg       = config.background_color       || defaultConfig.background_color;
+      var surface  = config.surface_color          || defaultConfig.surface_color;
+      var text     = config.text_color             || defaultConfig.text_color;
+      var primary  = config.primary_action_color   || defaultConfig.primary_action_color;
+      var secondary= config.secondary_action_color || defaultConfig.secondary_action_color;
+      var font     = config.font_family            || defaultConfig.font_family;
+      var size     = config.font_size              || defaultConfig.font_size;
+      var title    = config.title_text             || defaultConfig.title_text;
+
+      var wrapper  = document.getElementById('app-wrapper');
+      wrapper.style.background  = bg;
+      wrapper.style.fontFamily  = font + ', Outfit, sans-serif';
+
+      document.getElementById('app-title').textContent = title;
+      document.getElementById('app-title').style.color = secondary;
+
+      display.style.color    = text;
+      displayMs.style.color  = secondary;
+      loopEl.style.color     = secondary;
+
+      var innerRing = timerContainer.querySelector('div > div');
+      if (innerRing) innerRing.style.borderColor = surface;
+
+      var bgCircle = document.querySelector('#progress-ring circle:first-child');
+      if (bgCircle) bgCircle.style.stroke = surface;
+
+      if (!running) btnToggle.style.background = primary;
+      btnToggle.style.color = bg;
+      document.getElementById('btn-reset').style.background = surface;
+      document.getElementById('btn-reset').style.color      = secondary;
+
+      // Override timing if specified
+      if (config.loop_duration_ms) TOTAL_MS   = config.loop_duration_ms;
+      if (config.alert_one_ms)     ONE_MIN_MS = config.alert_one_ms;
+
+      // Override sound master switch
+      if (typeof config.sound_enabled === 'boolean') soundEnabled = config.sound_enabled;
+    }
+
+    // ── Bootstrap ──────────────────────────────────────────────────────────
+    // Optionally load config from JSON (gracefully falls back to defaults)
+    fetch('json/loop-stopwatch.json')
+      .then(function(r) { return r.json(); })
+      .then(function(cfg) {
+        applyConfig(Object.assign({}, defaultConfig, cfg));
+      })
+      .catch(function() {
+        // JSON not found or parse error — just use defaults
+        applyConfig(defaultConfig);
+      });
+
+    lucide.createIcons();
+  </script>
+
+  <script src="js/site-shell.js"></script>
+</body>
+</html>

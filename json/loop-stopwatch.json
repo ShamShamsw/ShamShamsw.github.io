@@ -1,0 +1,76 @@
+{
+  "_comment": "Loop Stopwatch — Configuration Schema",
+  "_doc": "Edit any values here and the stopwatch picks them up automatically on page load via fetch(). Missing keys fall back to the defaults defined in the script. All color values must be valid CSS hex strings.",
+
+  "title_text": "Loop Stopwatch",
+
+  "_timing_comment": "Timing values are in milliseconds (1 second = 1000 ms, 1 minute = 60000 ms)",
+  "loop_duration_ms": 90000,
+  "alert_one_ms": 60000,
+
+  "_color_comment": "Colors for flash & ring arc at each alert stage",
+  "alert_one_color": "#34d399",
+  "loop_reset_color": "#f472b6",
+
+  "_theme_comment": "Widget color theme",
+  "background_color": "#0f1117",
+  "surface_color": "#252837",
+  "text_color": "#e2e0ec",
+  "primary_action_color": "#818cf8",
+  "secondary_action_color": "#6e6a7a",
+
+  "_font_comment": "Any Google Fonts family name works here",
+  "font_family": "Outfit",
+  "font_size": 16,
+
+  "_sound_comment": "sound_enabled is the master switch. Preset names: 'chime', 'beep' (alert_one_sound) | 'triple_beep', 'buzz' (loop_reset_sound)",
+  "sound_enabled": true,
+  "alert_one_sound": "chime",
+  "loop_reset_sound": "triple_beep",
+
+  "_examples_comment": "Example presets — copy the values you want into the fields above",
+  "_examples": {
+    "pomodoro_25min": {
+      "title_text": "Pomodoro Timer",
+      "loop_duration_ms": 1500000,
+      "alert_one_ms": 1200000,
+      "alert_one_color": "#f59e0b",
+      "loop_reset_color": "#ef4444",
+      "primary_action_color": "#f59e0b",
+      "alert_one_sound": "chime",
+      "loop_reset_sound": "buzz"
+    },
+    "boxing_3min_rounds": {
+      "title_text": "Boxing Round Timer",
+      "loop_duration_ms": 180000,
+      "alert_one_ms": 170000,
+      "alert_one_color": "#facc15",
+      "loop_reset_color": "#ef4444",
+      "background_color": "#1a0000",
+      "primary_action_color": "#ef4444",
+      "alert_one_sound": "beep",
+      "loop_reset_sound": "buzz"
+    },
+    "meditation_4_7_8_breathing": {
+      "title_text": "Breath Timer",
+      "loop_duration_ms": 19000,
+      "alert_one_ms": 4000,
+      "alert_one_color": "#818cf8",
+      "loop_reset_color": "#34d399",
+      "background_color": "#080d1a",
+      "primary_action_color": "#6366f1",
+      "alert_one_sound": "chime",
+      "loop_reset_sound": "chime"
+    },
+    "quiz_show_60s": {
+      "title_text": "Question Timer",
+      "loop_duration_ms": 60000,
+      "alert_one_ms": 30000,
+      "alert_one_color": "#f59e0b",
+      "loop_reset_color": "#ef4444",
+      "primary_action_color": "#f59e0b",
+      "alert_one_sound": "beep",
+      "loop_reset_sound": "triple_beep"
+    }
+  }
+}

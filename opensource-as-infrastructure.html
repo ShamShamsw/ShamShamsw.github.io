@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>OpenSource as Infrastructure | Blog</title>
+  <link rel="stylesheet" href="css/site-shell.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700&display=swap" />
+  <style>
+    :root {
+      --bg: #f7f6f1;
+      --paper: #fffdf8;
+      --ink: #231f1b;
+      --muted: #5b5349;
+      --line: #d9ccba;
+      --accent: #0f5c57;
+      --accent-soft: #d9f1ef;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: 'Outfit', sans-serif;
+      color: var(--ink);
+      line-height: 1.7;
+      background:
+        radial-gradient(circle at 12% 0%, #efe8db 0%, rgba(239, 232, 219, 0) 36%),
+        radial-gradient(circle at 88% 35%, #dff2f0 0%, rgba(223, 242, 240, 0) 34%),
+        var(--bg);
+    }
+
+    main {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 5.75rem 1rem 2.5rem;
+    }
+
+    article {
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      background: var(--paper);
+      padding: 1.3rem;
+    }
+
+    h1 {
+      margin-top: 0;
+      margin-bottom: 0.4rem;
+      font-size: clamp(1.6rem, 3vw, 2.2rem);
+    }
+
+    .meta {
+      color: var(--muted);
+      margin-bottom: 0.8rem;
+      font-size: 0.95rem;
+    }
+
+    .notice {
+      border-left: 4px solid var(--accent);
+      background: var(--accent-soft);
+      border-radius: 6px;
+      padding: 0.75rem 0.9rem;
+      margin: 0.9rem 0 1rem;
+      color: #17312e;
+    }
+
+    p {
+      margin-top: 0;
+      margin-bottom: 0.95rem;
+    }
+
+    .links {
+      display: flex;
+      gap: 0.9rem;
+      flex-wrap: wrap;
+      margin-top: 1.2rem;
+    }
+
+    .links a {
+      color: var(--accent);
+      font-weight: 700;
+      text-underline-offset: 2px;
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <article aria-labelledby="post-title">
+      <h1 id="post-title">OpenSource as Infrastructure</h1>
+      <p class="meta">
+        <strong>Published:</strong> <time id="post-date" datetime="">May 12, 2026</time>
+        | <strong>Author:</strong> Jacob T. Haseman
+      </p>
+
+      <p class="notice" role="note" aria-label="Academic usage and citation policy">
+        You may copy or reference this article for academic purposes with correct authorship attribution and citation.
+      </p>
+
+      <p>
+        I recently read an article on GitHub called "Software as a public good," and it got the wheels in my brain spinning. The author
+        argues something many of us in tech already believe: open source is more than a way to build software, it is part of the
+        foundation that keeps our digital world going.
+      </p>
+
+      <p>
+        What really stood out is how open source software supports almost every area, from businesses and governments to
+        nonprofits and global organizations. That reach is important. When software is used everywhere, it becomes more than just
+        code. It turns into a public resource that people rely on, help build, and share responsibility for.
+      </p>
+
+      <p>
+        I also liked how the article focused on sustainability. Open source works because people come together to create, maintain,
+        and improve projects, but their efforts are not always recognized or funded as much as they should be. If open source is so
+        important, then giving back should be a normal part of keeping the ecosystem healthy, not something we do only if there is
+        time.
+      </p>
+
+      <p>
+        This ties into something I believe: people do their best work when they feel ownership and connect with others. Open source
+        shows this clearly. It gives everyone a chance to learn, work together, and build something useful that could exceed the efforts
+        or imagination of one person.
+      </p>
+
+      <p>
+        Open source is also a practical way to grow. If you want to build your skills, gain confidence, or meet people who care about the
+        same issues, it is a great place to begin. You do not have to start with a big project. Even small things like writing documentation,
+        reporting bugs, testing, giving design feedback, or tackling your first issue can help.
+      </p>
+
+      <p>
+        That is what makes open source meaningful to me. It is not just about the technology, it is also about the community. It teaches
+        us to build openly, support each other, and create work that lasts beyond our own involvement.
+      </p>
+
+      <p>
+        The GitHub article also reminded me that open source has real social value. When we support it, we are not just helping
+        developers, we are also helping the systems, organizations, and communities that depend on it. That matters, especially now
+        when so much digital infrastructure is hidden, fragile, or easy to overlook.
+      </p>
+
+      <p>
+        If you want to get involved, the message is simple: start with what you know, share your skills, and be part of something bigger
+        than yourself. Open source makes so much possible.
+      </p>
+
+      <div class="links">
+        <a href="blog.html">Back to Blog</a>
+        <a href="https://app.joinhandshake.com/profiles/863gaf" target="_blank" rel="noopener noreferrer">Discuss on Handshake</a>
+      </div>
+    </article>
+  </main>
+
+  <script>
+    (function setTodayDate() {
+      var dateEl = document.getElementById('post-date');
+      if (!dateEl) return;
+      var now = new Date();
+      dateEl.textContent = now.toLocaleDateString('en-US', {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric'
+      });
+      dateEl.setAttribute('datetime', now.toISOString().slice(0, 10));
+    })();
+  </script>
+  <script src="js/site-shell.js"></script>
+</body>
+</html>

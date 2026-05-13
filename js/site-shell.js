@@ -20,6 +20,7 @@ document.addEventListener("DOMContentLoaded", () => {
         <nav class="shell-nav" aria-label="Primary">
           <a href="index.html">Home</a>
           <a href="index.html#projects">Projects</a>
+          <a href="blog.html">Blog</a>
           <a href="resume.html">Resume</a>
         </nav>
       </div>

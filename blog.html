@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Blog | Jacob Haseman</title>
+  <link rel="stylesheet" href="css/site-shell.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700&family=JetBrains+Mono:wght@400;700&display=swap" />
+  <style>
+    :root {
+      --bg: #f7f6f1;
+      --paper: #fffdf8;
+      --ink: #231f1b;
+      --muted: #5b5349;
+      --line: #d9ccba;
+      --accent: #0f5c57;
+      --accent-soft: #d9f1ef;
+      --focus: #1f7a73;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: 'Outfit', sans-serif;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at 15% 0%, #efe8db 0%, rgba(239, 232, 219, 0) 38%),
+        radial-gradient(circle at 90% 35%, #dff2f0 0%, rgba(223, 242, 240, 0) 34%),
+        var(--bg);
+      line-height: 1.6;
+    }
+
+    main {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 5.75rem 1rem 2.5rem;
+    }
+
+    .hero {
+      background: linear-gradient(140deg, #fff7ea 0%, #f5fffd 100%);
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 1.4rem;
+      margin-bottom: 1.1rem;
+    }
+
+    .hero h1 {
+      margin: 0;
+      font-size: clamp(1.7rem, 3vw, 2.45rem);
+      letter-spacing: 0.01em;
+    }
+
+    .hero p {
+      margin: 0.55rem 0 0;
+      color: var(--muted);
+      max-width: 70ch;
+    }
+
+    .layout {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1rem;
+    }
+
+    .card {
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 1.1rem;
+    }
+
+    .meta-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.8rem 1.1rem;
+      align-items: center;
+      margin-bottom: 0.65rem;
+      color: var(--muted);
+      font-size: 0.92rem;
+    }
+
+    .stamp {
+      display: inline-block;
+      background: var(--accent);
+      color: #fff;
+      border-radius: 999px;
+      font-size: 0.74rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 0.2rem 0.6rem;
+    }
+
+    .notice {
+      border-left: 4px solid var(--accent);
+      background: var(--accent-soft);
+      border-radius: 6px;
+      padding: 0.75rem 0.9rem;
+      margin: 0.9rem 0;
+      color: #17312e;
+    }
+
+    .note {
+      font-size: 0.9rem;
+      color: var(--muted);
+    }
+
+    .preview {
+      margin-top: 0.75rem;
+      border: 1px solid var(--line);
+      background: #fff;
+      border-radius: 10px;
+      padding: 0.9rem;
+    }
+
+    .preview p {
+      margin-top: 0;
+      margin-bottom: 0.75rem;
+    }
+
+    .preview p:last-child {
+      margin-bottom: 0;
+    }
+
+    .sidebar h2,
+    .article h2 {
+      margin-top: 0;
+      margin-bottom: 0.5rem;
+      font-size: 1.25rem;
+    }
+
+    .search-wrap {
+      margin-bottom: 0.8rem;
+    }
+
+    .search-wrap label {
+      display: inline-block;
+      margin-bottom: 0.35rem;
+      font-weight: 600;
+    }
+
+    .search-input {
+      width: 100%;
+      border: 1px solid #c8b9a5;
+      background: #fff;
+      border-radius: 10px;
+      padding: 0.7rem 0.8rem;
+      font: inherit;
+    }
+
+    .search-input:focus,
+    .discuss-link:focus,
+    .download-link:focus,
+    .post-link:focus {
+      outline: 3px solid rgba(31, 122, 115, 0.25);
+      outline-offset: 2px;
+      border-color: var(--focus);
+    }
+
+    .posts-list {
+      list-style: none;
+      margin: 0.5rem 0 0;
+      padding: 0;
+      display: grid;
+      gap: 0.5rem;
+    }
+
+    .post-link {
+      display: block;
+      background: #fff;
+      color: var(--ink);
+      text-decoration: none;
+      border: 1px solid #d7c8b5;
+      border-radius: 10px;
+      padding: 0.65rem 0.75rem;
+      font-weight: 600;
+    }
+
+    .post-link small {
+      display: block;
+      margin-top: 0.2rem;
+      color: var(--muted);
+      font-weight: 400;
+    }
+
+    .discuss-link,
+    .read-link {
+      color: var(--accent);
+      font-weight: 700;
+      text-decoration-thickness: 2px;
+      text-underline-offset: 2px;
+    }
+
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
+    }
+
+    @media (min-width: 930px) {
+      .layout {
+        grid-template-columns: 1.9fr 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <section class="hero" aria-labelledby="blog-page-title">
+      <h1 id="blog-page-title">Blog</h1>
+      <p>
+        Articles are published here with quick previews, citation policy, and a searchable index.
+      </p>
+    </section>
+
+    <section class="layout" aria-label="Blog content area">
+      <article class="card article" id="post-open-source" aria-labelledby="featured-title">
+        <span class="stamp">Featured Post</span>
+        <h2 id="featured-title">OpenSource as Infrastructure</h2>
+        <div class="meta-row">
+          <p><strong>Published:</strong> <time id="post-date" datetime="">May 12, 2026</time></p>
+          <p><strong>Author:</strong> Jacob T. Haseman</p>
+        </div>
+
+        <p class="notice" role="note" aria-label="Academic usage and citation policy">
+          You may copy or reference this article for academic purposes with correct authorship attribution and citation.
+        </p>
+
+        <h3 style="margin-bottom:0.35rem;">Preview</h3>
+        <div class="preview">
+          <p>
+            I recently read an article on GitHub called "Software as a public good," and it got the wheels in my brain spinning.
+            The author argues that open source is more than a way to build software. It is part of the foundation that keeps our digital world going.
+          </p>
+          <p>
+            What stood out to me is how open source supports almost every area, from businesses and governments to nonprofits and global organizations.
+            When software is used everywhere, it becomes more than just code. It becomes a shared public resource.
+          </p>
+          <p>
+            <a class="read-link" href="opensource-as-infrastructure.html">Read the full post</a>
+          </p>
+        </div>
+        <p class="note">
+          Full article now lives on its own page for easier reading and sharing.
+        </p>
+      </article>
+
+      <aside class="card sidebar" aria-labelledby="blog-tools-title">
+        <h2 id="blog-tools-title">Browse and Discuss</h2>
+
+        <div class="search-wrap">
+          <label for="blog-search">Search all blog posts</label>
+          <input
+            id="blog-search"
+            class="search-input"
+            type="search"
+            placeholder="Search by title or topic"
+            aria-describedby="search-status"
+          />
+          <p id="search-status" class="note" role="status" aria-live="polite">Showing all posts.</p>
+        </div>
+
+        <ul id="posts-list" class="posts-list" aria-label="All blog posts">
+          <li class="post-item"
+              data-title="OpenSource as Infrastructure"
+              data-keywords="open source infrastructure governance software systems collaboration">
+            <a class="post-link" href="opensource-as-infrastructure.html">
+              OpenSource as Infrastructure
+              <small>Open Source, Governance, Software Infrastructure, Collaboration</small>
+            </a>
+          </li>
+        </ul>
+
+        <p id="no-results" class="note" hidden>No posts matched your search.</p>
+
+        <hr style="border:none;border-top:1px solid var(--line);margin:1rem 0;" />
+
+        <h3 style="margin-bottom:0.3rem;">Handshake Discussion</h3>
+        <p class="note" style="margin-top:0;">
+          Share your thoughts or ask follow-up questions on Handshake.
+        </p>
+        <p>
+          <a id="handshake-link" class="discuss-link" href="https://app.joinhandshake.com/profiles/863gaf" target="_blank" rel="noopener noreferrer">
+            Visit my Handshake profile
+          </a>
+        </p>
+        <p class="note" style="margin-top:0;">
+          Update this profile URL in the script settings at the bottom of this page.
+        </p>
+      </aside>
+    </section>
+  </main>
+
+  <script>
+    var blogConfig = {
+      handshakeProfileUrl: 'https://app.joinhandshake.com/profiles/863gaf'
+    };
+
+    function setTodayDate() {
+      var dateEl = document.getElementById('post-date');
+      if (!dateEl) return;
+      var now = new Date();
+      dateEl.textContent = now.toLocaleDateString('en-US', {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric'
+      });
+      dateEl.setAttribute('datetime', now.toISOString().slice(0, 10));
+    }
+
+    function setupHandshakeLink() {
+      var link = document.getElementById('handshake-link');
+      if (!link) return;
+      if (blogConfig.handshakeProfileUrl) {
+        link.href = blogConfig.handshakeProfileUrl;
+      }
+    }
+
+    function setupSearch() {
+      var input = document.getElementById('blog-search');
+      var list = document.getElementById('posts-list');
+      var status = document.getElementById('search-status');
+      var noResults = document.getElementById('no-results');
+      if (!input || !list || !status || !noResults) return;
+
+      var posts = Array.prototype.slice.call(list.querySelectorAll('.post-item'));
+
+      function update() {
+        var q = input.value.trim().toLowerCase();
+        var visible = 0;
+
+        posts.forEach(function(post) {
+          var title = (post.getAttribute('data-title') || '').toLowerCase();
+          var keywords = (post.getAttribute('data-keywords') || '').toLowerCase();
+          var show = !q || title.indexOf(q) !== -1 || keywords.indexOf(q) !== -1;
+          post.hidden = !show;
+          if (show) visible++;
+        });
+
+        noResults.hidden = visible !== 0;
+        status.textContent = visible === 1
+          ? 'Showing 1 matching post.'
+          : 'Showing ' + visible + ' matching posts.';
+      }
+
+      input.addEventListener('input', update);
+      update();
+    }
+
+    setTodayDate();
+    setupHandshakeLink();
+    setupSearch();
+  </script>
+  <script src="js/site-shell.js"></script>
+</body>
+</html>

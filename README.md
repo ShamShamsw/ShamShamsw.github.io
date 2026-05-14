@@ -94,5 +94,18 @@ font-family: 'Segoe UI', 'Roboto', 'Helvetica Neue', sans-serif;
 # 📄 License
 This project is open-source and free to use for personal portfolio purposes. Feel free to modify and customize it to fit your professional needs.
 
+# 📚 PDF Citation & Usage
+PDFs included in the `PDF/` folder are published for public and academic use. You may copy or reference these PDFs for academic purposes provided you include correct authorship attribution and citation to the original source.
+
+Suggested citation formats (examples):
+
+- Open Science (Google Research)
+	- APA: Google Research. (2026, May 1). Catalyzing scientific impact through global partnerships and open resources. https://research.google/blog/catalyzing-scientific-impact-through-global-partnerships-and-open-resources/
+	- MLA: Google Research. "Catalyzing scientific impact through global partnerships and open resources." 1 May 2026, https://research.google/blog/catalyzing-scientific-impact-through-global-partnerships-and-open-resources/.
+
+- OpenSource as Infrastructure (site PDF)
+	- APA: Haseman, J. T. (2026, May 12). OpenSource as Infrastructure. https://<your-site-url>/PDF/Open%20Source%20as%20Infrastructure.pdf
+	- MLA: Haseman, Jacob T. "OpenSource as Infrastructure." 12 May 2026, https://<your-site-url>/PDF/Open%20Source%20as%20Infrastructure.pdf.
+
 # 🙌 Acknowledgements
 ##  Crafted with ❤️ by Jacob Haseman.

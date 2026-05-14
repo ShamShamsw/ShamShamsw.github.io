@@ -3,85 +3,23 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>OpenSource as Infrastructure | Blog</title>
+  <title>Open Science, Open Infrastructure | Blog</title>
   <link rel="stylesheet" href="css/site-shell.css" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700&display=swap" />
   <style>
-    :root {
-      --bg: #f7f6f1;
-      --paper: #fffdf8;
-      --ink: #231f1b;
-      --muted: #5b5349;
-      --line: #d9ccba;
-      --accent: #0f5c57;
-      --accent-soft: #d9f1ef;
-    }
-
+    :root { --bg: #f7f6f1; --paper: #fffdf8; --ink: #231f1b; --muted: #5b5349; --line: #d9ccba; --accent: #0f5c57; --accent-soft: #d9f1ef; }
     * { box-sizing: border-box; }
-
-    body {
-      margin: 0;
-      font-family: 'Outfit', sans-serif;
-      color: var(--ink);
-      line-height: 1.7;
-      background:
-        radial-gradient(circle at 12% 0%, #efe8db 0%, rgba(239, 232, 219, 0) 36%),
-        radial-gradient(circle at 88% 35%, #dff2f0 0%, rgba(223, 242, 240, 0) 34%),
-        var(--bg);
-    }
-
-    main {
-      max-width: 900px;
-      margin: 0 auto;
-      padding: 5.75rem 1rem 2.5rem;
-    }
-
-    article {
-      border: 1px solid var(--line);
-      border-radius: 14px;
-      background: var(--paper);
-      padding: 1.3rem;
-    }
-
-    h1 {
-      margin-top: 0;
-      margin-bottom: 0.4rem;
-      font-size: clamp(1.6rem, 3vw, 2.2rem);
-    }
-
-    .meta {
-      color: var(--muted);
-      margin-bottom: 0.8rem;
-      font-size: 0.95rem;
-    }
-
-    .notice {
-      border-left: 4px solid var(--accent);
-      background: var(--accent-soft);
-      border-radius: 6px;
-      padding: 0.75rem 0.9rem;
-      margin: 0.9rem 0 1rem;
-      color: #17312e;
-    }
-
-    p {
-      margin-top: 0;
-      margin-bottom: 0.95rem;
-    }
-
-    .links {
-      display: flex;
-      gap: 0.9rem;
-      flex-wrap: wrap;
-      margin-top: 1.2rem;
-    }
-
-    .links a {
-      color: var(--accent);
-      font-weight: 700;
-      text-underline-offset: 2px;
-    }
+    body { margin: 0; font-family: 'Outfit', sans-serif; color: var(--ink); line-height: 1.7; background: radial-gradient(circle at 12% 0%, #efe8db 0%, rgba(239,232,219,0) 36%), radial-gradient(circle at 88% 35%, #dff2f0 0%, rgba(223,242,240,0) 34%), var(--bg); }
+    main { max-width: 900px; margin: 0 auto; padding: 5.75rem 1rem 2.5rem; }
+    article { border: 1px solid var(--line); border-radius: 14px; background: var(--paper); padding: 1.3rem; }
+    h1 { margin-top: 0; margin-bottom: 0.4rem; font-size: clamp(1.6rem, 3vw, 2.2rem); }
+    .meta { color: var(--muted); margin-bottom: 0.8rem; font-size: 0.95rem; }
+    .notice { border-left: 4px solid var(--accent); background: var(--accent-soft); border-radius: 6px; padding: 0.75rem 0.9rem; margin: 0.9rem 0 1rem; color: #17312e; }
+    p { margin-top: 0; margin-bottom: 0.95rem; }
+    .links { display:flex; gap:0.9rem; flex-wrap:wrap; margin-top:1.2rem; }
+    .links a { color: var(--accent); font-weight:700; text-underline-offset:2px; }
+    .tips { margin-top:0.6rem; padding:0.9rem; border:1px dashed var(--line); border-radius:10px; background:#fff; }
     /* PDF viewer styles */
     .pdf-toolbar { display:flex; gap:0.6rem; justify-content:flex-end; max-width:900px; margin: 1rem auto 0; }
     .pdf-toolbar button { background:#0f5c57; color:#fff; border:0; padding:0.5rem 0.8rem; border-radius:6px; cursor:pointer; }
@@ -107,10 +45,12 @@
       <a id="download-link" href="#" hidden>Download PDF</a>
     </div>
 
-    <article aria-labelledby="post-title">
-      <h1 id="post-title">OpenSource as Infrastructure</h1>
+    <article aria-labelledby="post-title" class="pdf-like">
+      <h1 id="post-title">Open Science, Open Infrastructure: What IT
+Teams Can Learn from Google Research's Open
+Science Playbook</h1>
       <p class="meta">
-        <strong>Published:</strong> <time id="post-date" datetime="">May 12, 2026</time>
+        <strong>Published:</strong> <time id="post-date" datetime="">May 13, 2026</time>
         | <strong>Author:</strong> Jacob T. Haseman
       </p>
 
@@ -119,16 +59,14 @@
       </p>
 
       <div class="pdf-page" style="padding:0;">
-        <iframe class="pdf-embed" src="PDF/Open%20Source%20as%20Infrastructure.pdf" title="Open Source as Infrastructure PDF" style="width:100%;height:80vh;border:0;display:block;margin:0;" allowfullscreen></iframe>
-        <p style="text-align:center;margin-top:0.6rem;font-size:0.95rem;color:var(--muted);">If the PDF does not display, download it here: <a href="PDF/Open%20Source%20as%20Infrastructure.pdf" download>Download PDF</a></p>
-      
-        <p style="text-align:center;margin-top:0.4rem;font-size:0.9rem;color:var(--muted);">Citation (APA): Haseman, J. T. (2026, May 12). OpenSource as Infrastructure. https://<your-site-url>/PDF/Open%20Source%20as%20Infrastructure.pdf</p>
-        <p style="text-align:center;margin-top:0.2rem;font-size:0.9rem;color:var(--muted);">Citation (MLA): Haseman, Jacob T. "OpenSource as Infrastructure." 12 May 2026.</p>
+        <iframe class="pdf-embed" src="PDF/Open%20Science%2C%20Open%20Infrastructure_%20What%20IT%20Teams%20Can%20Learn%20from%20Google%20Research%27s%20Open%20Science%20Playbook.pdf" title="Open Science PDF" style="width:100%;height:80vh;border:0;display:block;margin:0;" allowfullscreen></iframe>
+        <p style="text-align:center;margin-top:0.6rem;font-size:0.95rem;color:var(--muted);">If the PDF does not display, download it here: <a href="PDF/Open%20Science%2C%20Open%20Infrastructure_%20What%20IT%20Teams%20Can%20Learn%20from%20Google%20Research%27s%20Open%20Science%20Playbook.pdf" download>Download PDF</a></p>
+        <p style="text-align:center;margin-top:0.4rem;font-size:0.9rem;color:var(--muted);">Citation (APA): Google Research. (2026, May 1). Catalyzing scientific impact through global partnerships and open resources. <a href="https://research.google/blog/catalyzing-scientific-impact-through-global-partnerships-and-open-resources/">https://research.google/blog/...</a></p>
+        <p style="text-align:center;margin-top:0.2rem;font-size:0.9rem;color:var(--muted);">Citation (MLA): Google Research. "Catalyzing scientific impact through global partnerships and open resources." 1 May 2026.</p>
       </div>
 
       <div class="links">
         <a href="blog.html">Back to Blog</a>
-        <a href="https://app.joinhandshake.com/profiles/863gaf" target="_blank" rel="noopener noreferrer">Discuss on Handshake</a>
       </div>
     </article>
   </main>
@@ -138,12 +76,8 @@
       var dateEl = document.getElementById('post-date');
       if (!dateEl) return;
       var now = new Date();
-      dateEl.textContent = now.toLocaleDateString('en-US', {
-        year: 'numeric',
-        month: 'long',
-        day: 'numeric'
-      });
-      dateEl.setAttribute('datetime', now.toISOString().slice(0, 10));
+      dateEl.textContent = now.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+      dateEl.setAttribute('datetime', now.toISOString().slice(0,10));
     })();
   </script>
   <script>

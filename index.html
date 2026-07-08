@@ -5,65 +5,27 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Portfolio Home</title>
   <link rel="stylesheet" href="css/style.css" />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" />
-  <link rel="stylesheet" href="css/site-shell.css" />
 </head>
 <body>
   <!-- Main Hero Section -->
   <section class="hero">
     <div class="container">
       <div class="left">
-        <img src="images/profile.jpg" alt="Profile Image" class="profile-img" />
-        <h1>Jacob Haseman (He/Him/His)</h1>
-        <h2>IT Business Specialist</h2>
-        <div class="social-icons">
-          <a href="https://www.linkedin.com/public-profile/settings?trk=d_flagship3_profile_self_view_public_profile"><img src="images/link.jpg" alt="LinkedIn"></a>
-          <a href="https://github.com/ShamShamsw"><img src="images/git.jpg" alt="GitHub"></a>
-        </div>
+        <img src="images/profile.png" alt="Profile Image" class="profile-img" />
       </div>
 
       <div class="right">
-        <h4>ABOUT ME</h4>
-        <h1>Knowledge is Key</h1>
-        <p>I am an energetic and passionate college student working towards a gaining experience in every changing field of IT. I am seeking a challenging work environment where I can use my skills as leader, business analyst, software developer, and machine learning programmer.</p>
-        
-        <p><strong>Education</strong></p>
-        <div class="row">
-          <div class="left">2025</div>
-          <div class="right">
-            <p>Bachelors of Business Information Technology</p>
-            <p>University of Wisconsin Whitewater</p>
-            <p>GPA of 3.00 / 4.00</p>
-          </div>
+        <h1>Jacob Haseman</h1>
+        <h2>IT Business Specialist</h2>
+        <div class="social-icons">
+          <a href="https://www.linkedin.com/in/" aria-label="LinkedIn" target="_blank" rel="noopener"><img src="images/link.jpg" alt="LinkedIn"></a>
+          <a href="https://github.com/ShamShamsw" aria-label="GitHub" target="_blank" rel="noopener"><img src="images/git.jpg" alt="GitHub"></a>
         </div>
-        <p><strong>Professional Experience</strong></p>
+        <p class="hero-bio">Motivated professional with a Bachelor’s degree in Information Technology – Business Analysis from the University of Wisconsin-Whitewater. Currently employed as an AI Trainer and Business Management IT Expert at Handshake, demonstrating strong analytical and technical skills.</p>
 
-        <div class="row">
-          <div class="left">2024</div>
-          <div class="right">
-            <p><strong>Student Consultant</strong></p>
-            <p>University of Wisconsin Whitewater</p>
-            <p>Assisted students and faculty with IT-related inquiries, conducted training sessions, and supported campus-wide technology initiatives.</p>
-          </div>
-        </div>
-
-        <div class="row">
-          <div class="left">2023 - 2025</div>
-          <div class="right">
-            <p><strong>Resident Assistant</strong></p>
-            <p>University of Wisconsin Whitewater Housing</p>
-            <p>Fostered a positive living environment for residents, organized community-building events, and provided leadership and conflict resolution support.</p>
-          </div>
-        </div>
-
-        <div class="row">
-          <div class="left">2019 - 2021</div>
-          <div class="right">
-            <p><strong>IT Desk Intern</strong></p>
-            <p>Mukwonago Area School District</p>
-            <p>Provided technical support to staff and students, resolved hardware and software issues, and maintained IT infrastructure to ensure smooth operations.</p>
-          </div>
+        <div class="education-tab">
+          <p class="degree">Bachelor's of Business Information Technology</p>
+          <p class="school">University of Wisconsin Whitewater</p>
         </div>
 
         <a class="resume-btn" href="resume.html">Resume</a>
@@ -71,18 +33,60 @@
     </div>
   </section>
 
+  <!-- Experience Section -->
+  <section class="projects" id="experience">
+    <div class="container" style="flex-direction:column; max-width:1100px;">
+      <h2 style="width:100%; margin-bottom:1rem;">EXPERIENCE</h2>
+
+      <div class="project">
+        <h3>Handshake AI – AI Trainer – Remote</h3>
+        <p class="date">Feb 2026 – Present</p>
+        <ul>
+          <li>Evaluated AI-generated outputs for technical accuracy and flagged edge cases to engineering; documented model issues to improve response reliability.</li>
+        </ul>
+      </div>
+
+      <div class="project">
+        <h3>Milwaukee County Zoo – Supervisor / Team Lead – [Milwaukee, WI]</h3>
+        <p class="date">Jun 2023 – Aug 2023</p>
+        <ul>
+          <li>Developed incident response training for a 15-person team and coached staff on de-escalation protocols during high-traffic visitor periods.</li>
+        </ul>
+      </div>
+
+      <div class="project">
+        <h3>University of Wisconsin-Whitewater – Business Consultant – [Whitewater, WI]</h3>
+        <p class="date">Jan 2024 – May 2024</p>
+        <ul>
+          <li>Gathered client requirements and delivered technical solutions through iterative demos and stakeholder feedback cycles.</li>
+        </ul>
+      </div>
+
+      <div class="project">
+        <h3>University of Wisconsin-Whitewater – Resident Assistant – [Whitewater, WI]</h3>
+        <p class="date">Jan 2023 – Jan 2025</p>
+        <ul>
+          <li>Triaged and resolved high-volume, time-sensitive requests for 50–60 residents per semester; coordinated escalations with housing administration and campus IT, maintaining confidentiality and follow-up protocols.</li>
+          <li>Trained 4 new RAs on documentation standards and escalation pathways, reducing onboarding time and improving issue resolution consistency.</li>
+        </ul>
+      </div>
+
+      <div class="project">
+        <h3>Mukwonago High School SHIELD Helpdesk – IT Helpdesk Intern – [Mukwonago, WI]</h3>
+        <p class="date">Sep 2019 – May 2021</p>
+        <ul>
+          <li>Diagnosed and resolved hardware/software issues per week; documented solutions in plain language for the internal knowledge base, reducing repeat tickets by 20%.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
   <!-- About Section -->
   <section class="about">
-    <hr />
-    <p class="center-text">
-      My love for IT began in 2009 with Code Ninjas. From that moment, I knew programming was what I wanted to pursue. Throughout high school, I took introductory programming and advanced mathematics courses. After learning programming in some AP classes, I began creating projects using C++, Python, and SQL. I went on to pursue my bachelor's degree in Business Information Technology at the University of Wisconsin–Whitewater. During my time there, I developed practical skills as a campus leader—both academically and as a role model—serving as a Resident Assistant in two of the largest housing complexes on campus. In addition to strengthening my soft skills, I also developed administrative capabilities and gained foundational knowledge in AWS, cloud computing, machine learning, and business analytics. I am currently seeking a position that allows me to leverage my broad range of technical and interpersonal skills.
-
-  
-    </p>
+    <p class="center-text">My passion for information technology began in 2009 with Code Ninjas, sparking a clear interest in programming. Throughout high school, I pursued advanced mathematics and introductory programming courses, further developing my technical foundation. Exposure to programming in AP classes enabled me to create projects using C++, Python, and SQL. I earned my bachelor’s degree in Business Information Technology from the University of Wisconsin–Whitewater, where I honed both technical and leadership skills. As a Resident Assistant in two of the largest campus housing complexes, I strengthened my interpersonal and administrative abilities. Additionally, I gained foundational knowledge in AWS, cloud computing, machine learning, and business analytics. I am now seeking a position that leverages my diverse technical expertise and strong interpersonal skills.</p>
     <div class="search-bar">
       <input type="text" id="searchInput" placeholder="Search projects..." />
     </div>
-    <hr />
   </section>
 
   <!-- Repeatable Project Sections -->

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Literacy as Career Power | Blog</title>
+  <link rel="stylesheet" href="css/site-shell.css" />
+  <style>
+    :root { --bg: #f7f6f1; --paper: #fffdf8; --ink: #231f1b; --muted: #5b5349; --line: #d9ccba; --accent: #0f5c57; --accent-soft: #d9f1ef; }
+    body { margin:0; font-family: 'Outfit', sans-serif; color:var(--ink); background: var(--bg); }
+    main { max-width:900px; margin:0 auto; padding:5.75rem 1rem 2.5rem; }
+    article { border:1px solid var(--line); border-radius:14px; background:var(--paper); padding:1.3rem; }
+    h1 { margin-top:0; margin-bottom:0.4rem; font-size:clamp(1.6rem,3vw,2.2rem); }
+    .meta { color:var(--muted); margin-bottom:0.8rem; font-size:0.95rem; }
+    .notice { border-left:4px solid var(--accent); background:var(--accent-soft); border-radius:6px; padding:0.75rem 0.9rem; margin:0.9rem 0 1rem; color:#17312e; }
+    .pdf-page { width:794px; margin:1.2rem auto; padding:1.2in 1in; background:#fff; box-shadow:0 10px 30px rgba(0,0,0,0.12); border:1px solid var(--line); border-radius:6px; }
+    .links { display:flex; gap:0.9rem; flex-wrap:wrap; margin-top:1.2rem; }
+    .links a { color:var(--accent); font-weight:700; }
+    @media (max-width:980px) { .pdf-page { width:calc(100% - 2rem); margin:1rem; padding:1rem; } }
+  </style>
+</head>
+<body>
+  <main>
+    <article aria-labelledby="post-title" class="pdf-like">
+      <h1 id="post-title">Literacy as Career Power</h1>
+      <p class="meta"><strong>Published:</strong> <time id="post-date" datetime="2026-09-28">September 28, 2026</time> | <strong>Author:</strong> Jacob T. Haseman</p>
+
+      <p class="notice" role="note" aria-label="Academic usage and citation policy">You may copy or reference this article for academic purposes with correct authorship attribution and citation.</p>
+
+      <div class="pdf-page" style="padding:0;">
+        <iframe class="pdf-embed" src="PDF/Literacy%20as%20Career%20Power.pdf" title="Literacy as Career Power PDF" style="width:100%;height:80vh;border:0;display:block;margin:0;" allowfullscreen></iframe>
+        <p style="text-align:center;margin-top:0.6rem;font-size:0.95rem;color:var(--muted);">If the PDF does not display, download it here: <a href="PDF/Literacy%20as%20Career%20Power.pdf" download>Download PDF</a></p>
+      </div>
+
+      <div class="links">
+        <a href="blog.html">Back to Blog</a>
+      </div>
+    </article>
+  </main>
+
+  <script>
+    (function setTodayDate(){
+      var dateEl = document.getElementById('post-date');
+      if(!dateEl) return; var now = new Date();
+      dateEl.textContent = now.toLocaleDateString('en-US', { year:'numeric', month:'long', day:'numeric' });
+      dateEl.setAttribute('datetime', now.toISOString().slice(0,10));
+    })();
+  </script>
+  <script src="js/site-shell.js"></script>
+</body>
+</html>
